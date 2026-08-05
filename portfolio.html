@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Majed Alnahdi (ماجد النهدي) — Fine Artist Portfolio</title>
+  <meta name="description" content="Official portfolio of Majed Alnahdi (@m.jn7). Fine artist specializing in ink drawings (الرسم بالحبر), hyper-realistic charcoal, and graphite studies." />
+  
+  <!-- Google Fonts: Cormorant Garamond & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       MAJED ALNAHDI — LUXURY FINE ART PORTFOLIO (WITH COURSE SOON SECTION)
+       ========================================================================== */
+    :root {
+      --bg-primary: #FAFAFA;
+      --bg-surface: #FFFFFF;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --text-subtle: #999999;
+      --border-subtle: rgba(0, 0, 0, 0.06);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --shadow-floating: 0 30px 60px rgba(0, 0, 0, 0.05), 0 12px 24px rgba(0, 0, 0, 0.03);
+      --shadow-floating-deep: 0 45px 90px rgba(0, 0, 0, 0.08);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Floating Canvas Animation (Continuous Vertical Oscillation) */
+    @keyframes floatLevitate {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
+
+    .floating-canvas {
+      animation: floatLevitate 7s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    /* Expansive Soft Shadow & Monochrome Hover Color Reveal */
+    .shadow-expansive {
+      box-shadow: var(--shadow-floating);
+      transition: box-shadow 0.8s var(--ease-smooth);
+    }
+
+    .shadow-expansive:hover {
+      box-shadow: var(--shadow-floating-deep);
+    }
+
+    .monochrome-reveal {
+      filter: grayscale(100%) contrast(1.05);
+      transition: filter 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+    }
+
+    .monochrome-reveal:hover {
+      filter: grayscale(0%) contrast(1);
+    }
+
+    /* Glassmorphism */
+    .glassmorphic-pill {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    }
+
+    .glassmorphic-nav {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(250, 250, 250, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .glassmorphic-card {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    /* Link Hover Line */
+    .link-hover-line {
+      position: relative;
+      text-decoration: none;
+      color: var(--text-main);
+      display: inline-block;
+      padding-bottom: 4px;
+    }
+
+    .link-hover-line::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 1px;
+      background-color: var(--text-main);
+      transform: scaleX(0.3);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease-smooth);
+    }
+
+    .link-hover-line:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Scroll Animation Reveal */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth);
+    }
+
+    .scroll-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Navigation Header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000; height: 85px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem;
+    }
+
+    .brand-title {
+      font-family: var(--font-serif);
+      font-size: 2.25rem; font-style: italic;
+      text-decoration: none; color: var(--text-main);
+    }
+
+    .hamburger-btn {
+      background: none; border: none; cursor: pointer;
+      display: flex; flex-direction: column; gap: 5px;
+      width: 28px; height: 20px;
+    }
+
+    .hamburger-line {
+      width: 100%; height: 1.5px;
+      background-color: var(--text-main);
+      transition: transform 0.3s var(--ease-smooth);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 140px 2rem 100px 2rem;
+      min-height: 90vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+
+    .hero-image-wrapper {
+      position: relative; width: 100%; max-width: 820px; height: 560px;
+      border-radius: 3px; overflow: hidden;
+    }
+
+    .hero-image-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 1.2s var(--ease-smooth), filter 0.8s var(--ease-smooth);
+    }
+
+    .hero-image-wrapper:hover img {
+      transform: scale(1.05);
+    }
+
+    /* About Section */
+    .about-section {
+      padding: 100px 2rem; max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 4rem; align-items: center;
+    }
+
+    .about-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3.5rem, 6.5vw, 6rem);
+      font-weight: 300; line-height: 1.05;
+      margin-bottom: 2rem;
+    }
+
+    /* Gallery Grid */
+    .gallery-section {
+      padding: 120px 2rem; max-width: 1300px; margin: 0 auto;
+    }
+
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 4rem 3rem; margin-top: 4rem;
+    }
+
+    .artwork-card {
+      display: flex; flex-direction: column; align-items: center; cursor: pointer;
+    }
+
+    .artwork-title {
+      font-family: var(--font-serif); font-size: 1.75rem;
+      margin-bottom: 1.25rem; font-weight: 400; text-align: center;
+    }
+
+    .artwork-image-wrapper {
+      position: relative; width: 100%; aspect-ratio: 4/5;
+      border-radius: 2px; overflow: hidden;
+    }
+
+    .artwork-image-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .animate-pulse-dot {
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Glassmorphic Navigation Bar -->
+  <header class="glassmorphic-nav">
+    <div style="flex: 1;">
+      <span style="font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;">
+        Ink & Fine Art — Riyadh
+      </span>
+    </div>
+    <div style="flex: 1; text-align: center;">
+      <a href="#hero" class="brand-title">Majed Alnahdi <span style="font-size:1.3rem;">ماجد النهدي</span></a>
+    </div>
+    <div style="flex: 1; display: flex; justify-content: flex-end; align-items: center; gap: 0.85rem;">
+      <span style="font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase;">Menu</span>
+      <button class="hamburger-btn" aria-label="Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-section">
+    <div class="scroll-reveal" style="font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 2rem;">
+      Specimen Collection — 2026 Showcase
+    </div>
+
+    <!-- Weightless Levitation Floating Canvas -->
+    <div class="floating-canvas">
+      <div class="hero-image-wrapper shadow-expansive">
+        <img src="/images/hero.jpg" alt="Unfinished Study N°1" class="monochrome-reveal" />
+        
+        <!-- Glassmorphic UI Label -->
+        <div class="glassmorphic-pill" style="position: absolute; bottom: 24px; left: 24px; padding: 1rem 1.75rem; border-radius: 8px;">
+          <h3 style="font-family: var(--font-serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 4px;">
+            Unfinished Study N°1
+          </h3>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">
+            Charcoal & Raw Ink Powder on Canvas — 160 x 200 cm
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-reveal" style="margin-top: 3.5rem;">
+      <a href="#gallery" class="link-hover-line" style="font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);">
+        Discover Artworks ↓
+      </a>
+    </div>
+  </section>
+
+  <!-- About Section ("Who Am I?") -->
+  <section id="about" class="about-section">
+    <div class="scroll-reveal">
+      <span style="font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-subtle); display: block; margin-bottom: 1.25rem;">
+        Who am I ? — من أنا ؟
+      </span>
+      <h2 class="about-title">majed alnahdi <span style="display:block; font-size:0.55em; color:var(--text-muted); margin-top:0.25rem;">ماجد النهدي</span></h2>
+      <p style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 1.5rem; max-width: 560px;">
+        Visual artist and painter of Yemeni descent, raised and based in Riyadh, Saudi Arabia. Recognized as a <strong>first-class painter (رسّام درجة اولى)</strong> specializing in ink drawings (الرسم بالحبر), hyper-realistic charcoal, and fine graphite studies.
+      </p>
+      <a href="#courses" class="link-hover-line" style="font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;">
+        View Online Courses & Masterclass →
+      </a>
+    </div>
+
+    <div class="scroll-reveal">
+      <div class="floating-canvas">
+        <div class="shadow-expansive" style="position: relative; max-width: 440px; aspect-ratio: 3/4; border-radius: 3px; overflow: hidden; margin: 0 auto;">
+          <img src="/images/mock_studio.jpg" alt="Majed Alnahdi Studio" class="monochrome-reveal" style="width:100%; height:100%; object-fit:cover;" />
+          <div class="glassmorphic-pill" style="position: absolute; bottom: 20px; right: 20px; padding: 0.75rem 1.25rem; border-radius: 6px;">
+            <span style="font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;">Riyadh Studio — @m.jn7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section">
+    <div class="scroll-reveal" style="text-align: center;">
+      <span style="font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-subtle);">
+        Exhibition & Gallery — #رسامين_العرب
+      </span>
+      <h2 style="font-family: var(--font-serif); font-size: 3.5rem; margin-top: 0.5rem; font-weight: 300;">
+        Listen to Your Heart & Ink Works
+      </h2>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Artwork 1 -->
+      <div class="scroll-reveal artwork-card">
+        <h3 class="artwork-title">Ink Study N°1 (الرسم بالحبر)</h3>
+        <div class="floating-canvas" style="animation-delay: 0s; width: 100%;">
+          <div class="artwork-image-wrapper shadow-expansive">
+            <img src="/images/ecoute_coeur.jpg" alt="Ink Study N°1" class="monochrome-reveal" />
+            <div class="glassmorphic-pill" style="position: absolute; bottom: 16px; left: 16px; right: 16px; padding: 0.85rem 1.25rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="font-size: 0.72rem;">Archival Black Ink Nib</span>
+              <span style="font-size: 0.68rem;">50 x 70 cm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 2 -->
+      <div class="scroll-reveal artwork-card">
+        <h3 class="artwork-title">The Dark Knight</h3>
+        <div class="floating-canvas" style="animation-delay: 0.4s; width: 100%;">
+          <div class="artwork-image-wrapper shadow-expansive">
+            <img src="/images/mock_batman.jpg" alt="The Dark Knight" class="monochrome-reveal" />
+            <div class="glassmorphic-pill" style="position: absolute; bottom: 16px; left: 16px; right: 16px; padding: 0.85rem 1.25rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="font-size: 0.72rem;">Compressed Charcoal</span>
+              <span style="font-size: 0.68rem;">50 x 70 cm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 3 -->
+      <div class="scroll-reveal artwork-card">
+        <h3 class="artwork-title">Oum Kalthoum (كوكب الشرق)</h3>
+        <div class="floating-canvas" style="animation-delay: 0.8s; width: 100%;">
+          <div class="artwork-image-wrapper shadow-expansive">
+            <img src="/images/mock_singer.jpg" alt="Oum Kalthoum" class="monochrome-reveal" />
+            <div class="glassmorphic-pill" style="position: absolute; bottom: 16px; left: 16px; right: 16px; padding: 0.85rem 1.25rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="font-size: 0.72rem;">2B-9B Graphite Pencil</span>
+              <span style="font-size: 0.68rem;">60 x 80 cm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Section (With SOON Badge) -->
+  <section id="courses" style="padding: 120px 2rem; max-width: 1200px; margin: 0 auto;">
+    <div class="scroll-reveal" style="text-align: center; margin-bottom: 4rem;">
+      <span style="font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-subtle); display: block; margin-bottom: 1rem;">
+        Masterclass & Online Academy
+      </span>
+      <h2 style="font-family: var(--font-serif); font-size: 4rem; font-weight: 300;">
+        Course
+      </h2>
+    </div>
+
+    <div class="scroll-reveal">
+      <div class="floating-canvas">
+        <div class="shadow-expansive glassmorphic-card" style="position: relative; border-radius: 8px; padding: 3.5rem 3rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: center;">
+          <!-- SOON Badge -->
+          <div class="glassmorphic-pill" style="position: absolute; top: 24px; right: 24px; padding: 0.65rem 1.4rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.65rem;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background-color: #111;" class="animate-pulse-dot"></span>
+            <span style="font-size: 0.78rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;">SOON</span>
+          </div>
+
+          <div>
+            <img src="/images/mock_masterclass.jpg" alt="Course" class="monochrome-reveal" style="width: 100%; border-radius: 4px; aspect-ratio: 4/3; object-fit: cover;" />
+          </div>
+
+          <div>
+            <h3 style="font-family: var(--font-serif); font-size: 2.4rem; font-weight: 400; margin-bottom: 0.5rem;">
+              The Art of Ink & Charcoal Drawing
+            </h3>
+            <p style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem;">
+              الاحتراف في الرسم بالحبر والتقنيات الكلاسيكية
+            </p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem;">
+              Mastering ink line control, charcoal shading gradient, and classic hatching guided by Majed Alnahdi.
+            </p>
+            <a href="#contact" class="link-hover-line" style="font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600;">
+              LAUNCHING SOON — JOIN WAITING LIST →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll Animation JavaScript with IntersectionObserver -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html>
