@@ -106,93 +106,103 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           opacity: 0.28,
         }}
       >
-        {/* Left Interactive Parallax & Organic Floating Art Sheet */}
+        {/* Left Interactive Parallax Outer Container */}
         <motion.div
-          animate={{
-            y: [0, -18, 0],
-            rotate: [-6, -3, -6],
-          }}
-          transition={{
-            duration: 7.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
           style={{
-            width: isMobile ? '38vw' : '26vw',
-            height: isMobile ? '50vw' : '34vw',
-            maxWidth: '360px',
-            maxHeight: '460px',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
-            border: '1px solid rgba(160, 86, 40, 0.25)',
-            backgroundColor: '#FAF8F4',
-            position: 'relative',
-            filter: 'blur(5px)',
-            marginLeft: isMobile ? '-8%' : '2%',
             x: leftX,
             y: leftY,
             rotate: leftRotate,
-            perspective: 1000,
+            marginLeft: isMobile ? '-8%' : '2%',
           }}
         >
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={leftArtIndex}
-              src={BACKGROUND_ARTWORKS[leftArtIndex]}
-              alt=""
-              initial={{ opacity: 0, scale: 1.08, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 0.94, filter: 'blur(10px)' }}
-              transition={{ duration: 1.4, ease: [0.4, 0, 0.2, 1] }}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
-            />
-          </AnimatePresence>
+          {/* Inner Organic Floating Wave Loop */}
+          <motion.div
+            animate={{
+              y: [0, -18, 0],
+              rotate: [-2, 2, -2],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            style={{
+              width: isMobile ? '38vw' : '26vw',
+              height: isMobile ? '50vw' : '34vw',
+              maxWidth: '360px',
+              maxHeight: '460px',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
+              border: '1px solid rgba(160, 86, 40, 0.25)',
+              backgroundColor: '#FAF8F4',
+              position: 'relative',
+              filter: 'blur(5px)',
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={leftArtIndex}
+                src={BACKGROUND_ARTWORKS[leftArtIndex]}
+                alt=""
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+              />
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
 
-        {/* Right Interactive Parallax & Organic Floating Art Sheet */}
+        {/* Right Interactive Parallax Outer Container */}
         <motion.div
-          animate={{
-            y: [0, 18, 0],
-            rotate: [6, 9, 6],
-          }}
-          transition={{
-            duration: 8.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: 0.8,
-          }}
           style={{
-            width: isMobile ? '38vw' : '26vw',
-            height: isMobile ? '50vw' : '34vw',
-            maxWidth: '360px',
-            maxHeight: '460px',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
-            border: '1px solid rgba(160, 86, 40, 0.25)',
-            backgroundColor: '#FAF8F4',
-            position: 'relative',
-            filter: 'blur(5px)',
-            marginRight: isMobile ? '-8%' : '2%',
             x: rightX,
             y: rightY,
             rotate: rightRotate,
-            perspective: 1000,
+            marginRight: isMobile ? '-8%' : '2%',
           }}
         >
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={rightArtIndex}
-              src={BACKGROUND_ARTWORKS[rightArtIndex]}
-              alt=""
-              initial={{ opacity: 0, scale: 1.08, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 0.94, filter: 'blur(10px)' }}
-              transition={{ duration: 1.4, ease: [0.4, 0, 0.2, 1] }}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
-            />
-          </AnimatePresence>
+          {/* Inner Organic Floating Wave Loop */}
+          <motion.div
+            animate={{
+              y: [0, 18, 0],
+              rotate: [2, -2, 2],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: 0.8,
+            }}
+            style={{
+              width: isMobile ? '38vw' : '26vw',
+              height: isMobile ? '50vw' : '34vw',
+              maxWidth: '360px',
+              maxHeight: '460px',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
+              border: '1px solid rgba(160, 86, 40, 0.25)',
+              backgroundColor: '#FAF8F4',
+              position: 'relative',
+              filter: 'blur(5px)',
+            }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={rightArtIndex}
+                src={BACKGROUND_ARTWORKS[rightArtIndex]}
+                alt=""
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+              />
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
       </div>
 
