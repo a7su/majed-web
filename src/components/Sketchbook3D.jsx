@@ -21,69 +21,154 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
   // 1. Build image array with rich metadata descriptions (Title, Year, Medium)
   const sketchData = [
     {
-      title: 'The Dark Knight (Batman)',
-      titleAr: 'فارس الظلام (باتمان)',
-      info: 'Graphite & Charcoal on Paper · 2025',
-      infoAr: 'رصاص وفحم على ورقة · 2025',
-      src: '/images/sketches/sketch_batman.jpg',
-    },
-    {
-      title: 'Abdel Halim Hafez',
-      titleAr: 'عبد الحليم حافظ',
-      info: 'Pencil Portrait Study · 2024',
-      infoAr: 'بورتريه بالرصاص · 2024',
-      src: '/images/sketches/sketch_abdel_halim.jpg',
-    },
-    {
-      title: 'Umm Kulthum',
-      titleAr: 'أم كلثوم',
-      info: 'Charcoal & Fine Graphite · 2024',
-      infoAr: 'فحم وجرافيت ناعم · 2024',
-      src: '/images/sketches/sketch_um_kulthum.jpg',
-    },
-    {
-      title: 'The Cowboy & Horse',
-      titleAr: 'الراعي والجواد',
-      info: 'Realism Charcoal Sketch · 2025',
-      infoAr: 'رسمة واقعية بالفحم · 2025',
-      src: '/images/sketches/sketch_cowboy.jpg',
-    },
-    {
-      title: 'Eternal Embrace',
-      titleAr: 'العشاق',
-      info: 'Graphite Portrait Study · 2025',
-      infoAr: 'دراسة بورتريه جرافيت · 2025',
-      src: '/images/sketches/sketch_couple.jpg',
-    },
-    {
-      title: 'Contemplative Profile',
-      titleAr: 'نظرة تأملية (بورتريه)',
-      info: 'Fine Pencil & Graphite Study · 2025',
-      infoAr: 'دراسة ناعمة بالرصاص · 2025',
-      src: '/images/sketches/sketch_profile_portrait.jpg',
-    },
-    {
+      id: 'eye-studies',
       title: 'Eyes',
       titleAr: 'عيون',
       info: 'Multi-Perspective Eye Studies · 2025',
       infoAr: 'دراسات فحم متعددة للعيون · 2025',
       src: '/images/sketches/sketch_eye_studies.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Fine Charcoal & Pencil on Tonal Paper',
+      dimensions: 'A3 Sketchbook Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'A multi-perspective sketchbook sheet exploring emotional expressions, iris reflections, and lash detail.',
     },
     {
-      title: 'Artist Studio Wall',
+      id: 'profile-portrait',
+      title: 'Contemplative Profile',
+      titleAr: 'نظرة تأملية (بورتريه)',
+      info: 'Fine Pencil & Graphite Study · 2025',
+      infoAr: 'دراسة ناعمة بالرصاص · 2025',
+      src: '/images/sketches/sketch_profile_portrait.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite Pencil & Blending Stumps',
+      dimensions: 'A3 Fine Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'A delicate, high-contrast profile study focusing on natural hair textures, soft skin shading, and reflective eye highlights.',
+    },
+    {
+      id: 'portraits-spread',
+      title: 'Portraits & Expressions Spread',
+      titleAr: 'صفحة البورتريه والتعبيرات',
+      info: '5-Portrait Charcoal Sketchbook Spread · 2025',
+      infoAr: 'صفحة رسم تضم ٥ بورتريهات · 2025',
+      src: '/images/sketches/sketch_portraits_spread.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite & Charcoal on Tonal Paper',
+      dimensions: 'Double-Page Spread',
+      year: '2025',
+      status: 'Available',
+      description: 'A masterclass double-page sketchbook spread capturing five diverse facial studies and natural lighting.',
+    },
+    {
+      id: 'children-studies',
+      title: 'Children Portrait Studies',
+      titleAr: 'دراسات وجوه الأطفال',
+      info: 'Charcoal & Pencil Portrait Sheet · 2025',
+      infoAr: 'رسم بورتريهات أطفال بالفحم · 2025',
+      src: '/images/sketches/sketch_children_studies.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Charcoal Pencil & Graphite',
+      dimensions: 'A3 Sketchbook Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'An expressive study sheet capturing innocent childhood gaze, hair curls, and soft tonal shading.',
+    },
+    {
+      id: 'baseball-grip',
+      title: 'Baseball Grip Study',
+      titleAr: 'قبضة الكرة (دراسة واقعية)',
+      info: 'Realism Hand & Texture Study · 2025',
+      infoAr: 'دراسة واقعية لليد والكرة · 2025',
+      src: '/images/sketches/sketch_baseball_grip.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite & Charcoal Shading',
+      dimensions: 'A4 Sketchbook Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'A hyper-realistic hand study focusing on finger bone anatomy, skin seams, and baseball leather stitching.',
+    },
+    {
+      id: 'man-cap',
+      title: 'Man with Cap & Glasses',
+      titleAr: 'رجل بالقبعة والنظارات',
+      info: 'Realism Graphite Portrait · 2025',
+      infoAr: 'بورتريه واقعي بالرصاص · 2025',
+      src: '/images/sketches/sketch_man_cap.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite Pencil on Paper',
+      dimensions: 'A4 Sketchbook Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'A charismatic profile study of a man wearing a reversed cap and round glasses with subtle smile lines.',
+    },
+    {
+      id: 'um-kulthum',
+      title: 'Umm Kulthum',
+      titleAr: 'أم كلثوم',
+      info: 'Charcoal & Fine Graphite · 2024',
+      infoAr: 'فحم وجرافيت ناعم · 2024',
+      src: '/images/sketches/sketch_um_kulthum.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite & Charcoal on Paper',
+      dimensions: 'A3 Fine Sheet',
+      year: '2024',
+      status: 'Available',
+      description: 'A breathtaking portrait of the legendary Egyptian icon Umm Kulthum, captured mid-song in pure musical ecstasy.',
+    },
+    {
+      id: 'abdel-halim',
+      title: 'Abdel Halim Hafez',
+      titleAr: 'عبد الحليم حافظ',
+      info: 'Pencil Portrait Study · 2024',
+      infoAr: 'بورتريه بالرصاص · 2024',
+      src: '/images/sketches/sketch_abdel_halim.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite & Charcoal on Paper',
+      dimensions: 'A3 Fine Sheet',
+      year: '2024',
+      status: 'Available',
+      description: 'A masterful graphite portrait of the Nightingale Abdel Halim Hafez singing with intense passion at the microphone.',
+    },
+    {
+      id: 'batman',
+      title: 'The Dark Knight (Batman)',
+      titleAr: 'فارس الظلام (باتمان)',
+      info: 'Graphite & Charcoal on Paper · 2025',
+      infoAr: 'رصاص وفحم على ورقة · 2025',
+      src: '/images/sketches/sketch_batman.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Graphite Pencil on Paper',
+      dimensions: 'A3 Fine Sheet',
+      year: '2025',
+      status: 'Available',
+      description: 'An extraordinarily detailed graphite portrait of Batman, capturing the dark brooding atmosphere with masterclass pencil shading.',
+    },
+    {
+      id: 'studio-wall',
+      title: 'Artist Studio Wall Collection',
       titleAr: 'جدارية المرسم الخاص',
       info: 'Original Charcoal & Graphite Archive · 2025',
       infoAr: 'أرشيف الأعمال بالمرسم · 2025',
       src: '/images/sketches/sketch_studio_wall.jpg',
+      category: 'Pencil & Graphite',
+      technique: 'Studio Archive Collection',
+      dimensions: 'Full Wall Archive',
+      year: '2025',
+      status: 'Private Collection',
+      description: "An authentic peek inside Majed Alnahdi's fine art studio wall showcasing original iconic portraits and realism studies.",
     },
   ];
 
   // Group items into Leaf Pairs (Front Face & Back Face per leaf)
   const leafPairs = [
-    [sketchData[0], sketchData[1]],
-    [sketchData[2], sketchData[5]],
-    [sketchData[6], sketchData[3]],
-    [sketchData[4], sketchData[7]],
+    [sketchData[0], sketchData[1]], // Leaf 1: Front: Eyes, Back: Profile
+    [sketchData[2], sketchData[3]], // Leaf 2: Front: Portraits Spread, Back: Children Studies
+    [sketchData[4], sketchData[5]], // Leaf 3: Front: Baseball Grip, Back: Man with Cap
+    [sketchData[6], sketchData[7]], // Leaf 4: Front: Umm Kulthum, Back: Abdel Halim
+    [sketchData[8], sketchData[9]], // Leaf 5: Front: Batman, Back: Studio Wall
   ];
   const totalLeaves = leafPairs.length;
 
@@ -204,38 +289,65 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                       }}
                     />
                     
-                    {/* Rich Artwork Caption Overlay (Title + Year + Medium) */}
+                    {/* Rich Artwork Caption Overlay with Openable Details Button */}
                     <div
                       style={{
                         position: 'absolute',
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        padding: '2.2rem 1.4rem 1rem',
-                        background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)',
+                        padding: '2rem 1.2rem 0.9rem',
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 70%, transparent 100%)',
                         color: '#FFFFFF',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '0.2rem',
+                        gap: '0.25rem',
                       }}
                     >
-                      <h4
-                        style={{
-                          fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
-                          fontSize: '1.25rem',
-                          fontWeight: 500,
-                          margin: 0,
-                          color: '#FFFFFF',
-                          lineHeight: 1.2,
-                        }}
-                      >
-                        {isAr ? frontData.titleAr : frontData.title}
-                      </h4>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <h4
+                          style={{
+                            fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+                            fontSize: '1.2rem',
+                            fontWeight: 500,
+                            margin: 0,
+                            color: '#FFFFFF',
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {isAr ? frontData.titleAr : frontData.title}
+                        </h4>
+                        
+                        {/* Openable Details Action Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onSelectArtwork) onSelectArtwork(frontData);
+                          }}
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.2)',
+                            backdropFilter: 'blur(4px)',
+                            border: '1px solid rgba(255, 255, 255, 0.4)',
+                            color: '#FFFFFF',
+                            fontSize: '0.55rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.08em',
+                            textTransform: 'uppercase',
+                            padding: '0.25rem 0.6rem',
+                            borderRadius: '999px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {isAr ? 'التفاصيل' : 'Details ↗'}
+                        </button>
+                      </div>
+
                       <span
                         style={{
                           fontFamily: 'var(--font-sans)',
-                          fontSize: '0.62rem',
-                          letterSpacing: '0.12em',
+                          fontSize: '0.6rem',
+                          letterSpacing: '0.1em',
                           textTransform: 'uppercase',
                           color: 'var(--color-brand)',
                           opacity: 0.95,
@@ -312,38 +424,65 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                       }}
                     />
                     
-                    {/* Rich Artwork Caption Overlay (Title + Year + Medium) */}
+                    {/* Rich Artwork Caption Overlay with Openable Details Button */}
                     <div
                       style={{
                         position: 'absolute',
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        padding: '2.2rem 1.4rem 1rem',
-                        background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.4) 65%, transparent 100%)',
+                        padding: '2rem 1.2rem 0.9rem',
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 70%, transparent 100%)',
                         color: '#FFFFFF',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '0.2rem',
+                        gap: '0.25rem',
                       }}
                     >
-                      <h4
-                        style={{
-                          fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
-                          fontSize: '1.25rem',
-                          fontWeight: 500,
-                          margin: 0,
-                          color: '#FFFFFF',
-                          lineHeight: 1.2,
-                        }}
-                      >
-                        {isAr ? backData.titleAr : backData.title}
-                      </h4>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                        <h4
+                          style={{
+                            fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+                            fontSize: '1.2rem',
+                            fontWeight: 500,
+                            margin: 0,
+                            color: '#FFFFFF',
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {isAr ? backData.titleAr : backData.title}
+                        </h4>
+
+                        {/* Openable Details Action Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (onSelectArtwork) onSelectArtwork(backData);
+                          }}
+                          style={{
+                            background: 'rgba(255, 255, 255, 0.2)',
+                            backdropFilter: 'blur(4px)',
+                            border: '1px solid rgba(255, 255, 255, 0.4)',
+                            color: '#FFFFFF',
+                            fontSize: '0.55rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.08em',
+                            textTransform: 'uppercase',
+                            padding: '0.25rem 0.6rem',
+                            borderRadius: '999px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {isAr ? 'التفاصيل' : 'Details ↗'}
+                        </button>
+                      </div>
+
                       <span
                         style={{
                           fontFamily: 'var(--font-sans)',
-                          fontSize: '0.62rem',
-                          letterSpacing: '0.12em',
+                          fontSize: '0.6rem',
+                          letterSpacing: '0.1em',
                           textTransform: 'uppercase',
                           color: 'var(--color-brand)',
                           opacity: 0.95,
