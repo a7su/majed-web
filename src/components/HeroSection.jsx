@@ -4,6 +4,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import Sketchbook3D from './Sketchbook3D';
 
 const BACKGROUND_ARTWORKS = [
+  '/images/sketches/sketch_blue_pen_eyes.jpg',
+  '/images/sketches/sketch_blue_pen_trio.jpg',
   '/images/sketches/sketch_studio_wall.jpg',
   '/images/sketches/sketch_portraits_spread.jpg',
   '/images/sketches/sketch_eye_studies.jpg',

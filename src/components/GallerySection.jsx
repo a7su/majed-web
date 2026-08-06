@@ -185,19 +185,33 @@ const ARTWORKS_DATA = [
     delay: 0
   },
   {
-    id: 'embrace',
-    title: "The Embrace",
-    titleAr: "العناق",
-    category: "Charcoal",
-    technique: "Charcoal & Acrylic on Paper",
+    id: 'blue-pen-eyes',
+    title: "Blue Ink Eye Studies",
+    titleAr: "دراسات عيون بقلم الحبر الأزرق",
+    category: "Ink Drawings",
+    technique: "Blue Ballpoint Pen Hatching & Shading",
     dimensions: "A4",
     status: "Available",
-    year: "2024",
-    description: "A powerful charcoal sketch of two figures embracing, disrupted by bold acrylic strokes.",
-    image: "/images/art_embrace.jpg",
+    year: "2025",
+    description: "An intricate double eye study rendered entirely in blue ballpoint pen with fine cross-hatching, eyebrow texture, and iris depth.",
+    image: "/images/sketches/sketch_blue_pen_eyes.jpg",
     extraImages: [],
     delay: 0.1
-  }
+  },
+  {
+    id: 'blue-pen-trio',
+    title: "Expression Trio (Ballpoint Pen)",
+    titleAr: "ثلاثية التعبير (قلم حبر جاف)",
+    category: "Ink Drawings",
+    technique: "Blue Ballpoint Pen & Cross-Hatching",
+    dimensions: "A4",
+    status: "Available",
+    year: "2025",
+    description: "A stunning vertical sketchbook page showing three distinct eye expression studies rendered with blue ballpoint pen ink.",
+    image: "/images/sketches/sketch_blue_pen_trio.jpg",
+    extraImages: [],
+    delay: 0.2
+  },
 ];
 
 const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpandedArtwork }) => {
