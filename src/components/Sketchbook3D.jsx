@@ -6,12 +6,16 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
   const { language } = useLanguage();
   const isAr = language === 'ar';
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth <= 1024);
+    };
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
   // 1. Build image array with rich metadata descriptions (Title, Year, Medium)
@@ -85,6 +89,11 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
     ? '0px 35px 70px rgba(67, 40, 24, 0.24), 0px 14px 28px rgba(0, 0, 0, 0.12)'
     : '5px 20px 40px rgba(67, 40, 24, 0.18), 0px 8px 20px rgba(0, 0, 0, 0.08)';
 
+  const bookWidth = isMobile ? 270 : (isTablet ? 310 : 340);
+  const openScale = isMobile ? 0.52 : (isTablet ? 0.80 : 1);
+  const closedScale = isMobile ? 0.85 : (isTablet ? 0.92 : 1);
+  const centerShift = Math.round(bookWidth * openScale * 0.5);
+
   return (
     <div
       style={{
@@ -101,13 +110,14 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
     >
       <motion.div
         animate={{
-          x: (isOpen && !isMobile) ? (isAr ? -170 : 170) : 0,
+          x: isOpen ? (isAr ? -centerShift : centerShift) : 0,
+          scale: isOpen ? openScale : closedScale,
         }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
         style={{
-          width: 'min(340px, 86vw)',
-          height: '460px',
-          maxHeight: '62vh',
+          width: `${bookWidth}px`,
+          height: isMobile ? '370px' : (isTablet ? '420px' : '460px'),
+          maxHeight: '60vh',
           position: 'relative',
           transformStyle: 'preserve-3d',
           boxShadow: shadowStyle,

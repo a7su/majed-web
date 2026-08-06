@@ -43,12 +43,16 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
   const [titleVisible] = useState(true);
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsTablet(window.innerWidth <= 1024);
+    };
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
   const handleToggleBook = () => {
@@ -65,9 +69,9 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
+        overflowX: 'clip',
         backgroundColor: '#FAFAF8',
-        padding: isMobile ? '6rem 1.25rem 4rem' : '7rem 2.5rem 5rem',
+        padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
       {/* Subtle Grain Texture Overlay */}
@@ -93,32 +97,28 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         }}
         style={{
           width: '100%',
-          maxWidth: '1240px',
+          maxWidth: '1040px',
           margin: '0 auto',
           display: 'flex',
-          flexDirection: isMobile ? 'column' : (isBookOpen ? 'column' : 'row'),
+          flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: isBookOpen ? 'center' : 'space-between',
-          gap: isBookOpen ? '2.5rem' : (isMobile ? '2.5rem' : '4rem'),
+          justifyContent: 'center',
+          gap: '2.5rem',
           zIndex: 2,
         }}
       >
-        {/* ─── 1. INTERACTIVE BOOK WRAPPER (Strict canvas dimensions to prevent collapse) ─── */}
+        {/* ─── 1. INTERACTIVE BOOK WRAPPER ─── */}
         <motion.div
           layout
           style={{
-            order: isBookOpen ? 1 : 2,
-            flex: isBookOpen ? '0 0 auto' : (isMobile ? '0 0 auto' : '0 0 440px'),
-            minWidth: isMobile ? '100%' : (isBookOpen ? '680px' : '400px'),
-            width: isMobile ? '100%' : 'auto',
-            maxWidth: '100vw',
-            minHeight: isMobile ? (isBookOpen ? '400px' : '360px') : (isBookOpen ? '460px' : '520px'),
+            order: 1,
+            width: '100%',
+            maxWidth: '100%',
+            minHeight: isMobile ? (isBookOpen ? '260px' : '320px') : (isTablet ? (isBookOpen ? '360px' : '400px') : (isBookOpen ? '460px' : '520px')),
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            transform: isMobile ? (isBookOpen ? 'scale(0.9)' : 'scale(0.88)') : 'none',
-            transformOrigin: 'center center',
-            transition: 'min-width 0.6s cubic-bezier(0.85, 0, 0.15, 1), min-height 0.6s cubic-bezier(0.85, 0, 0.15, 1)',
+            transition: 'all 0.6s cubic-bezier(0.85, 0, 0.15, 1)',
           }}
         >
           <Sketchbook3D
@@ -129,18 +129,17 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           />
         </motion.div>
 
-        {/* ─── 2. HEADLINE TEXT CONTAINER (Slides down smoothly below book when opened) ─── */}
+        {/* ─── 2. HEADLINE TEXT CONTAINER ─── */}
         <motion.div
           layout
           style={{
-            order: isBookOpen ? 2 : 1, // When opened: repositioned directly beneath book
-            flex: isBookOpen ? '0 0 auto' : '1 1 540px',
+            order: 2,
             width: '100%',
-            maxWidth: isBookOpen ? '740px' : '540px',
-            textAlign: (isBookOpen || isMobile) ? 'center' : (isAr ? 'right' : 'left'),
+            maxWidth: '740px',
+            textAlign: 'center',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: (isBookOpen || isMobile) ? 'center' : (isAr ? 'flex-end' : 'flex-start'),
+            alignItems: 'center',
           }}
         >
           {/* Eyebrow Accent */}
@@ -148,6 +147,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '0.8rem',
               marginBottom: '1.4rem',
               opacity: titleVisible ? 1 : 0,
@@ -168,28 +168,29 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             >
               {isAr ? 'فنان تشكيلي · رسام جرافيت وفحم' : 'Visual Artist · Graphite & Charcoal'}
             </span>
-            {(isBookOpen || isMobile) && <div style={{ width: '28px', height: '1px', background: 'var(--color-brand)' }} />}
+            <div style={{ width: '28px', height: '1px', background: 'var(--color-brand)' }} />
           </div>
 
-          {/* Headline - "Give your life meaning, and give your senses life" in Harmonious Signature Cormorant Garamond */}
+          {/* Headline */}
           <h1
             style={{
               fontFamily: isAr
                 ? "var(--font-arabic-display)"
                 : "'Cormorant Garamond', Georgia, serif",
-              fontSize: isBookOpen ? 'clamp(2rem, 4.2vw, 3.2rem)' : 'clamp(2.6rem, 5.2vw, 4.8rem)',
+              fontSize: isBookOpen ? 'clamp(2rem, 4.2vw, 3.2rem)' : 'clamp(2.4rem, 4.8vw, 4.4rem)',
               fontWeight: 300,
               lineHeight: isAr ? 1.35 : 1.15,
               letterSpacing: isAr ? '0' : '-0.02em',
               color: 'var(--text-main)',
               marginBottom: '2rem',
+              textAlign: 'center',
               opacity: titleVisible ? 1 : 0,
               transform: titleVisible ? 'translateY(0)' : 'translateY(-25px)',
               transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease',
             }}
           >
             {isAr ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: (isBookOpen || isMobile) ? 'center' : 'flex-start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'center' }}>
                 {/* Line 1 with Warm Beige Highlight */}
                 <span
                   style={{
@@ -219,7 +220,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
                 </span>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: (isBookOpen || isMobile) ? 'center' : 'flex-start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'center' }}>
                 {/* Line 1 with Warm Beige Highlight */}
                 <span
                   style={{
@@ -258,7 +259,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             style={{
               display: 'flex',
               gap: '1rem',
-              justifyContent: (isBookOpen || isMobile) ? 'center' : 'flex-start',
+              justifyContent: 'center',
               flexWrap: 'wrap',
               opacity: titleVisible ? 1 : 0,
               transform: titleVisible ? 'translateY(0)' : 'translateY(15px)',

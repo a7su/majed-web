@@ -693,3 +693,8 @@ input::placeholder, textarea::placeholder {
   opacity: 1 !important;
   font-weight: 700 !important;
 }
+
+/* ===================== DRAWING ELEMENT CURSOR ===================== */
+.draw-element {
+  cursor: url('pencil-icon.png') 0 32, auto;
+}

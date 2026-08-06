@@ -204,30 +204,49 @@ export default function CustomCursor() {
                   isDragging ? 'drop-shadow(0 6px 12px rgba(0,0,0,0.3))' :
                   'drop-shadow(0 4px 8px rgba(0,0,0,0.15))',
         }}>
-          {/* Sleek, thin, elegant dark graphite pencil */}
-          <svg width="24" height="100" viewBox="0 0 24 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '-12px', marginTop: '-96px' }}>
-            {/* Main body (sleek dark grey/black) */}
-            <path d="M8 8L8 76L16 76L16 8Z" fill="#222" />
-            <path d="M6 8L6 76L8 76L8 8Z" fill="#111" />
-            <path d="M16 8L16 76L18 76L18 8Z" fill="#333" />
-            
-            {/* Wooden cone (sharpened part) - subtle tone */}
-            <path d="M6 76L12 94L18 76H6Z" fill="#D2B48C" />
-            <path d="M12 76L12 94L18 76H12Z" fill="#C1A27A" />
-            
-            {/* Pencil Tip (Graphite/Charcoal) */}
-            <path d="M10 88L12 96L14 88H10Z" fill={tipColor} style={{ transition: 'fill 0.3s ease' }} />
-            
-            {/* Elegant metal ferrule */}
-            <rect x="5.5" y="10" width="13" height="4" fill="#888" />
-            <rect x="5.5" y="15" width="13" height="1" fill="#666" />
-            <rect x="5.5" y="17" width="13" height="5" fill="#999" />
-            
-            {/* Eraser (sleek dark red or black) */}
-            <path d="M6 0H18V10H6V0Z" fill="#2C2C2C" />
-            
-            {/* Specular highlight for premium glossy finish */}
-            <rect x="9" y="12" width="1.5" height="60" fill="rgba(255,255,255,0.1)" />
+          {/* Museum-Grade Fine Art Charcoal Pencil */}
+          <svg width="28" height="110" viewBox="0 0 28 110" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '-14px', marginTop: '-106px' }}>
+            <defs>
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="28" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#2D1B10" />
+                <stop offset="35%" stopColor="#432818" />
+                <stop offset="70%" stopColor="#6E4021" />
+                <stop offset="100%" stopColor="#1A0D07" />
+              </linearGradient>
+              <linearGradient id="goldFerrule" x1="0" y1="0" x2="28" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#B38B46" />
+                <stop offset="50%" stopColor="#E6C875" />
+                <stop offset="100%" stopColor="#967232" />
+              </linearGradient>
+              <linearGradient id="woodTone" x1="0" y1="0" x2="28" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#D8BC93" />
+                <stop offset="50%" stopColor="#F0DCB8" />
+                <stop offset="100%" stopColor="#C4A577" />
+              </linearGradient>
+            </defs>
+
+            {/* Eraser Top (Terracotta Accent) */}
+            <path d="M8 0C8 0 8 2 8 4C8 8 10 10 14 10C18 10 20 8 20 4C20 2 20 0 20 0H8Z" fill="#A05628" />
+
+            {/* Gold Metallic Ferrule */}
+            <rect x="7" y="10" width="14" height="12" rx="1" fill="url(#goldFerrule)" />
+            <line x1="7" y1="14" x2="21" y2="14" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
+            <line x1="7" y1="18" x2="21" y2="18" stroke="rgba(0,0,0,0.25)" strokeWidth="1" />
+
+            {/* Hexagonal Matte Dark Charcoal Body */}
+            <rect x="7" y="22" width="14" height="60" fill="url(#bodyGrad)" />
+            {/* Hexagonal facet bevel lines */}
+            <line x1="11.5" y1="22" x2="11.5" y2="82" stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+            <line x1="16.5" y1="22" x2="16.5" y2="82" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
+
+            {/* Gold foil logo accent */}
+            <rect x="12" y="35" width="4" height="25" fill="#E6C875" opacity="0.6" rx="0.5" />
+
+            {/* Sharpened Natural Wood Cone */}
+            <path d="M7 82L14 102L21 82H7Z" fill="url(#woodTone)" />
+
+            {/* Sharp Graphite / Charcoal Point */}
+            <path d="M11.5 95L14 106L16.5 95H11.5Z" fill={tipColor} style={{ transition: 'fill 0.3s ease' }} />
           </svg>
         </div>
       </div>
