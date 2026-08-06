@@ -26,32 +26,39 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
   const [leftArtIndex, setLeftArtIndex] = useState(0);
   const [rightArtIndex, setRightArtIndex] = useState(1);
 
-  // Mouse Movement Parallax Tracking ("with move")
+  // Mouse Movement Parallax Tracking with requestAnimationFrame throttling
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springX = useSpring(mouseX, { stiffness: 45, damping: 18 });
-  const springY = useSpring(mouseY, { stiffness: 45, damping: 18 });
+  const springX = useSpring(mouseX, { stiffness: 35, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 35, damping: 20 });
 
-  const leftX = useTransform(springX, [-0.5, 0.5], [35, -35]);
-  const leftY = useTransform(springY, [-0.5, 0.5], [25, -25]);
-  const leftRotate = useTransform(springX, [-0.5, 0.5], [-9, -3]);
+  const leftX = useTransform(springX, [-0.5, 0.5], [28, -28]);
+  const leftY = useTransform(springY, [-0.5, 0.5], [20, -20]);
+  const leftRotate = useTransform(springX, [-0.5, 0.5], [-8, -4]);
 
-  const rightX = useTransform(springX, [-0.5, 0.5], [-35, 35]);
-  const rightY = useTransform(springY, [-0.5, 0.5], [-25, 25]);
-  const rightRotate = useTransform(springX, [-0.5, 0.5], [3, 9]);
+  const rightX = useTransform(springX, [-0.5, 0.5], [-28, 28]);
+  const rightY = useTransform(springY, [-0.5, 0.5], [-20, 20]);
+  const rightRotate = useTransform(springX, [-0.5, 0.5], [4, 8]);
 
   useEffect(() => {
+    let rafId;
     const handleMouseMove = (e) => {
-      const { innerWidth, innerHeight } = window;
-      const normX = (e.clientX / innerWidth) - 0.5;
-      const normY = (e.clientY / innerHeight) - 0.5;
-      mouseX.set(normX);
-      mouseY.set(normY);
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const { innerWidth, innerHeight } = window;
+        const normX = (e.clientX / innerWidth) - 0.5;
+        const normY = (e.clientY / innerHeight) - 0.5;
+        mouseX.set(normX);
+        mouseY.set(normY);
+      });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [mouseX, mouseY]);
 
   useEffect(() => {
@@ -60,7 +67,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
       setIsTablet(window.innerWidth <= 1024);
     };
     checkViewport();
-    window.addEventListener('resize', checkViewport);
+    window.addEventListener('resize', checkViewport, { passive: true });
     return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
@@ -92,7 +99,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
-      {/* Creative Studio Background: Dynamic Parallax, Organic Floating & Changing Art Sheets */}
+      {/* Creative Studio Background: Hardware-Accelerated Dynamic Parallax */}
       <div
         aria-hidden="true"
         style={{
@@ -104,7 +111,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          opacity: 0.28,
+          opacity: 0.25,
         }}
       >
         {/* Left Interactive Parallax Outer Container */}
@@ -114,13 +121,14 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             y: leftY,
             rotate: leftRotate,
             marginLeft: isMobile ? '-8%' : '2%',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }}
         >
           {/* Inner Organic Floating Wave Loop */}
           <motion.div
             animate={{
-              y: [0, -18, 0],
-              rotate: [-2, 2, -2],
+              y: [0, -14, 0],
             }}
             transition={{
               duration: 7,
@@ -134,11 +142,11 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
               maxHeight: '460px',
               borderRadius: '12px',
               overflow: 'hidden',
-              boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
-              border: '1px solid rgba(160, 86, 40, 0.25)',
+              boxShadow: '0 15px 35px rgba(67, 40, 24, 0.16)',
+              border: '1px solid rgba(160, 86, 40, 0.22)',
               backgroundColor: '#FAF8F4',
               position: 'relative',
-              filter: 'blur(5px)',
+              willChange: 'transform',
             }}
           >
             <AnimatePresence mode="wait">
@@ -146,11 +154,11 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
                 key={leftArtIndex}
                 src={BACKGROUND_ARTWORKS[leftArtIndex]}
                 alt=""
-                initial={{ opacity: 0, scale: 1.08 }}
+                initial={{ opacity: 0, scale: 1.04 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, willChange: 'opacity' }}
               />
             </AnimatePresence>
           </motion.div>
@@ -163,13 +171,14 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             y: rightY,
             rotate: rightRotate,
             marginRight: isMobile ? '-8%' : '2%',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }}
         >
           {/* Inner Organic Floating Wave Loop */}
           <motion.div
             animate={{
-              y: [0, 18, 0],
-              rotate: [2, -2, 2],
+              y: [0, 14, 0],
             }}
             transition={{
               duration: 8,
@@ -184,11 +193,11 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
               maxHeight: '460px',
               borderRadius: '12px',
               overflow: 'hidden',
-              boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
-              border: '1px solid rgba(160, 86, 40, 0.25)',
+              boxShadow: '0 15px 35px rgba(67, 40, 24, 0.16)',
+              border: '1px solid rgba(160, 86, 40, 0.22)',
               backgroundColor: '#FAF8F4',
               position: 'relative',
-              filter: 'blur(5px)',
+              willChange: 'transform',
             }}
           >
             <AnimatePresence mode="wait">
@@ -196,11 +205,11 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
                 key={rightArtIndex}
                 src={BACKGROUND_ARTWORKS[rightArtIndex]}
                 alt=""
-                initial={{ opacity: 0, scale: 1.08 }}
+                initial={{ opacity: 0, scale: 1.04 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.94 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, willChange: 'opacity' }}
               />
             </AnimatePresence>
           </motion.div>
