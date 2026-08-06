@@ -17,6 +17,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
   const { t, language } = useLanguage();
   const isAr = language === 'ar';
 
+  const [titleVisible] = useState(true);
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
@@ -322,7 +323,6 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           }}
         >
           <Sketchbook3D
-            pages={SKETCH_PAGES}
             onSelectArtwork={onSelectArtwork}
             isOpen={isBookOpen}
             onToggleOpen={handleToggleBook}
