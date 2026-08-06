@@ -264,20 +264,96 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
               }}
             >
               {/* FRONT FACE OF LEAF */}
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden',
-                  backgroundColor: '#FAF8F4',
-                  overflow: 'hidden',
-                  borderRadius: isAr ? '12px 0px 0px 12px' : '0px 12px 12px 0px',
-                  border: '1px solid rgba(160,86,40,0.12)',
-                }}
-              >
-                {frontData && (
-                  <>
+              {index === 0 ? (
+                /* LUXURY HARDCOVER ART SKETCHBOOK COVER */
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    background: 'linear-gradient(140deg, #2A180E 0%, #170A04 60%, #201108 100%)',
+                    overflow: 'hidden',
+                    borderRadius: isAr ? '12px 0px 0px 12px' : '0px 12px 12px 0px',
+                    border: '1px solid rgba(197, 160, 89, 0.35)',
+                    boxShadow: 'inset 0 0 30px rgba(0,0,0,0.8), 0 12px 35px rgba(0,0,0,0.35)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '1.4rem 1rem 1.1rem',
+                  }}
+                >
+                  {/* Stitched Leather Spine */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      bottom: 0,
+                      [isAr ? 'right' : 'left']: 0,
+                      width: '26px',
+                      background: 'linear-gradient(to right, #120703 0%, #3D2214 50%, #1A0A04 100%)',
+                      borderRight: isAr ? 'none' : '1px stroke #C5A059',
+                      borderLeft: isAr ? '1px stroke #C5A059' : 'none',
+                      boxShadow: 'inset 0 0 8px rgba(0,0,0,0.6)',
+                      zIndex: 3,
+                    }}
+                  >
+                    <div style={{ position: 'absolute', inset: 0, borderRight: '1px dashed rgba(197, 160, 89, 0.3)', margin: '4px 2px' }} />
+                  </div>
+
+                  {/* Gold Foil Header Branding */}
+                  <div
+                    style={{
+                      zIndex: 2,
+                      textAlign: 'center',
+                      marginTop: '0.2rem',
+                      paddingLeft: isAr ? '0' : '16px',
+                      paddingRight: isAr ? '16px' : '0',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontFamily: "'Cormorant Garamond', Georgia, serif",
+                        fontSize: '0.9rem',
+                        letterSpacing: '0.28em',
+                        textTransform: 'uppercase',
+                        color: '#E6C875',
+                        fontWeight: 600,
+                        textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                      }}
+                    >
+                      MAJED ALNAHDI
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: isAr ? "'thmanyahsans-Bold', 'Cairo', sans-serif" : 'var(--font-sans)',
+                        fontSize: '0.55rem',
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(230, 200, 117, 0.8)',
+                        marginTop: '0.15rem',
+                      }}
+                    >
+                      {isAr ? 'كراسة الفنون الجميلة · رسم فحم ورصاص' : 'FINE ART SKETCHBOOK · VOL. I'}
+                    </div>
+                  </div>
+
+                  {/* Mounted Fine Art Inset Window */}
+                  <div
+                    style={{
+                      width: '84%',
+                      height: '58%',
+                      borderRadius: '6px',
+                      border: '1.5px solid rgba(230, 200, 117, 0.55)',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.65), inset 0 2px 5px rgba(0,0,0,0.4)',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      zIndex: 2,
+                      marginLeft: isAr ? '0' : '16px',
+                      marginRight: isAr ? '16px' : '0',
+                    }}
+                  >
                     <img
                       src={frontData.src}
                       alt={frontData.title}
@@ -288,114 +364,207 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                         display: 'block',
                       }}
                     />
-                    
-                    {/* Rich Artwork Caption Overlay with Openable Details Button */}
+
+                    {/* Gold foil inner frame line */}
+                    <div style={{ position: 'absolute', inset: '5px', border: '1px solid rgba(230, 200, 117, 0.4)', pointerEvents: 'none' }} />
+                  </div>
+
+                  {/* Footer Gold Foil Title & Details Action */}
+                  <div
+                    style={{
+                      zIndex: 2,
+                      textAlign: 'center',
+                      paddingLeft: isAr ? '0' : '16px',
+                      paddingRight: isAr ? '16px' : '0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                    }}
+                  >
                     <div
                       style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        padding: '2rem 1.2rem 0.9rem',
-                        background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 70%, transparent 100%)',
+                        fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+                        fontSize: '1.1rem',
                         color: '#FFFFFF',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.25rem',
+                        fontWeight: 500,
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                        <h4
-                          style={{
-                            fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
-                            fontSize: '1.2rem',
-                            fontWeight: 500,
-                            margin: 0,
-                            color: '#FFFFFF',
-                            lineHeight: 1.2,
-                          }}
-                        >
-                          {isAr ? frontData.titleAr : frontData.title}
-                        </h4>
-                        
-                        {/* Openable Details Action Button */}
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (onSelectArtwork) onSelectArtwork(frontData);
-                          }}
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            backdropFilter: 'blur(4px)',
-                            border: '1px solid rgba(255, 255, 255, 0.4)',
-                            color: '#FFFFFF',
-                            fontSize: '0.55rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.08em',
-                            textTransform: 'uppercase',
-                            padding: '0.25rem 0.6rem',
-                            borderRadius: '999px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                          }}
-                        >
-                          {isAr ? 'التفاصيل' : 'Details ↗'}
-                        </button>
-                      </div>
-
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '0.6rem',
-                          letterSpacing: '0.1em',
-                          textTransform: 'uppercase',
-                          color: 'var(--color-brand)',
-                          opacity: 0.95,
-                        }}
-                      >
-                        {isAr ? frontData.infoAr : frontData.info}
-                      </span>
+                      {isAr ? frontData.titleAr : frontData.title}
                     </div>
-                  </>
-                )}
-                
-                {/* Spine Shadow Gradient */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: '12%',
-                    background: 'linear-gradient(to right, rgba(0,0,0,0.18), transparent)',
-                    pointerEvents: 'none',
-                  }}
-                />
 
-                {/* Flip Prompt Badge on Active Leaf */}
-                {index === flippedCount && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onSelectArtwork) onSelectArtwork(frontData);
+                      }}
+                      style={{
+                        background: 'linear-gradient(135deg, #B38B46 0%, #E6C875 50%, #967232 100%)',
+                        color: '#1A0D07',
+                        border: 'none',
+                        fontSize: '0.55rem',
+                        fontWeight: 700,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        padding: '0.3rem 0.85rem',
+                        borderRadius: '999px',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                      }}
+                    >
+                      {isAr ? 'استعراض التفاصيل ↗' : 'VIEW DETAILS ↗'}
+                    </button>
+                  </div>
+
+                  {/* Vertical Elastic Closure Band */}
                   <div
                     style={{
                       position: 'absolute',
-                      top: '16px',
-                      right: '16px',
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '0.55rem',
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: '#FFFFFF',
-                      background: 'rgba(0,0,0,0.65)',
-                      padding: '0.35rem 0.8rem',
-                      borderRadius: '999px',
-                      backdropFilter: 'blur(6px)',
-                      fontWeight: 600,
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      top: 0,
+                      bottom: 0,
+                      [isAr ? 'left' : 'right']: '20px',
+                      width: '12px',
+                      background: 'linear-gradient(to right, #381F12 0%, #6E4021 50%, #29150B 100%)',
+                      boxShadow: '-2px 0 8px rgba(0,0,0,0.5)',
+                      zIndex: 4,
                     }}
-                  >
-                    {isAr ? 'انقر لقلب الصفحة' : 'CLICK TO FLIP PAGE'}
-                  </div>
-                )}
-              </div>
+                  />
+                </div>
+              ) : (
+                /* INNER PAGE FRONT FACE */
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    backgroundColor: '#FAF8F4',
+                    overflow: 'hidden',
+                    borderRadius: isAr ? '12px 0px 0px 12px' : '0px 12px 12px 0px',
+                    border: '1px solid rgba(160,86,40,0.12)',
+                  }}
+                >
+                  {frontData && (
+                    <>
+                      <img
+                        src={frontData.src}
+                        alt={frontData.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                      
+                      {/* Rich Artwork Caption Overlay with Openable Details Button */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          padding: '2rem 1.2rem 0.9rem',
+                          background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 70%, transparent 100%)',
+                          color: '#FFFFFF',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.25rem',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                          <h4
+                            style={{
+                              fontFamily: isAr ? "'Noto Serif Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+                              fontSize: '1.2rem',
+                              fontWeight: 500,
+                              margin: 0,
+                              color: '#FFFFFF',
+                              lineHeight: 1.2,
+                            }}
+                          >
+                            {isAr ? frontData.titleAr : frontData.title}
+                          </h4>
+                          
+                          {/* Openable Details Action Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (onSelectArtwork) onSelectArtwork(frontData);
+                            }}
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.2)',
+                              backdropFilter: 'blur(4px)',
+                              border: '1px solid rgba(255, 255, 255, 0.4)',
+                              color: '#FFFFFF',
+                              fontSize: '0.55rem',
+                              fontWeight: 600,
+                              letterSpacing: '0.08em',
+                              textTransform: 'uppercase',
+                              padding: '0.25rem 0.6rem',
+                              borderRadius: '999px',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s ease',
+                            }}
+                          >
+                            {isAr ? 'التفاصيل' : 'Details ↗'}
+                          </button>
+                        </div>
+
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-sans)',
+                            fontSize: '0.6rem',
+                            letterSpacing: '0.1em',
+                            textTransform: 'uppercase',
+                            color: 'var(--color-brand)',
+                            opacity: 0.95,
+                          }}
+                        >
+                          {isAr ? frontData.infoAr : frontData.info}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                  
+                  {/* Spine Shadow Gradient */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      width: '12%',
+                      background: 'linear-gradient(to right, rgba(0,0,0,0.18), transparent)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+
+                  {/* Flip Prompt Badge on Active Leaf */}
+                  {index === flippedCount && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '16px',
+                        right: '16px',
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '0.55rem',
+                        letterSpacing: '0.18em',
+                        textTransform: 'uppercase',
+                        color: '#FFFFFF',
+                        background: 'rgba(0,0,0,0.65)',
+                        padding: '0.35rem 0.8rem',
+                        borderRadius: '999px',
+                        backdropFilter: 'blur(6px)',
+                        fontWeight: 600,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+                      }}
+                    >
+                      {isAr ? 'انقر لقلب الصفحة' : 'CLICK TO FLIP PAGE'}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* BACK FACE OF LEAF (Rotated 180deg) */}
               <div
