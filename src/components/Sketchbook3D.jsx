@@ -55,13 +55,35 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
       infoAr: 'دراسة بورتريه جرافيت · 2025',
       src: '/images/sketches/sketch_couple.jpg',
     },
+    {
+      title: 'Contemplative Profile',
+      titleAr: 'نظرة تأملية (بورتريه)',
+      info: 'Fine Pencil & Graphite Study · 2025',
+      infoAr: 'دراسة ناعمة بالرصاص · 2025',
+      src: '/images/sketches/sketch_profile_portrait.jpg',
+    },
+    {
+      title: 'Studies of the Gaze',
+      titleAr: 'دراسات العيون والنظرات',
+      info: 'Multi-Perspective Eye Studies · 2025',
+      infoAr: 'دراسات فحم متعددة للعيون · 2025',
+      src: '/images/sketches/sketch_eye_studies.jpg',
+    },
+    {
+      title: 'Artist Studio Wall',
+      titleAr: 'جدارية المرسم الخاص',
+      info: 'Original Charcoal & Graphite Archive · 2025',
+      infoAr: 'أرشيف الأعمال بالمرسم · 2025',
+      src: '/images/sketches/sketch_studio_wall.jpg',
+    },
   ];
 
   // Group items into Leaf Pairs (Front Face & Back Face per leaf)
   const leafPairs = [
     [sketchData[0], sketchData[1]],
-    [sketchData[2], sketchData[3]],
-    [sketchData[4], sketchData[0]],
+    [sketchData[2], sketchData[5]],
+    [sketchData[6], sketchData[3]],
+    [sketchData[4], sketchData[7]],
   ];
   const totalLeaves = leafPairs.length;
 

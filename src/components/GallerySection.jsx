@@ -73,6 +73,48 @@ const ARTWORKS_DATA = [
     delay: 0.2
   },
   {
+    id: 'profile-portrait',
+    title: "Contemplative Profile",
+    titleAr: "نظرة تأملية (بورتريه)",
+    category: "Pencil & Graphite",
+    technique: "Graphite Pencil & Blending Stumps",
+    dimensions: "A3",
+    status: "Available",
+    year: "2025",
+    description: "A delicate, high-contrast profile study focusing on natural hair textures, soft skin shading, and reflective eye highlights.",
+    image: "/images/sketches/sketch_profile_portrait.jpg",
+    extraImages: [],
+    delay: 0.3
+  },
+  {
+    id: 'eye-studies',
+    title: "Studies of the Gaze",
+    titleAr: "دراسات العيون والنظرات",
+    category: "Pencil & Graphite",
+    technique: "Fine Charcoal & Pencil on Tonal Paper",
+    dimensions: "A3",
+    status: "Available",
+    year: "2025",
+    description: "A multi-perspective sketchbook sheet exploring emotional expressions, iris reflections, and lash detail.",
+    image: "/images/sketches/sketch_eye_studies.jpg",
+    extraImages: [],
+    delay: 0.4
+  },
+  {
+    id: 'studio-wall',
+    title: "Artist Studio Wall Collection",
+    titleAr: "أرشيف المرسم الخاص",
+    category: "Pencil & Graphite",
+    technique: "Charcoal & Graphite Collection",
+    dimensions: "Full Studio Archive",
+    status: "Private Collection",
+    year: "2025",
+    description: "An authentic peek inside Majed Alnahdi's fine art studio wall showcasing original iconic portraits and realism studies.",
+    image: "/images/sketches/sketch_studio_wall.jpg",
+    extraImages: [],
+    delay: 0.5
+  },
+  {
     id: 'king-abdulaziz',
     title: "King Abdulaziz",
     titleAr: "الملك عبدالعزيز",
