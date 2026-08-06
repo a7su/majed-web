@@ -272,18 +272,30 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                     inset: 0,
                     backfaceVisibility: 'hidden',
                     WebkitBackfaceVisibility: 'hidden',
-                    background: 'linear-gradient(140deg, #2A180E 0%, #170A04 60%, #201108 100%)',
+                    background: 'radial-gradient(ellipse at 50% 30%, #3D2214 0%, #1D0E07 70%, #120703 100%)',
                     overflow: 'hidden',
-                    borderRadius: isAr ? '12px 0px 0px 12px' : '0px 12px 12px 0px',
-                    border: '1px solid rgba(197, 160, 89, 0.35)',
-                    boxShadow: 'inset 0 0 30px rgba(0,0,0,0.8), 0 12px 35px rgba(0,0,0,0.35)',
+                    borderRadius: isAr ? '14px 0px 0px 14px' : '0px 14px 14px 0px',
+                    border: '1.5px solid rgba(230, 200, 117, 0.45)',
+                    boxShadow: 'inset 0 0 40px rgba(0,0,0,0.85), 0 16px 45px rgba(0,0,0,0.4)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '1.4rem 1rem 1.1rem',
+                    padding: '1.3rem 1rem 1rem',
                   }}
                 >
+                  {/* Subtle Leather Texture Overlay */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E")`,
+                      pointerEvents: 'none',
+                      zIndex: 1,
+                    }}
+                  />
+
                   {/* Stitched Leather Spine */}
                   <div
                     style={{
@@ -291,36 +303,102 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                       top: 0,
                       bottom: 0,
                       [isAr ? 'right' : 'left']: 0,
-                      width: '26px',
-                      background: 'linear-gradient(to right, #120703 0%, #3D2214 50%, #1A0A04 100%)',
-                      borderRight: isAr ? 'none' : '1px stroke #C5A059',
-                      borderLeft: isAr ? '1px stroke #C5A059' : 'none',
-                      boxShadow: 'inset 0 0 8px rgba(0,0,0,0.6)',
-                      zIndex: 3,
+                      width: '28px',
+                      background: 'linear-gradient(to right, #0F0502 0%, #442617 45%, #180904 100%)',
+                      boxShadow: 'inset 0 0 10px rgba(0,0,0,0.7)',
+                      zIndex: 4,
                     }}
                   >
-                    <div style={{ position: 'absolute', inset: 0, borderRight: '1px dashed rgba(197, 160, 89, 0.3)', margin: '4px 2px' }} />
+                    <div style={{ position: 'absolute', inset: 0, borderRight: isAr ? 'none' : '1px dashed rgba(230, 200, 117, 0.4)', borderLeft: isAr ? '1px dashed rgba(230, 200, 117, 0.4)' : 'none', margin: '4px 2px' }} />
                   </div>
 
-                  {/* Gold Foil Header Branding */}
+                  {/* Vintage Brass Corner Protectors */}
                   <div
                     style={{
-                      zIndex: 2,
+                      position: 'absolute',
+                      top: 0,
+                      [isAr ? 'left' : 'right']: 0,
+                      width: '18px',
+                      height: '18px',
+                      background: 'linear-gradient(135deg, #E6C875 0%, #B38B46 60%, #7A5B22 100%)',
+                      clipPath: isAr ? 'polygon(0 0, 100% 0, 0 100%)' : 'polygon(0 0, 100% 0, 100% 100%)',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                      zIndex: 5,
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      [isAr ? 'left' : 'right']: 0,
+                      width: '18px',
+                      height: '18px',
+                      background: 'linear-gradient(135deg, #E6C875 0%, #B38B46 60%, #7A5B22 100%)',
+                      clipPath: isAr ? 'polygon(0 0, 100% 100%, 0 100%)' : 'polygon(100% 0, 100% 100%, 0 100%)',
+                      boxShadow: '0 -2px 4px rgba(0,0,0,0.5)',
+                      zIndex: 5,
+                    }}
+                  />
+
+                  {/* Terracotta Silky Ribbon Bookmark (Hanging at Bottom) */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '-12px',
+                      [isAr ? 'right' : 'left']: '48px',
+                      width: '12px',
+                      height: '32px',
+                      background: 'linear-gradient(to bottom, #A05628 0%, #C46835 50%, #7A3B18 100%)',
+                      clipPath: 'polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%)',
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
+                      zIndex: 5,
+                    }}
+                  />
+
+                  {/* Gold Foil Header Branding & Monogram Emblem */}
+                  <div
+                    style={{
+                      zIndex: 3,
                       textAlign: 'center',
-                      marginTop: '0.2rem',
+                      marginTop: '0.1rem',
                       paddingLeft: isAr ? '0' : '16px',
                       paddingRight: isAr ? '16px' : '0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
                     }}
                   >
+                    {/* Gold Leaf Monogram Seal */}
+                    <div
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '50%',
+                        border: '1px solid #E6C875',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '0.35rem',
+                        background: 'radial-gradient(circle, rgba(230, 200, 117, 0.15) 0%, transparent 80%)',
+                        color: '#E6C875',
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.4)',
+                      }}
+                    >
+                      MA
+                    </div>
+
                     <div
                       style={{
                         fontFamily: "'Cormorant Garamond', Georgia, serif",
-                        fontSize: '0.9rem',
-                        letterSpacing: '0.28em',
+                        fontSize: '0.92rem',
+                        letterSpacing: '0.3em',
                         textTransform: 'uppercase',
                         color: '#E6C875',
                         fontWeight: 600,
-                        textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+                        textShadow: '0 1px 4px rgba(0,0,0,0.9)',
                       }}
                     >
                       MAJED ALNAHDI
@@ -328,10 +406,10 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                     <div
                       style={{
                         fontFamily: isAr ? "'thmanyahsans-Bold', 'Cairo', sans-serif" : 'var(--font-sans)',
-                        fontSize: '0.55rem',
-                        letterSpacing: '0.2em',
+                        fontSize: '0.52rem',
+                        letterSpacing: '0.22em',
                         textTransform: 'uppercase',
-                        color: 'rgba(230, 200, 117, 0.8)',
+                        color: 'rgba(230, 200, 117, 0.85)',
                         marginTop: '0.15rem',
                       }}
                     >
@@ -343,13 +421,13 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                   <div
                     style={{
                       width: '84%',
-                      height: '58%',
+                      height: '56%',
                       borderRadius: '6px',
-                      border: '1.5px solid rgba(230, 200, 117, 0.55)',
-                      boxShadow: '0 8px 24px rgba(0,0,0,0.65), inset 0 2px 5px rgba(0,0,0,0.4)',
+                      border: '1.5px solid rgba(230, 200, 117, 0.65)',
+                      boxShadow: '0 10px 28px rgba(0,0,0,0.7), inset 0 2px 6px rgba(0,0,0,0.5)',
                       overflow: 'hidden',
                       position: 'relative',
-                      zIndex: 2,
+                      zIndex: 3,
                       marginLeft: isAr ? '0' : '16px',
                       marginRight: isAr ? '16px' : '0',
                     }}
@@ -366,13 +444,13 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                     />
 
                     {/* Gold foil inner frame line */}
-                    <div style={{ position: 'absolute', inset: '5px', border: '1px solid rgba(230, 200, 117, 0.4)', pointerEvents: 'none' }} />
+                    <div style={{ position: 'absolute', inset: '5px', border: '1px solid rgba(230, 200, 117, 0.45)', pointerEvents: 'none' }} />
                   </div>
 
                   {/* Footer Gold Foil Title & Details Action */}
                   <div
                     style={{
-                      zIndex: 2,
+                      zIndex: 3,
                       textAlign: 'center',
                       paddingLeft: isAr ? '0' : '16px',
                       paddingRight: isAr ? '16px' : '0',
@@ -388,6 +466,7 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                         fontSize: '1.1rem',
                         color: '#FFFFFF',
                         fontWeight: 500,
+                        textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                       }}
                     >
                       {isAr ? frontData.titleAr : frontData.title}
@@ -399,17 +478,17 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
                         if (onSelectArtwork) onSelectArtwork(frontData);
                       }}
                       style={{
-                        background: 'linear-gradient(135deg, #B38B46 0%, #E6C875 50%, #967232 100%)',
+                        background: 'linear-gradient(135deg, #B38B46 0%, #F5DC96 50%, #967232 100%)',
                         color: '#1A0D07',
-                        border: 'none',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
                         fontSize: '0.55rem',
                         fontWeight: 700,
-                        letterSpacing: '0.12em',
+                        letterSpacing: '0.14em',
                         textTransform: 'uppercase',
-                        padding: '0.3rem 0.85rem',
+                        padding: '0.35rem 0.95rem',
                         borderRadius: '999px',
                         cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+                        boxShadow: '0 4px 14px rgba(0,0,0,0.5)',
                       }}
                     >
                       {isAr ? 'استعراض التفاصيل ↗' : 'VIEW DETAILS ↗'}
