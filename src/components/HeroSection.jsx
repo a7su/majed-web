@@ -74,7 +74,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
-      {/* Simple Blurred Artwork Background Pattern */}
+      {/* Creative Studio Background: Visible Art Elements & Drafting Accents */}
       <div
         aria-hidden="true"
         style={{
@@ -86,59 +86,75 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          opacity: 0.16,
+          opacity: 0.25,
         }}
       >
-        {/* Left Blurred Artwork Motif */}
+        {/* Left Floating Art Sheet Element */}
         <div
           style={{
-            width: '45vw',
-            height: '45vw',
-            maxWidth: '520px',
-            maxHeight: '520px',
-            transform: 'translate(-20%, -10%) rotate(-8deg)',
-            filter: 'blur(36px) grayscale(30%)',
-            mixBlendMode: 'multiply',
-            borderRadius: '30px',
+            width: isMobile ? '38vw' : '28vw',
+            height: isMobile ? '50vw' : '36vw',
+            maxWidth: '380px',
+            maxHeight: '480px',
+            transform: isMobile ? 'translate(-25%, -5%) rotate(-8deg)' : 'translate(-15%, -5%) rotate(-6deg)',
+            filter: 'blur(6px)',
+            borderRadius: '12px',
             overflow: 'hidden',
+            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.15)',
+            border: '1px solid rgba(160, 86, 40, 0.2)',
+            backgroundColor: '#FAF8F4',
           }}
         >
           <img
-            src="/images/sketches/sketch_eye_studies.jpg"
+            src="/images/sketches/sketch_studio_wall.jpg"
             alt=""
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </div>
 
-        {/* Right Blurred Artwork Motif */}
+        {/* Right Floating Art Sheet Element */}
         <div
           style={{
-            width: '45vw',
-            height: '45vw',
-            maxWidth: '520px',
-            maxHeight: '520px',
-            transform: 'translate(20%, 10%) rotate(8deg)',
-            filter: 'blur(36px) grayscale(30%)',
-            mixBlendMode: 'multiply',
-            borderRadius: '30px',
+            width: isMobile ? '38vw' : '28vw',
+            height: isMobile ? '50vw' : '36vw',
+            maxWidth: '380px',
+            maxHeight: '480px',
+            transform: isMobile ? 'translate(25%, 5%) rotate(8deg)' : 'translate(15%, 5%) rotate(6deg)',
+            filter: 'blur(6px)',
+            borderRadius: '12px',
             overflow: 'hidden',
+            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.15)',
+            border: '1px solid rgba(160, 86, 40, 0.2)',
+            backgroundColor: '#FAF8F4',
           }}
         >
           <img
-            src="/images/sketches/sketch_profile_portrait.jpg"
+            src="/images/sketches/sketch_portraits_spread.jpg"
             alt=""
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         </div>
       </div>
 
-      {/* Simple Artistic Pencil Hatching Pattern Overlay */}
+      {/* Radial Center Focus Vignette to Keep Focus Dead Center */}
       <div
         aria-hidden="true"
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M0 20L20 0M20 40L40 20' stroke='%23A05628' stroke-width='0.7' stroke-opacity='0.05' fill='none'/%3E%3C/svg%3E")`,
+          background: 'radial-gradient(circle at 50% 50%, rgba(250, 250, 248, 0.2) 0%, rgba(250, 250, 248, 0.85) 75%, #FAFAF8 100%)',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Creative Artist Drafting Lines Overlay */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23A05628' stroke-width='0.6' stroke-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           zIndex: 1,
           pointerEvents: 'none',
         }}
