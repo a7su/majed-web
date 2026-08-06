@@ -91,7 +91,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
-      {/* Creative Studio Background: Dynamic Parallax & Changing Art Sheets */}
+      {/* Creative Studio Background: Dynamic Parallax, Organic Floating & Changing Art Sheets */}
       <div
         aria-hidden="true"
         style={{
@@ -103,11 +103,20 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          opacity: 0.26,
+          opacity: 0.28,
         }}
       >
-        {/* Left Interactive Parallax & Changing Art Sheet */}
+        {/* Left Interactive Parallax & Organic Floating Art Sheet */}
         <motion.div
+          animate={{
+            y: [0, -18, 0],
+            rotate: [-6, -3, -6],
+          }}
+          transition={{
+            duration: 7.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
           style={{
             width: isMobile ? '38vw' : '26vw',
             height: isMobile ? '50vw' : '34vw',
@@ -115,7 +124,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             maxHeight: '460px',
             borderRadius: '12px',
             overflow: 'hidden',
-            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.18)',
+            boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
             border: '1px solid rgba(160, 86, 40, 0.25)',
             backgroundColor: '#FAF8F4',
             position: 'relative',
@@ -124,6 +133,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             x: leftX,
             y: leftY,
             rotate: leftRotate,
+            perspective: 1000,
           }}
         >
           <AnimatePresence mode="wait">
@@ -131,17 +141,27 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
               key={leftArtIndex}
               src={BACKGROUND_ARTWORKS[leftArtIndex]}
               alt=""
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 1.1, ease: 'easeInOut' }}
+              initial={{ opacity: 0, scale: 1.08, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.94, filter: 'blur(10px)' }}
+              transition={{ duration: 1.4, ease: [0.4, 0, 0.2, 1] }}
               style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
             />
           </AnimatePresence>
         </motion.div>
 
-        {/* Right Interactive Parallax & Changing Art Sheet */}
+        {/* Right Interactive Parallax & Organic Floating Art Sheet */}
         <motion.div
+          animate={{
+            y: [0, 18, 0],
+            rotate: [6, 9, 6],
+          }}
+          transition={{
+            duration: 8.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 0.8,
+          }}
           style={{
             width: isMobile ? '38vw' : '26vw',
             height: isMobile ? '50vw' : '34vw',
@@ -149,7 +169,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             maxHeight: '460px',
             borderRadius: '12px',
             overflow: 'hidden',
-            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.18)',
+            boxShadow: '0 20px 45px rgba(67, 40, 24, 0.22)',
             border: '1px solid rgba(160, 86, 40, 0.25)',
             backgroundColor: '#FAF8F4',
             position: 'relative',
@@ -158,6 +178,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             x: rightX,
             y: rightY,
             rotate: rightRotate,
+            perspective: 1000,
           }}
         >
           <AnimatePresence mode="wait">
@@ -165,14 +186,58 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
               key={rightArtIndex}
               src={BACKGROUND_ARTWORKS[rightArtIndex]}
               alt=""
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 1.1, ease: 'easeInOut' }}
+              initial={{ opacity: 0, scale: 1.08, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.94, filter: 'blur(10px)' }}
+              transition={{ duration: 1.4, ease: [0.4, 0, 0.2, 1] }}
               style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
             />
           </AnimatePresence>
         </motion.div>
+      </div>
+
+      {/* Floating Studio Graphite Particles Accent */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+        }}
+      >
+        {[
+          { left: '15%', size: 6, duration: 14, delay: 0 },
+          { left: '28%', size: 4, duration: 18, delay: 3 },
+          { left: '72%', size: 5, duration: 16, delay: 1.5 },
+          { left: '84%', size: 7, duration: 20, delay: 4 },
+        ].map((p, i) => (
+          <motion.div
+            key={i}
+            initial={{ y: '100vh', opacity: 0, x: 0 }}
+            animate={{
+              y: '-20vh',
+              opacity: [0, 0.35, 0.35, 0],
+              x: [0, i % 2 === 0 ? 30 : -30, 0],
+            }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: 'linear',
+            }}
+            style={{
+              position: 'absolute',
+              left: p.left,
+              width: `${p.size}px`,
+              height: `${p.size}px`,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(160, 86, 40, 0.4)',
+              boxShadow: '0 0 6px rgba(160, 86, 40, 0.3)',
+            }}
+          />
+        ))}
       </div>
 
       {/* Radial Center Focus Vignette to Keep Focus Dead Center */}
