@@ -1,49 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import Sketchbook3D from './Sketchbook3D';
 
-const SKETCH_PAGES = [
-  {
-    id: 'batman',
-    title: 'The Dark Knight (Batman)',
-    titleAr: 'فارس الظلام (باتمان)',
-    src: '/images/sketches/sketch_batman.jpg',
-  },
-  {
-    id: 'abdel-halim',
-    title: 'Abdel Halim Hafez',
-    titleAr: 'عبد الحليم حافظ',
-    src: '/images/sketches/sketch_abdel_halim.jpg',
-  },
-  {
-    id: 'umm-kulthum',
-    title: 'Umm Kulthum',
-    titleAr: 'أم كلثوم',
-    src: '/images/sketches/sketch_um_kulthum.jpg',
-  },
-  {
-    id: 'cowboy',
-    title: 'The Cowboy & Horse',
-    titleAr: 'الراعي والجواد',
-    src: '/images/sketches/sketch_cowboy.jpg',
-  },
-  {
-    id: 'couple',
-    title: 'Eternal Embrace',
-    titleAr: 'العشاق',
-    src: '/images/sketches/sketch_couple.jpg',
-  },
+const BACKGROUND_ARTWORKS = [
+  '/images/sketches/sketch_studio_wall.jpg',
+  '/images/sketches/sketch_portraits_spread.jpg',
+  '/images/sketches/sketch_eye_studies.jpg',
+  '/images/sketches/sketch_children_studies.jpg',
+  '/images/sketches/sketch_baseball_grip.jpg',
+  '/images/sketches/sketch_man_cap.jpg',
+  '/images/sketches/sketch_profile_portrait.jpg',
 ];
 
 export default function HeroSection({ onSelectArtwork, onNavigate }) {
   const { t, language } = useLanguage();
   const isAr = language === 'ar';
 
-  const [titleVisible] = useState(true);
   const [isBookOpen, setIsBookOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+
+  // Dynamic Background Art Changing State ("Changable")
+  const [leftArtIndex, setLeftArtIndex] = useState(0);
+  const [rightArtIndex, setRightArtIndex] = useState(1);
+
+  // Mouse Movement Parallax Tracking ("with move")
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springX = useSpring(mouseX, { stiffness: 45, damping: 18 });
+  const springY = useSpring(mouseY, { stiffness: 45, damping: 18 });
+
+  const leftX = useTransform(springX, [-0.5, 0.5], [35, -35]);
+  const leftY = useTransform(springY, [-0.5, 0.5], [25, -25]);
+  const leftRotate = useTransform(springX, [-0.5, 0.5], [-9, -3]);
+
+  const rightX = useTransform(springX, [-0.5, 0.5], [-35, 35]);
+  const rightY = useTransform(springY, [-0.5, 0.5], [-25, 25]);
+  const rightRotate = useTransform(springX, [-0.5, 0.5], [3, 9]);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const { innerWidth, innerHeight } = window;
+      const normX = (e.clientX / innerWidth) - 0.5;
+      const normY = (e.clientY / innerHeight) - 0.5;
+      mouseX.set(normX);
+      mouseY.set(normY);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -53,6 +61,15 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
     checkViewport();
     window.addEventListener('resize', checkViewport);
     return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
+  // Cycle background artworks every 5 seconds ("Changable")
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLeftArtIndex((prev) => (prev + 2) % BACKGROUND_ARTWORKS.length);
+      setRightArtIndex((prev) => (prev + 2 + 1) % BACKGROUND_ARTWORKS.length);
+    }, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleToggleBook = () => {
@@ -74,7 +91,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
-      {/* Creative Studio Background: Visible Art Elements & Drafting Accents */}
+      {/* Creative Studio Background: Dynamic Parallax & Changing Art Sheets */}
       <div
         aria-hidden="true"
         style={{
@@ -86,54 +103,76 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          opacity: 0.25,
+          opacity: 0.26,
         }}
       >
-        {/* Left Floating Art Sheet Element */}
-        <div
+        {/* Left Interactive Parallax & Changing Art Sheet */}
+        <motion.div
           style={{
-            width: isMobile ? '38vw' : '28vw',
-            height: isMobile ? '50vw' : '36vw',
-            maxWidth: '380px',
-            maxHeight: '480px',
-            transform: isMobile ? 'translate(-25%, -5%) rotate(-8deg)' : 'translate(-15%, -5%) rotate(-6deg)',
-            filter: 'blur(6px)',
+            width: isMobile ? '38vw' : '26vw',
+            height: isMobile ? '50vw' : '34vw',
+            maxWidth: '360px',
+            maxHeight: '460px',
             borderRadius: '12px',
             overflow: 'hidden',
-            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.15)',
-            border: '1px solid rgba(160, 86, 40, 0.2)',
+            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.18)',
+            border: '1px solid rgba(160, 86, 40, 0.25)',
             backgroundColor: '#FAF8F4',
+            position: 'relative',
+            filter: 'blur(5px)',
+            marginLeft: isMobile ? '-8%' : '2%',
+            x: leftX,
+            y: leftY,
+            rotate: leftRotate,
           }}
         >
-          <img
-            src="/images/sketches/sketch_studio_wall.jpg"
-            alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </div>
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={leftArtIndex}
+              src={BACKGROUND_ARTWORKS[leftArtIndex]}
+              alt=""
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.1, ease: 'easeInOut' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+            />
+          </AnimatePresence>
+        </motion.div>
 
-        {/* Right Floating Art Sheet Element */}
-        <div
+        {/* Right Interactive Parallax & Changing Art Sheet */}
+        <motion.div
           style={{
-            width: isMobile ? '38vw' : '28vw',
-            height: isMobile ? '50vw' : '36vw',
-            maxWidth: '380px',
-            maxHeight: '480px',
-            transform: isMobile ? 'translate(25%, 5%) rotate(8deg)' : 'translate(15%, 5%) rotate(6deg)',
-            filter: 'blur(6px)',
+            width: isMobile ? '38vw' : '26vw',
+            height: isMobile ? '50vw' : '34vw',
+            maxWidth: '360px',
+            maxHeight: '460px',
             borderRadius: '12px',
             overflow: 'hidden',
-            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.15)',
-            border: '1px solid rgba(160, 86, 40, 0.2)',
+            boxShadow: '0 15px 35px rgba(67, 40, 24, 0.18)',
+            border: '1px solid rgba(160, 86, 40, 0.25)',
             backgroundColor: '#FAF8F4',
+            position: 'relative',
+            filter: 'blur(5px)',
+            marginRight: isMobile ? '-8%' : '2%',
+            x: rightX,
+            y: rightY,
+            rotate: rightRotate,
           }}
         >
-          <img
-            src="/images/sketches/sketch_portraits_spread.jpg"
-            alt=""
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </div>
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={rightArtIndex}
+              src={BACKGROUND_ARTWORKS[rightArtIndex]}
+              alt=""
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 1.1, ease: 'easeInOut' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }}
+            />
+          </AnimatePresence>
+        </motion.div>
       </div>
 
       {/* Radial Center Focus Vignette to Keep Focus Dead Center */}
@@ -142,7 +181,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at 50% 50%, rgba(250, 250, 248, 0.2) 0%, rgba(250, 250, 248, 0.85) 75%, #FAFAF8 100%)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(250, 250, 248, 0.15) 0%, rgba(250, 250, 248, 0.85) 75%, #FAFAF8 100%)',
           zIndex: 1,
           pointerEvents: 'none',
         }}
