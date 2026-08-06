@@ -74,6 +74,76 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
         padding: isMobile ? '4.5rem 1rem 3.5rem' : '5rem 2.5rem',
       }}
     >
+      {/* Simple Blurred Artwork Background Pattern */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          overflow: 'hidden',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          opacity: 0.16,
+        }}
+      >
+        {/* Left Blurred Artwork Motif */}
+        <div
+          style={{
+            width: '45vw',
+            height: '45vw',
+            maxWidth: '520px',
+            maxHeight: '520px',
+            transform: 'translate(-20%, -10%) rotate(-8deg)',
+            filter: 'blur(36px) grayscale(30%)',
+            mixBlendMode: 'multiply',
+            borderRadius: '30px',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src="/images/sketches/sketch_eye_studies.jpg"
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+
+        {/* Right Blurred Artwork Motif */}
+        <div
+          style={{
+            width: '45vw',
+            height: '45vw',
+            maxWidth: '520px',
+            maxHeight: '520px',
+            transform: 'translate(20%, 10%) rotate(8deg)',
+            filter: 'blur(36px) grayscale(30%)',
+            mixBlendMode: 'multiply',
+            borderRadius: '30px',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src="/images/sketches/sketch_profile_portrait.jpg"
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+      </div>
+
+      {/* Simple Artistic Pencil Hatching Pattern Overlay */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40L40 0M0 20L20 0M20 40L40 20' stroke='%23A05628' stroke-width='0.7' stroke-opacity='0.05' fill='none'/%3E%3C/svg%3E")`,
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+
       {/* Subtle Grain Texture Overlay */}
       <div
         aria-hidden="true"
@@ -81,7 +151,7 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
           position: 'absolute',
           inset: 0,
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`,
-          zIndex: 0,
+          zIndex: 1,
           pointerEvents: 'none',
           opacity: 0.6,
         }}
