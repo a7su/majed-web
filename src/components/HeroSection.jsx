@@ -158,10 +158,10 @@ export default function HeroSection({ onSelectArtwork, onNavigate }) {
             <div style={{ width: '28px', height: '1px', background: 'var(--color-brand)' }} />
             <span
               style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.68rem',
-                fontWeight: 500,
-                letterSpacing: '0.28em',
+                fontFamily: isAr ? "'thmanyahsans-Bold', 'ThmanyahSans-Bold', 'Thmanyah Sans', 'Cairo', sans-serif" : 'var(--font-sans)',
+                fontSize: isAr ? '0.78rem' : '0.68rem',
+                fontWeight: isAr ? 700 : 500,
+                letterSpacing: isAr ? '0.04em' : '0.28em',
                 textTransform: 'uppercase',
                 color: 'var(--color-brand)',
               }}

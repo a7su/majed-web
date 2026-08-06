@@ -132,7 +132,7 @@ export const LanguageProvider = ({ children }) => {
 
     // Apply Palestine font for Arabic via CSS custom property
     if (language === 'ar') {
-      document.documentElement.style.setProperty('--active-arabic-font', "'Cairo', 'Noto Naskh Arabic', sans-serif");
+      document.documentElement.style.setProperty('--active-arabic-font', "'PalestineFont', 'Amiri', 'Cairo', serif");
     } else {
       document.documentElement.style.removeProperty('--active-arabic-font');
     }

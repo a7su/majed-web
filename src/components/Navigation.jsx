@@ -8,7 +8,6 @@ export default function Navigation({ onOpenMenu }) {
   const [scrolled, setScrolled] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [langHover, setLangHover] = useState(false);
   const lastScrollYRef = useRef(0);
 
   useEffect(() => {
@@ -53,67 +52,62 @@ export default function Navigation({ onOpenMenu }) {
         padding: isMobile ? '0 1rem' : '0 2.5rem',
         transition: 'all 0.4s var(--ease-smooth)',
         boxShadow: scrolled ? '0 8px 30px rgba(67,40,24,0.08)' : 'none',
+        direction: 'ltr',
       }}
     >
       {/* ──── LEFT: Language Toggle ──── */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
         <button
           onClick={toggleLanguage}
-          onMouseEnter={() => setLangHover(true)}
-          onMouseLeave={() => setLangHover(false)}
+          className="lang-toggle-btn"
           aria-label={isAr ? 'Switch to English' : 'التحويل للعربية'}
           title={isAr ? 'Switch to English' : 'التحويل للعربية'}
-          style={{
-            background: langHover
-              ? 'rgba(160,86,40,0.08)'
-              : 'rgba(67,40,24,0.04)',
-            border: `1px solid ${langHover ? 'rgba(160,86,40,0.25)' : 'rgba(67,40,24,0.10)'}`,
-            borderRadius: '9999px',
-            padding: '4px 5px',
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.35s var(--ease-smooth)',
-            position: 'relative',
-            overflow: 'hidden',
-            width: '76px',
-            height: '34px',
-            direction: 'ltr',
-            flexShrink: 0,
-            boxShadow: langHover ? '0 4px 16px rgba(160,86,40,0.12)' : 'none',
-          }}
+          style={{ position: 'relative', zIndex: 10 }}
         >
-          {/* Sliding pill */}
-          <div style={{
-            position: 'absolute',
-            top: '3px',
-            bottom: '3px',
-            left: language === 'en' ? '3px' : 'calc(100% - 37px)',
-            width: '34px',
-            background: 'var(--text-main)',
-            borderRadius: '9999px',
-            transition: 'all 0.45s cubic-bezier(0.85, 0, 0.15, 1)',
-          }} />
+          {/* Sliding pill (Background layer) */}
+          <div
+            className="pill-indicator"
+            style={{
+              position: 'absolute',
+              top: '3px',
+              bottom: '3px',
+              left: language === 'en' ? '3px' : 'calc(100% - 37px)',
+              width: '34px',
+              background: '#1A0D07',
+              borderRadius: '9999px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+              transition: 'all 0.45s cubic-bezier(0.85, 0, 0.15, 1)',
+              zIndex: 1,
+              pointerEvents: 'none',
+            }}
+          />
 
-          {['EN', 'AR'].map(code => (
-            <span
-              key={code}
-              style={{
-                flex: 1,
-                textAlign: 'center',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.68rem',
-                fontWeight: 600,
-                letterSpacing: '0.08em',
-                color: language === code.toLowerCase() ? '#FFFFFF' : 'var(--text-muted)',
-                zIndex: 1,
-                transition: 'color 0.4s ease',
-                userSelect: 'none',
-              }}
-            >
-              {code}
-            </span>
-          ))}
+          {/* Text labels (Foreground layer above black pill) */}
+          {['EN', 'AR'].map(code => {
+            const isActive = language === code.toLowerCase();
+            return (
+              <span
+                key={code}
+                className={`lang-label ${isActive ? 'is-active' : ''}`}
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                  fontSize: '0.68rem',
+                  fontWeight: isActive ? 700 : 600,
+                  letterSpacing: '0.08em',
+                  color: isActive ? '#FFFFFF' : '#432818',
+                  opacity: isActive ? 1 : 0.65,
+                  position: 'relative',
+                  zIndex: 5,
+                  transition: 'all 0.35s ease',
+                  userSelect: 'none',
+                }}
+              >
+                {code}
+              </span>
+            );
+          })}
         </button>
       </div>
 
@@ -136,7 +130,7 @@ export default function Navigation({ onOpenMenu }) {
         >
           <Logo height={isMobile ? 26 : 34} />
           <span style={{
-            fontFamily: isAr ? "'Noto Naskh Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+            fontFamily: isAr ? "'PalestineFont', 'Amiri', serif" : "'Cormorant Garamond', Georgia, serif",
             fontSize: isMobile ? (isAr ? '1.15rem' : '1.3rem') : (isAr ? '1.6rem' : '1.9rem'),
             fontWeight: 300,
             letterSpacing: isAr ? '0' : '-0.01em',

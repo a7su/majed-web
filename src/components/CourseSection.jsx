@@ -185,7 +185,7 @@ export default function CourseSection({ onInquireCourse }) {
           </span>
 
           <h2 style={{
-            fontFamily: isAr ? "'Noto Naskh Arabic', serif" : "'Cormorant Garamond', Georgia, serif",
+            fontFamily: isAr ? "'PalestineFont', 'Amiri', serif" : "'Cormorant Garamond', Georgia, serif",
             fontSize: 'clamp(3rem, 7vw, 6rem)',
             fontWeight: 300,
             color: '#FFFFFF',

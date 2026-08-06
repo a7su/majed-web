@@ -326,7 +326,7 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
                   {artwork.title}
                 </h3>
                 {artwork.titleAr && (
-                  <span style={{ fontFamily: "'Noto Naskh Arabic', serif", fontSize: '1rem', color: '#FFF', opacity: 0.9, direction: 'rtl', display: 'block' }}>
+                  <span style={{ fontFamily: "'PalestineFont', 'Amiri', serif", fontSize: '1rem', color: '#FFF', opacity: 0.9, direction: 'rtl', display: 'block' }}>
                     {artwork.titleAr}
                   </span>
                 )}
@@ -394,7 +394,7 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
                 {expandedArtwork.title}
               </h3>
               {expandedArtwork.titleAr && (
-                <span style={{ fontFamily: "'Noto Naskh Arabic', serif", fontSize: '1.25rem', color: 'var(--text-muted)', direction: 'rtl', display: 'block' }}>
+                <span style={{ fontFamily: "'PalestineFont', 'Amiri', serif", fontSize: '1.25rem', color: 'var(--text-muted)', direction: 'rtl', display: 'block' }}>
                   {expandedArtwork.titleAr}
                 </span>
               )}

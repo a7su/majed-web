@@ -14,6 +14,15 @@
   font-display: swap;
 }
 
+/* Thmanyah Sans Bold Arabic Font */
+@font-face {
+  font-family: 'thmanyahsans-Bold';
+  src: local('thmanyahsans-Bold'), local('ThmanyahSans-Bold'), local('Thmanyah Sans Bold');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Brand Colors */
   --color-brand:         #A05628;
@@ -21,6 +30,17 @@
   --color-brand-deep:    #6E4021;
   --color-brand-light:   rgba(160, 86, 40, 0.10);
   --color-brand-border:  rgba(160, 86, 40, 0.22);
+
+  /* Language Switcher Variables (Floating Frosted Glass + Crisp Monochrome Active Pill) */
+  --lang-btn-track-bg:           rgba(255, 255, 255, 0.65);
+  --lang-btn-track-bg-hover:     rgba(255, 255, 255, 0.85);
+  --lang-btn-track-border:       rgba(67, 40, 24, 0.12);
+  --lang-btn-track-border-hover: rgba(67, 40, 24, 0.22);
+  --lang-btn-pill-bg:            #1A0D07;
+  --lang-btn-text-active:        #FFFFFF;
+  --lang-btn-text-inactive:      #554438;
+  --lang-btn-shadow:             0 8px 24px -4px rgba(67, 40, 24, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --lang-btn-shadow-hover:       0 12px 28px -4px rgba(67, 40, 24, 0.14), 0 4px 10px -1px rgba(0, 0, 0, 0.06);
 
   /* Backgrounds */
   --bg-primary:          #FFFFFF;
@@ -89,7 +109,6 @@ body.loading { overflow: hidden; }
 
 /* ===================== ARABIC LANGUAGE OVERRIDES & FONT SYMMETRY ===================== */
 body.lang-ar {
-  --font-sans:   'PalestineFont', 'Amiri', 'Cairo', serif;
   --font-serif:  'PalestineFont', 'Amiri', serif;
   font-family: 'PalestineFont', 'Amiri', serif;
   direction: rtl;
@@ -316,28 +335,22 @@ body.lang-ar .btn-filter {
   position: relative;
   overflow: hidden;
   z-index: 1;
-  transition: all 0.4s var(--ease-smooth);
+  transition: all 0.3s ease;
 }
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--color-brand);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.45s var(--ease-smooth);
-  z-index: -1;
-  border-radius: inherit;
-}
-.btn-primary:hover::before { transform: scaleX(1); }
-.btn-primary:hover {
-  border-color: var(--color-brand);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(160,86,40,0.25);
-}
-.btn-primary:active { transform: translateY(-1px); }
 
-/* Outline */
+.btn-primary:hover {
+  background: rgba(67, 40, 24, 0.85);
+  border-color: var(--text-main);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(67, 40, 24, 0.15);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Secondary — outlined */
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -352,27 +365,22 @@ body.lang-ar .btn-filter {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 1rem 2rem;
-  transition: all 0.4s var(--ease-smooth);
+  padding: 1.1rem 2.5rem;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
-.btn-outline::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--text-main);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.45s var(--ease-smooth);
-  z-index: -1;
-  border-radius: inherit;
-}
-.btn-outline:hover::before { transform: scaleX(1); }
+
 .btn-outline:hover {
+  background: var(--text-main);
   color: #FFFFFF;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(67,40,24,0.12);
+  border-color: var(--text-main);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(67, 40, 24, 0.15);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
 }
 
 /* Brand CTA — for dark backgrounds */
@@ -623,4 +631,65 @@ input::placeholder, textarea::placeholder {
 .arabic-text {
   font-family: var(--font-arabic-display);
   direction: rtl;
+}
+
+/* ===================== LANGUAGE TOGGLE BUTTON (FLOATING FROSTED GLASS) ===================== */
+.lang-toggle-btn {
+  background: var(--lang-btn-track-bg);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid var(--lang-btn-track-border);
+  box-shadow: var(--lang-btn-shadow);
+  border-radius: 9999px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.35s var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+  width: 76px;
+  height: 34px;
+  direction: ltr;
+  flex-shrink: 0;
+}
+
+.lang-toggle-btn:hover {
+  background: var(--lang-btn-track-bg-hover);
+  border-color: var(--lang-btn-track-border-hover);
+  box-shadow: var(--lang-btn-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.lang-toggle-btn .pill-indicator {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  width: 34px;
+  background: var(--lang-btn-pill-bg, #1A0D07);
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.45s cubic-bezier(0.85, 0, 0.15, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lang-toggle-btn .lang-label {
+  flex: 1;
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--lang-btn-text-inactive, #432818);
+  opacity: 0.65;
+  position: relative;
+  z-index: 5;
+  transition: all 0.4s ease;
+  user-select: none;
+}
+
+.lang-toggle-btn .lang-label.is-active {
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
 }
