@@ -88,8 +88,8 @@ const ARTWORKS_DATA = [
   },
   {
     id: 'eye-studies',
-    title: "Studies of the Gaze",
-    titleAr: "دراسات العيون والنظرات",
+    title: "Eyes",
+    titleAr: "عيون",
     category: "Pencil & Graphite",
     technique: "Fine Charcoal & Pencil on Tonal Paper",
     dimensions: "A3",

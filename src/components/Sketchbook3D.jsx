@@ -63,8 +63,8 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
       src: '/images/sketches/sketch_profile_portrait.jpg',
     },
     {
-      title: 'Studies of the Gaze',
-      titleAr: 'دراسات العيون والنظرات',
+      title: 'Eyes',
+      titleAr: 'عيون',
       info: 'Multi-Perspective Eye Studies · 2025',
       infoAr: 'دراسات فحم متعددة للعيون · 2025',
       src: '/images/sketches/sketch_eye_studies.jpg',
