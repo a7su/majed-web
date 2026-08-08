@@ -9,7 +9,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
 
   const faceSketch = {
     id: 'master-face-spotlight',
-    title: 'Contemplative Profile Study',
+    title: 'Contemplative Profile',
     titleAr: 'نظرة تأملية (بورتريه واقعي)',
     subtitle: 'Masterpiece Charcoal & Pencil Portrait',
     subtitleAr: 'بورتريه فحم ورصاص دقيق',
@@ -19,8 +19,8 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
     year: '2025',
     status: 'Private Studio Collection',
     image: '/images/sketches/sketch_profile_portrait.jpg',
-    description: 'An intimate, high-contrast portrait study exploring subtle skin transitions, reflective iris highlights, and layered natural hair textures. Rendered with extreme precision using soft charcoal and graphite stumps.',
-    descriptionAr: 'دراسة واقعية مفرطة للبورتريه والملامح، تركز على الانتقالات الظلية الناعمة للانعكاسات على القزحية وتفاصيل الشعر. تم تنفيذها بدقة متناهية باستخدام الفحم والدمج الناعم على ورق فابريانو الحرفي.',
+    description: 'An intimate, high-contrast portrait exploring subtle skin transitions, reflective iris highlights, and layered natural hair textures. Rendered with extreme precision using soft charcoal and graphite stumps.',
+    descriptionAr: 'بورتريه واقعي مفرط للملامح، يركز على الانتقالات الظلية الناعمة للانعكاسات على القزحية وتفاصيل الشعر. تم تنفيذه بدقة متناهية باستخدام الفحم والدمج الناعم على ورق فابريانو الحرفي.',
   };
 
   return (
@@ -86,7 +86,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
               letterSpacing: '-0.02em',
             }}
           >
-            {isAr ? 'بورتريه الملامح الحرفي' : 'The Monochromatic Face Study'}
+            {isAr ? 'بورتريه الملامح الحرفي' : 'The Monochromatic Face Artwork'}
           </h2>
           <div
             style={{

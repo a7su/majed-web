@@ -9,7 +9,7 @@ export const ARTWORKS_DATA = [
     image_url: "/images/mock_batman.jpg",
     aspect: "portrait",
     category: "Charcoal",
-    description: "A monumental study in extreme chiaroscuro. Layered with compressed charcoal and raw willow powder to achieve rich velvet blacks, punctuated by razor-thin white chalk highlights."
+    description: "A monumental artwork in extreme chiaroscuro. Layered with compressed charcoal and raw willow powder to achieve rich velvet blacks, punctuated by razor-thin white chalk highlights."
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ export const ARTWORKS_DATA = [
   },
   {
     id: 3,
-    title: "Anatomical Study",
+    title: "Anatomical Form",
     medium: "Pen & Ink",
     size: "A3 (29.7x42cm)",
     year: "2026",
@@ -48,7 +48,7 @@ export const ARTWORKS_DATA = [
     aspect: "square",
     category: "Charcoal",
     price: "$3,200 USD",
-    description: "Hyper-realistic optical study focusing on light refraction within the human iris and subtle skin textures rendered with custom stump blending."
+    description: "Hyper-realistic optical drawing focusing on light refraction within the human iris and subtle skin textures rendered with custom stump blending."
   },
   {
     id: 5,
@@ -73,6 +73,6 @@ export const ARTWORKS_DATA = [
     aspect: "landscape",
     category: "Charcoal",
     price: "$5,200 USD",
-    description: "Large scale landscape study executed directly from the artist's studio desk setup, combining powdered graphite wash and heavy charcoal strokes."
+    description: "Large scale landscape artwork executed directly from the artist's studio desk setup, combining powdered graphite wash and heavy charcoal strokes."
   }
 ];
