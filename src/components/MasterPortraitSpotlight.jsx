@@ -14,8 +14,10 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
     subtitle: 'Masterpiece Charcoal & Pencil Portrait',
     subtitleAr: 'بورتريه فحم ورصاص دقيق',
     category: 'Pencil & Graphite',
-    technique: 'Fine Graphite, Charcoal Pencil & Tortillon Blending on Fabriano Tonal Paper',
-    dimensions: '30 × 42 cm (A3 Sheet)',
+    technique: 'Fine Graphite, Charcoal Pencil & Stump Blending on Fabriano Tonal Paper',
+    techniqueAr: 'فحم ناعم، رصاص وجرافيت دقيق على ورق فابريانو الحرفي',
+    dimensions: '30 × 42 cm (A3 Fine Sheet)',
+    dimensionsAr: '٣٠ × ٤٢ سم (ورق فابريانو أصل · ٢٠٢٥)',
     year: '2025',
     status: 'Private Studio Collection',
     image: '/images/sketches/sketch_profile_portrait.jpg',
@@ -36,18 +38,18 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
         borderBottom: '1px solid rgba(197, 160, 89, 0.25)',
       }}
     >
-      {/* Background Studio Light Vignette */}
+      {/* Background Studio Warm Light Vignette */}
       <div
         style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '80vw',
-          height: '80vw',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          background: 'radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, rgba(15, 14, 13, 0) 70%)',
+          width: '85vw',
+          height: '85vw',
+          maxWidth: '850px',
+          maxHeight: '850px',
+          background: 'radial-gradient(circle, rgba(197, 160, 89, 0.09) 0%, rgba(15, 14, 13, 0) 70%)',
           pointerEvents: 'none',
         }}
       />
@@ -99,7 +101,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
           />
         </div>
 
-        {/* Unique Non-Carousel Asymmetrical Grid */}
+        {/* Asymmetrical Grid: Left Frame, Right Editorial Content */}
         <div
           style={{
             display: 'grid',
@@ -108,7 +110,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
             alignItems: 'center',
           }}
         >
-          {/* Left: Distinct Exhibition Framed Artwork Card (Passe-Partout + Gilded Inset) */}
+          {/* Left Column: Exhibition Framed Portrait */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -121,19 +123,19 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
               maxWidth: '480px',
             }}
           >
-            {/* Museum Solid Oak Frame */}
+            {/* Museum Solid Dark Oak Frame */}
             <div
               style={{
                 position: 'relative',
                 padding: '24px',
                 backgroundColor: '#FAF8F5',
                 borderRadius: '4px',
-                boxShadow: '0 30px 80px rgba(0, 0, 0, 0.65), 0 10px 30px rgba(0,0,0,0.4)',
-                border: '12px solid #1A1816',
-                outline: '1px solid rgba(197, 160, 89, 0.4)',
+                boxShadow: '0 35px 90px rgba(0, 0, 0, 0.75), 0 12px 35px rgba(0,0,0,0.5)',
+                border: '14px solid #1A1816',
+                outline: '1px solid rgba(197, 160, 89, 0.5)',
               }}
             >
-              {/* Inner Gilded Inset Line */}
+              {/* Inner Gilded Gold Bevel Line */}
               <div
                 style={{
                   position: 'relative',
@@ -142,7 +144,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
                   backgroundColor: '#FAF8F4',
                 }}
               >
-                {/* Artwork Canvas */}
+                {/* Canvas Box */}
                 <div
                   style={{
                     position: 'relative',
@@ -174,58 +176,71 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
                       position: 'absolute',
                       bottom: '16px',
                       right: '16px',
-                      backgroundColor: 'rgba(15, 14, 13, 0.85)',
+                      backgroundColor: 'rgba(15, 14, 13, 0.88)',
                       backdropFilter: 'blur(8px)',
                       color: '#C5A059',
                       border: '1px solid #C5A059',
-                      padding: '0.4rem 0.9rem',
+                      padding: '0.45rem 1rem',
                       borderRadius: '999px',
-                      fontSize: '0.7rem',
+                      fontSize: '0.72rem',
                       fontFamily: 'var(--font-sans)',
                       letterSpacing: '0.15em',
                       textTransform: 'uppercase',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
+                      gap: '0.45rem',
                       pointerEvents: 'none',
                     }}
                   >
-                    <span>🔍</span> {isAr ? 'تكبير التفاصيل' : 'Zoom Detail'}
+                    <span>🔍</span> {isAr ? 'تكبير ملامح البورتريه' : 'Zoom Portrait Detail'}
                   </div>
                 </div>
 
-                {/* Artist Brass Nameplate */}
+                {/* Engraved Metallic Brass Nameplate */}
                 <div
                   style={{
                     marginTop: '16px',
                     textAlign: 'center',
-                    padding: '8px',
-                    backgroundColor: '#1E1A16',
-                    border: '1px solid #C5A059',
-                    borderRadius: '2px',
+                    padding: '10px 16px',
+                    background: 'linear-gradient(135deg, #D4AF37 0%, #F3E5AB 50%, #AA7C11 100%)',
+                    border: '1px solid #8C6211',
+                    borderRadius: '3px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.6)',
                   }}
                 >
                   <span
                     style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontSize: '0.9rem',
-                      color: '#C5A059',
-                      letterSpacing: '0.1em',
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontSize: '1rem',
+                      color: '#1A1408',
+                      fontWeight: 700,
+                      letterSpacing: '0.18em',
                       textTransform: 'uppercase',
                       display: 'block',
+                      lineHeight: 1.2,
                     }}
                   >
-                    MAJED ALNAHDI · MAJED-WEB
+                    MAJED ALNAHDI
                   </span>
-                  <span style={{ fontSize: '0.65rem', color: '#A0988E', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                    FINE ARTIST STUDIO ARCHIVE
+                  <span
+                    style={{
+                      fontSize: '0.68rem',
+                      color: '#3D2A04',
+                      fontWeight: 600,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      display: 'block',
+                      marginTop: '2px',
+                    }}
+                  >
+                    {isAr ? 'بورتريه واقعي · تشكيلة المرسم الخاص' : 'FINE ARTIST ORIGINAL PORTRAIT'}
                   </span>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Right: Editorial Story & Specifications Sheet */}
+          {/* Right Column: Editorial Specifications Sheet */}
           <motion.div
             initial={{ opacity: 0, x: isAr ? -30 : 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -239,12 +254,12 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
             <span
               style={{
                 display: 'inline-block',
-                padding: '0.35rem 0.85rem',
+                padding: '0.4rem 0.95rem',
                 backgroundColor: 'rgba(197, 160, 89, 0.12)',
                 border: '1px solid rgba(197, 160, 89, 0.4)',
                 borderRadius: '999px',
                 color: '#C5A059',
-                fontSize: '0.7rem',
+                fontSize: '0.72rem',
                 fontFamily: 'var(--font-sans)',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
@@ -256,8 +271,8 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
 
             <h3
               style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(2rem, 3.5vw, 3rem)',
+                fontFamily: "var(--font-serif)",
+                fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)',
                 fontWeight: 300,
                 color: '#FAF8F5',
                 lineHeight: 1.15,
@@ -270,51 +285,71 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
             <p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: '1rem',
-                color: '#C8C2B8',
-                lineHeight: 1.75,
-                marginBottom: '2rem',
+                fontSize: '1.02rem',
+                color: '#D4CEB8',
+                lineHeight: 1.8,
+                marginBottom: '2.25rem',
                 fontWeight: 300,
               }}
             >
               {isAr ? faceSketch.descriptionAr : faceSketch.description}
             </p>
 
-            {/* Spec Sheet Table */}
+            {/* Spec Sheet Grid (Clean RTL/LTR Support) */}
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '1.25rem',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                gap: '1.5rem',
+                borderTop: '1px solid rgba(197, 160, 89, 0.2)',
                 paddingTop: '1.75rem',
                 marginBottom: '2.5rem',
               }}
             >
               <div>
-                <span style={{ fontSize: '0.7rem', color: '#90887E', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>
-                  {isAr ? 'التقنية والمواد' : 'Medium & Technique'}
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    color: '#C5A059',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    display: 'block',
+                    marginBottom: '0.4rem',
+                    fontWeight: 500,
+                  }}
+                >
+                  {isAr ? 'التقنية والخامات' : 'Medium & Materials'}
                 </span>
-                <span style={{ fontSize: '0.88rem', color: '#FAF8F5', fontWeight: 400 }}>
-                  {faceSketch.technique}
+                <span style={{ fontSize: '0.92rem', color: '#FAF8F5', fontWeight: 400, lineHeight: 1.5, display: 'block' }}>
+                  {isAr ? faceSketch.techniqueAr : faceSketch.technique}
                 </span>
               </div>
               <div>
-                <span style={{ fontSize: '0.7rem', color: '#90887E', letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>
-                  {isAr ? 'الأبعاد والأصل' : 'Dimensions & Year'}
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    color: '#C5A059',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    display: 'block',
+                    marginBottom: '0.4rem',
+                    fontWeight: 500,
+                  }}
+                >
+                  {isAr ? 'المقاس وتاريخ الإنجاز' : 'Dimensions & Year'}
                 </span>
-                <span style={{ fontSize: '0.88rem', color: '#FAF8F5', fontWeight: 400 }}>
-                  {faceSketch.dimensions} ({faceSketch.year})
+                <span style={{ fontSize: '0.92rem', color: '#FAF8F5', fontWeight: 400, lineHeight: 1.5, display: 'block' }}>
+                  {isAr ? faceSketch.dimensionsAr : `${faceSketch.dimensions} (${faceSketch.year})`}
                 </span>
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Interactive Action CTA Buttons */}
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <button
                 onClick={() => setIsZoomed(true)}
                 style={{
-                  padding: '0.85rem 1.8rem',
+                  padding: '0.9rem 2rem',
                   backgroundColor: '#C5A059',
                   color: '#0F0E0D',
                   border: 'none',
@@ -325,18 +360,25 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
                   textTransform: 'uppercase',
                   fontWeight: 600,
                   cursor: 'pointer',
+                  boxShadow: '0 10px 25px rgba(197, 160, 89, 0.25)',
                   transition: 'all 0.3s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#E5C079')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#C5A059')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#E5C079';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#C5A059';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
-                {isAr ? 'تكبير ملامح البورتريه 🔍' : 'Inspect Portrait Fine Detail 🔍'}
+                {isAr ? 'عاين دقة ملامح البورتريه 🔍' : 'Inspect Portrait Fine Detail 🔍'}
               </button>
 
               <button
                 onClick={() => onSelectArtwork && onSelectArtwork(faceSketch)}
                 style={{
-                  padding: '0.85rem 1.8rem',
+                  padding: '0.9rem 2rem',
                   backgroundColor: 'transparent',
                   color: '#FAF8F5',
                   border: '1px solid rgba(255, 255, 255, 0.3)',
@@ -352,10 +394,12 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = '#C5A059';
                   e.currentTarget.style.color = '#C5A059';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
                   e.currentTarget.style.color = '#FAF8F5';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 {isAr ? 'تفاصيل الاقتناء' : 'Acquisition Info'}
@@ -365,7 +409,7 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
         </div>
       </div>
 
-      {/* High-Res Fullscreen Zoom Lightbox Modal */}
+      {/* High-Res Lightbox Modal */}
       <AnimatePresence>
         {isZoomed && (
           <motion.div
@@ -404,20 +448,20 @@ export default function MasterPortraitSpotlight({ onSelectArtwork }) {
                   maxHeight: '85vh',
                   objectFit: 'contain',
                   borderRadius: '4px',
-                  boxShadow: '0 25px 60px rgba(0,0,0,0.8)',
-                  border: '1px solid rgba(197, 160, 89, 0.5)',
+                  boxShadow: '0 30px 80px rgba(0,0,0,0.85)',
+                  border: '1.5px solid #C5A059',
                 }}
               />
               <button
                 onClick={() => setIsZoomed(false)}
                 style={{
                   position: 'absolute',
-                  top: '-40px',
+                  top: '-45px',
                   right: 0,
                   backgroundColor: 'transparent',
                   border: 'none',
                   color: '#FAF8F5',
-                  fontSize: '1.5rem',
+                  fontSize: '1.8rem',
                   cursor: 'pointer',
                 }}
               >
