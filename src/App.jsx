@@ -5,7 +5,6 @@ import Navigation from './components/Navigation';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import GallerySection from './components/GallerySection';
-import MasterPortraitSpotlight from './components/MasterPortraitSpotlight';
 import AntigravitySection from './components/AntigravitySection';
 import MarqueeDivider from './components/MarqueeDivider';
 import CourseSection from './components/CourseSection';
@@ -121,9 +120,6 @@ export default function App() {
 
       {/* Gallery */}
       <GallerySection onSelectArtwork={art => setSelectedArtwork(art)} />
-
-      {/* Featured Face Sketch Master Portrait Spotlight (Non-Carousel Unique Frame) */}
-      <MasterPortraitSpotlight onSelectArtwork={art => setSelectedArtwork(art)} />
 
       {/* Antigravity Floating Editorial Section */}
       <AntigravitySection />

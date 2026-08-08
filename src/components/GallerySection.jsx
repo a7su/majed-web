@@ -300,6 +300,15 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
         const shadowY = Math.max(8, 20 - offset * 12);
         const shadowBlur = Math.max(16, 40 - offset * 25);
         item.style.boxShadow = `0 ${shadowY}px ${shadowBlur}px -12px rgba(0,0,0,${shadowOpacity})`;
+
+        // Dynamically update center slide detail button visibility & interactivity
+        const btn = item.querySelector('.slide-detail-btn');
+        if (btn) {
+          const isCentered = offset < 0.4;
+          btn.style.opacity = isCentered ? '1' : '0';
+          btn.style.pointerEvents = isCentered ? 'auto' : 'none';
+          btn.style.transform = isCentered ? 'translateY(0)' : 'translateY(6px)';
+        }
       });
 
       animationFrameId = requestAnimationFrame(render);
@@ -471,39 +480,46 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
                   </span>
                 )}
                 <button 
+                  className="slide-detail-btn"
                   onClick={(e) => {
+                    e.preventDefault();
                     e.stopPropagation();
                     if (onSelectArtwork) onSelectArtwork(artwork);
                   }}
                   style={{ 
-                    display: 'inline-block', 
-                    marginTop: '0.75rem', 
+                    display: 'inline-flex', 
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.4rem',
+                    marginTop: '0.85rem', 
                     fontFamily: 'var(--font-sans)', 
-                    fontSize: '0.68rem', 
+                    fontSize: '0.72rem', 
                     letterSpacing: '0.15em', 
                     textTransform: 'uppercase',
-                    border: '1.5px solid rgba(255,255,255,0.7)',
-                    backgroundColor: 'rgba(0,0,0,0.4)',
-                    backdropFilter: 'blur(4px)',
-                    color: '#FFFFFF',
-                    padding: '0.45rem 1rem',
+                    border: '1.5px solid #C5A059',
+                    backgroundColor: 'rgba(15, 14, 13, 0.88)',
+                    backdropFilter: 'blur(8px)',
+                    color: '#C5A059',
+                    padding: '0.55rem 1.25rem',
                     borderRadius: '999px',
                     cursor: 'pointer',
-                    fontWeight: 500,
-                    opacity: Math.round(targetProgressRef.current) === index ? 1 : 0,
-                    transition: 'all 0.3s ease',
-                    pointerEvents: Math.round(targetProgressRef.current) === index ? 'auto' : 'none',
+                    fontWeight: 600,
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.35)',
+                    transition: 'opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease, color 0.2s ease',
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 10,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'var(--color-brand)';
-                    e.currentTarget.style.borderColor = 'var(--color-brand)';
+                    e.currentTarget.style.backgroundColor = '#C5A059';
+                    e.currentTarget.style.color = '#0F0E0D';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.4)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)';
+                    e.currentTarget.style.backgroundColor = 'rgba(15, 14, 13, 0.88)';
+                    e.currentTarget.style.color = '#C5A059';
                   }}
                 >
-                  {isAr ? 'تفاصيل العمل' : 'View Details'}
+                  {isAr ? 'عرض التفاصيل 🔍' : 'View Details 🔍'}
                 </button>
               </div>
             </div>
