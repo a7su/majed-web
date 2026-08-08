@@ -14,7 +14,6 @@ const BACKGROUND_ARTWORKS = [
   '/images/sketches/sketch_children_studies.jpg',
   '/images/sketches/sketch_baseball_grip.jpg',
   '/images/sketches/sketch_man_cap.jpg',
-  '/images/sketches/sketch_profile_portrait.jpg',
 ];
 
 export default function HeroSection({ onSelectArtwork, onNavigate }) {

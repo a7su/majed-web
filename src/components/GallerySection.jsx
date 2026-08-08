@@ -73,20 +73,6 @@ const ARTWORKS_DATA = [
     delay: 0.2
   },
   {
-    id: 'profile-portrait',
-    title: "Contemplative Profile",
-    titleAr: "نظرة تأملية (بورتريه)",
-    category: "Pencil & Graphite",
-    technique: "Graphite Pencil & Blending Stumps",
-    dimensions: "A3",
-    status: "Available",
-    year: "2025",
-    description: "A delicate, high-contrast profile portrait focusing on natural hair textures, soft skin shading, and reflective eye highlights.",
-    image: "/images/sketches/sketch_profile_portrait.jpg",
-    extraImages: [],
-    delay: 0.3
-  },
-  {
     id: 'eye-studies',
     title: "Gaze & Iris Reflections",
     titleAr: "إشراقة العينين والتعبير",
