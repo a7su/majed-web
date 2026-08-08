@@ -333,6 +333,9 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
   }, [artworks.length]);
 
   const handlePointerDown = (e) => {
+    if (e.target.closest('.slide-detail-btn')) {
+      return;
+    }
     isDraggingRef.current = true;
     startXRef.current = e.clientX;
     startProgressRef.current = targetProgressRef.current;
@@ -481,6 +484,9 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
                 )}
                 <button 
                   className="slide-detail-btn"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
