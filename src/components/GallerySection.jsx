@@ -88,14 +88,14 @@ const ARTWORKS_DATA = [
   },
   {
     id: 'eye-studies',
-    title: "Eyes",
-    titleAr: "عيون",
+    title: "Gaze & Expression: Eye Studies",
+    titleAr: "دراسات تعبيرية القزحية ونظرة العين",
     category: "Pencil & Graphite",
     technique: "Fine Charcoal & Pencil on Tonal Paper",
     dimensions: "A3",
     status: "Available",
     year: "2025",
-    description: "A multi-perspective sketchbook sheet exploring emotional expressions, iris reflections, and lash detail.",
+    description: "An intimate exploration of human gaze and soul through the window of the eyes—capturing light reflections, iris depth, delicate lashes, and raw emotional presence.",
     image: "/images/sketches/sketch_eye_studies.jpg",
     extraImages: [],
     delay: 0.4
@@ -201,7 +201,7 @@ const ARTWORKS_DATA = [
   {
     id: 'blue-pen-trio',
     title: "Expression Trio (Ballpoint Pen)",
-    titleAr: "ثلاثية التعبير (قلم حبر جاف)",
+    titleAr: "ثلاثية تعابير العيون (حبر جاف)",
     category: "Ink Drawings",
     technique: "Blue Ballpoint Pen & Cross-Hatching",
     dimensions: "A4",
@@ -211,6 +211,34 @@ const ARTWORKS_DATA = [
     image: "/images/sketches/sketch_blue_pen_trio.jpg",
     extraImages: [],
     delay: 0.2
+  },
+  {
+    id: 'golden-kettle-tea',
+    title: "Golden Teapot & Tea Ritual",
+    titleAr: "إبريق الشاي الذهبي وطقوس الهدوء",
+    category: "Ink Drawings",
+    technique: "Colored Pencil, Fine Ink & Tea Stain Wash",
+    dimensions: "A4 Fine Sheet",
+    status: "Available",
+    year: "2025",
+    description: "A warm still-life study of a traditional brass kettle alongside a freshly steeped glass of black tea, executed with fine colored pencil hatching and natural tea ink wash.",
+    image: "/images/sketches/sketch_golden_kettle.jpg",
+    extraImages: ["/images/sketches/sketch_tea_kettle_set.jpg", "/images/sketches/sketch_glass_of_tea.jpg"],
+    delay: 0.3
+  },
+  {
+    id: 'watercolor-heart',
+    title: "Anatomical Heart & Tea Wash",
+    titleAr: "القلب البشري بتدرجات المائية ورائحة الشاي",
+    category: "Watercolor",
+    technique: "Watercolor, Ink & Organic Tea Stain Wash on Cotton Paper",
+    dimensions: "A4 Fine Art Sheet",
+    status: "Available",
+    year: "2025",
+    description: "An intricate anatomical heart painted in vibrant crimson and earthy watercolors, accented with organic tea splatters and fine ink details.",
+    image: "/images/sketches/sketch_watercolor_heart.jpg",
+    extraImages: [],
+    delay: 0.4
   },
 ];
 
