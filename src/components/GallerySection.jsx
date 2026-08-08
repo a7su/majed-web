@@ -7,6 +7,7 @@ const ARTWORKS_DATA = [
     title: "The Dark Knight (Batman)",
     titleAr: "فارس الظلام (باتمان)",
     category: "Pencil & Graphite",
+    isFamous: true,
     technique: "Graphite Pencil on Paper",
     dimensions: "A3",
     status: "Available",
@@ -21,6 +22,7 @@ const ARTWORKS_DATA = [
     title: "Abdel Halim Hafez",
     titleAr: "عبد الحليم حافظ",
     category: "Pencil & Graphite",
+    isFamous: true,
     technique: "Graphite & Charcoal on Paper",
     dimensions: "A3",
     status: "Available",
@@ -35,6 +37,7 @@ const ARTWORKS_DATA = [
     title: "Umm Kulthum",
     titleAr: "أم كلثوم",
     category: "Pencil & Graphite",
+    isFamous: true,
     technique: "Graphite Pencil on Paper",
     dimensions: "A3",
     status: "Available",
@@ -143,15 +146,16 @@ const ARTWORKS_DATA = [
     delay: 0.4
   },
   {
-    id: 'man-cap',
-    title: "Man with Cap & Glasses",
-    titleAr: "رجل بالقبعة والنظارات",
+    id: 'rabeh-saqer',
+    title: "Rabeh Saqer",
+    titleAr: "رابح صقر",
     category: "Pencil & Graphite",
+    isFamous: true,
     technique: "Graphite Pencil on Paper",
     dimensions: "A4 Sketchbook Sheet",
     status: "Available",
     year: "2025",
-    description: "A charismatic profile portrait of a man wearing a reversed cap and round glasses with subtle smile lines.",
+    description: "A charismatic profile portrait of the iconic Saudi artist Rabeh Saqer, wearing his signature reversed cap and glasses.",
     image: "/images/sketches/sketch_man_cap.jpg",
     extraImages: [],
     delay: 0.5
@@ -161,6 +165,7 @@ const ARTWORKS_DATA = [
     title: "King Abdulaziz",
     titleAr: "الملك عبدالعزيز",
     category: "Pencil & Graphite",
+    isFamous: true,
     technique: "Graphite Pencil on Paper",
     dimensions: "A4",
     status: "Private Collection",
@@ -631,6 +636,7 @@ export default function GallerySection({ onSelectArtwork }) {
 
   const categories = [
     { id: 'All', labelKey: 'filter_all', labelAr: 'الكل' },
+    { id: 'Famous Icons', labelKey: 'filter_famous', labelAr: 'أيقونات وشخصيات' },
     { id: 'Pencil & Graphite', labelKey: 'filter_pencil', labelAr: 'رصاص وجرافيت' },
     { id: 'Charcoal', labelKey: 'filter_charcoal', labelAr: 'فحم' },
     { id: 'Watercolor', labelKey: 'filter_watercolor', labelAr: 'ألوان مائية' },
@@ -640,7 +646,9 @@ export default function GallerySection({ onSelectArtwork }) {
 
   const filteredArtworks = selectedCategory === 'All'
     ? ARTWORKS_DATA
-    : ARTWORKS_DATA.filter(art => art.category === selectedCategory);
+    : selectedCategory === 'Famous Icons'
+      ? ARTWORKS_DATA.filter(art => art.isFamous || art.category === 'Famous Icons')
+      : ARTWORKS_DATA.filter(art => art.category === selectedCategory);
 
   useEffect(() => {
     setExpandedArtwork(null);
