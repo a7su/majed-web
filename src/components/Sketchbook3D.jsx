@@ -33,6 +33,7 @@ export default function Sketchbook3D({ pages, onSelectArtwork, isOpen, onToggleO
       year: '2025',
       status: 'Available',
       description: 'An intimate exploration of human gaze and soul through the window of the eyes—capturing light reflections, iris depth, delicate lashes, and raw emotional presence.',
+    },
     {
       id: 'portraits-spread',
       title: 'Portraits & Expressions Spread',
