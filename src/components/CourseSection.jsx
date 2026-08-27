@@ -1,50 +1,79 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const WORKSHOPS = [
+const LEARNING_PATH = [
   {
-    id: 'youth',
-    icon: '✏️',
-    titleEn: 'Youth Workshops',
-    titleAr: 'ورش الشباب',
-    descEn: 'Hands-on sessions designed for young artists aged 12–25. From basic pencil control to expressive charcoal technique.',
-    descAr: 'جلسات تطبيقية مصممة للفنانين الشباب من 12 إلى 25 عاماً. من التحكم الأساسي بالقلم إلى تقنية الفحم التعبيرية.',
-    tag: 'Ages 12–25',
-    tagAr: 'من 12 إلى 25',
-    count: '8',
-    countLabel: 'students max',
-    countLabelAr: 'طالب كحد أقصى',
-    accent: 'rgba(160,86,40,1)',
+    id: '01',
+    num: '01',
+    levelEn: 'LEVEL 1',
+    levelAr: 'المستوى ١',
+    titleEn: 'Foundation Course',
+    titleAr: 'الدورة التأسيسية',
+    descEn: 'Build the visual language of drawing from the ground up.',
+    descAr: 'بناء اللغة البصرية للرسم من الأساس.',
+    curriculumEn: [
+      'Core drawing principles & line work',
+      'Pencil control & basic shapes',
+      'Proportions, light and shadow',
+      'Understanding values'
+    ],
+    curriculumAr: [
+      'مبادئ الرسم الأساسية والخطوط',
+      'التحكم بالقلم الرصاص والأشكال الأساسية',
+      'النسب، الضوء والظل',
+      'فهم القيم اللونية'
+    ],
+    accent: 'rgba(160,86,40,0.85)',
+    isSoon: true
   },
   {
-    id: 'corporate',
-    icon: '🏢',
-    titleEn: 'Corporate Workshops',
-    titleAr: 'ورش الشركات',
-    descEn: 'Creative team-building experiences through art. Tailored for companies seeking to unlock creative potential in their teams.',
-    descAr: 'تجارب إبداعية لبناء الفرق من خلال الفن. مصممة للشركات التي تسعى إلى إطلاق الطاقة الإبداعية في فرقها.',
-    tag: 'Teams of 10–50',
-    tagAr: 'فرق من 10 إلى 50',
-    count: '3h',
-    countLabel: 'per session',
-    countLabelAr: 'لكل جلسة',
-    accent: 'rgba(110,64,33,1)',
+    id: '02',
+    num: '02',
+    levelEn: 'LEVEL 2',
+    levelAr: 'المستوى ٢',
+    titleEn: 'Beginner Course',
+    titleAr: 'دورة المبتدئين',
+    descEn: 'Expand your skills with detailed studies and practical techniques.',
+    descAr: 'توسيع مهاراتك من خلال دراسات تفصيلية وتقنيات عملية.',
+    curriculumEn: [
+      'Detailed drawings & anatomy studies',
+      'Perspective & fine details',
+      'Practical charcoal techniques',
+      'Pen and ink applications'
+    ],
+    curriculumAr: [
+      'رسومات تفصيلية ودراسات التشريح',
+      'المنظور والتفاصيل الدقيقة',
+      'تقنيات الفحم العملية',
+      'تطبيقات القلم والحبر'
+    ],
+    accent: 'rgba(160,86,40,0.85)',
+    isSoon: true
   },
   {
-    id: 'masterclass',
-    icon: '🎨',
-    titleEn: 'Masterclass',
+    id: '03',
+    num: '03',
+    levelEn: 'LEVEL 3',
+    levelAr: 'المستوى ٣',
+    titleEn: 'Professional Course',
     titleAr: 'الدورة الاحترافية',
-    descEn: 'An intensive deep-dive for serious artists. Advanced shading, material mastery, and the secrets of capturing emotion on paper.',
-    descAr: 'غوص مكثف للفنانين الجادين. تظليل متقدم، إتقان المواد، وأسرار التقاط المشاعر على الورق.',
-    tag: 'SOON',
-    tagAr: 'قريباً',
-    count: '∞',
-    countLabel: 'techniques',
-    countLabelAr: 'تقنية',
-    accent: 'rgba(45,27,16,1)',
-    soon: true,
-  },
+    descEn: 'Develop a personal artistic style and master advanced techniques.',
+    descAr: 'تطوير أسلوب فني شخصي وإتقان التقنيات المتقدمة.',
+    curriculumEn: [
+      'Advanced lighting & composition',
+      'Realism and fine details',
+      'Developing a personal artistic style',
+      'Artwork for exhibitions & portfolios'
+    ],
+    curriculumAr: [
+      'الإضاءة المتقدمة والتكوين',
+      'الواقعية والتفاصيل الدقيقة',
+      'تطوير أسلوب فني شخصي',
+      'أعمال فنية للمعارض وملفات الأعمال'
+    ],
+    accent: 'rgba(160,86,40,0.85)',
+    isSoon: true
+  }
 ];
 
 export default function CourseSection({ onInquireCourse }) {
@@ -96,7 +125,6 @@ export default function CourseSection({ onInquireCourse }) {
           alignItems: 'flex-end',
         }}
       >
-        {/* Parallax Background Image centered directly on the vintage clocks shelf (center 58%) */}
         <div
           ref={parallaxRef}
           style={{
@@ -111,54 +139,14 @@ export default function CourseSection({ onInquireCourse }) {
           }}
         />
 
-        {/* Cinematic Gradient overlay */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(13,6,3,0.35) 0%, rgba(13,6,3,0.05) 50%, rgba(13,6,3,0.95) 100%)',
+            background: 'linear-gradient(to bottom, rgba(13,6,3,0.35) 0%, rgba(13,6,3,0.05) 50%, rgba(13,6,3,1) 100%)',
             zIndex: 1,
           }}
         />
-
-        {/* Floating SOON badge */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '2.5rem',
-            right: '2.5rem',
-            zIndex: 3,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.65rem 1.5rem',
-            borderRadius: '9999px',
-            border: '1px solid rgba(160,86,40,0.5)',
-            backgroundColor: 'rgba(13,6,3,0.75)',
-            backdropFilter: 'blur(12px)',
-          }}
-        >
-          <span
-            className="animate-pulse-dot"
-            style={{
-              width: '7px', height: '7px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--color-brand)',
-              display: 'inline-block',
-              boxShadow: '0 0 10px var(--color-brand)',
-            }}
-          />
-          <span style={{
-            fontFamily: 'var(--font-sans)',
-            fontSize: '0.72rem',
-            fontWeight: 500,
-            letterSpacing: '0.25em',
-            color: 'rgba(255,255,255,0.85)',
-            textTransform: 'uppercase',
-          }}>
-            SOON · قريباً
-          </span>
-        </div>
 
         {/* Hero text content */}
         <div
@@ -213,177 +201,232 @@ export default function CourseSection({ onInquireCourse }) {
         </div>
       </div>
 
-      {/* ── WORKSHOP CARDS ── */}
+      {/* ── PROGRESSIVE LEARNING PATH CARDS ── */}
       <div
         style={{
           backgroundColor: '#0D0603',
-          padding: 'clamp(3rem, 6vw, 6rem) clamp(1.5rem, 4vw, 4rem)',
+          padding: 'clamp(3rem, 6vw, 8rem) clamp(1.5rem, 4vw, 4rem)',
         }}
       >
         <div
           style={{
-            maxWidth: '1300px',
+            maxWidth: '1400px',
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '1.5rem',
           }}
         >
-          {WORKSHOPS.map((w, i) => (
-            <div
-              key={w.id}
-              className="workshop-card scroll-reveal"
-              style={{
-                background: activeCard === w.id
-                  ? 'linear-gradient(135deg, #1e0e06 0%, #2d1507 100%)'
-                  : 'rgba(255,255,255,0.03)',
-                border: activeCard === w.id
-                  ? `1px solid ${w.accent}`
-                  : '1px solid rgba(255,255,255,0.07)',
-                padding: '2.5rem',
-                transitionDelay: `${i * 0.08}s`,
-              }}
-              onMouseEnter={() => setActiveCard(w.id)}
-              onMouseLeave={() => setActiveCard(null)}
-            >
-              {/* Icon + tag row */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '2rem',
-                direction: isAr ? 'rtl' : 'ltr',
-              }}>
-                <span style={{ fontSize: '2rem' }}>{w.icon}</span>
-                <span style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '0.65rem',
-                  fontWeight: 500,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: w.soon ? 'var(--color-brand)' : 'rgba(255,255,255,0.4)',
-                  border: w.soon
-                    ? '1px solid rgba(160,86,40,0.4)'
-                    : '1px solid rgba(255,255,255,0.1)',
-                  padding: '0.3rem 0.8rem',
-                  borderRadius: '9999px',
-                }}>
-                  {isAr ? w.tagAr : w.tag}
-                </span>
-              </div>
-
-              {/* Big number accent */}
-              <div style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                fontWeight: 300,
-                color: activeCard === w.id ? w.accent : 'rgba(255,255,255,0.06)',
-                lineHeight: 1,
-                marginBottom: '0.5rem',
-                transition: 'color 0.5s var(--ease-smooth)',
-              }}>
-                {w.count}
-              </div>
-              <div style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.65rem',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.3)',
-                marginBottom: '2rem',
-              }}>
-                {isAr ? w.countLabelAr : w.countLabel}
-              </div>
-
-              {/* Title */}
-              <h3 style={{
-                fontFamily: isAr ? "'Cairo', sans-serif" : "'Cormorant Garamond', serif",
-                fontSize: 'clamp(1.6rem, 2.5vw, 2rem)',
-                fontWeight: 400,
-                color: '#FFFFFF',
-                marginBottom: '1rem',
-                lineHeight: 1.2,
-                direction: isAr ? 'rtl' : 'ltr',
-              }}>
-                {isAr ? w.titleAr : w.titleEn}
-              </h3>
-
-              {/* Description */}
-              <p style={{
-                fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
-                fontSize: '0.88rem',
-                fontWeight: 300,
-                color: 'rgba(255,255,255,0.5)',
-                lineHeight: 1.8,
-                marginBottom: '2.5rem',
-                direction: isAr ? 'rtl' : 'ltr',
-              }}>
-                {isAr ? w.descAr : w.descEn}
-              </p>
-
-              {/* CTA */}
-              <button
-                onClick={w.soon ? undefined : onInquireCourse}
-                disabled={w.soon}
+          {LEARNING_PATH.map((w, i) => {
+            const soonText = isAr ? 'قريباً' : 'COMING SOON';
+            return (
+              <div
+                key={w.id}
+                className="workshop-card scroll-reveal"
                 style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  background: 'none',
-                  border: `1px solid ${activeCard === w.id ? w.accent : 'rgba(255,255,255,0.15)'}`,
-                  color: activeCard === w.id ? '#FFFFFF' : 'rgba(255,255,255,0.45)',
-                  borderRadius: '9999px',
-                  padding: '0.7rem 1.5rem',
-                  fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
-                  fontSize: '0.72rem',
-                  fontWeight: 500,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  cursor: w.soon ? 'default' : 'pointer',
-                  transition: 'all 0.4s var(--ease-smooth)',
-                  opacity: w.soon ? 0.5 : 1,
+                  position: 'relative',
+                  background: '#0D0603',
+                  border: activeCard === w.id 
+                    ? `1px solid rgba(160,86,40,0.3)` 
+                    : '1px solid rgba(255,255,255,0.06)',
+                  padding: '3rem 2.5rem',
+                  overflow: 'hidden',
+                  transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transform: activeCard === w.id ? 'translateY(-4px)' : 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transitionDelay: `${i * 0.05}s`,
                 }}
+                onMouseEnter={() => setActiveCard(w.id)}
+                onMouseLeave={() => setActiveCard(null)}
               >
-                {w.soon
-                  ? (isAr ? 'قريباً' : 'Coming Soon')
-                  : (isAr ? 'سجّل الآن' : 'Register Now →')
-                }
-              </button>
-            </div>
-          ))}
+                {/* Subtle top indicator line on hover */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '2px',
+                  background: w.accent,
+                  transform: activeCard === w.id ? 'scaleX(1)' : 'scaleX(0)',
+                  transformOrigin: isAr ? 'right' : 'left',
+                  transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                }} />
+
+                {/* Oversized Number in Background */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-2rem',
+                  right: isAr ? 'auto' : '-1rem',
+                  left: isAr ? '-1rem' : 'auto',
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 'clamp(8rem, 20vw, 14rem)',
+                  fontWeight: 300,
+                  color: activeCard === w.id ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.015)',
+                  lineHeight: 1,
+                  transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                  transform: activeCard === w.id ? 'scale(1.05)' : 'scale(1)',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                  zIndex: 0,
+                }}>
+                  {w.num}
+                </div>
+
+                <div className="course-content-container" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', flexWrap: 'wrap', gap: '2rem', flex: 1 }}>
+                  
+                  {/* Content Left (or Top) */}
+                  <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column' }}>
+                    {/* Top Level label */}
+                    <div style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.65rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: activeCard === w.id ? w.accent : 'rgba(255,255,255,0.5)',
+                      marginBottom: '2rem',
+                      transition: 'color 0.4s ease',
+                      direction: isAr ? 'rtl' : 'ltr',
+                    }}>
+                      {isAr ? w.levelAr : w.levelEn}
+                    </div>
+
+                    {/* Title */}
+                    <h3 style={{
+                      fontFamily: isAr ? "'Cairo', sans-serif" : "'Cormorant Garamond', serif",
+                      fontSize: 'clamp(1.8rem, 2.5vw, 2.2rem)',
+                      fontWeight: 400,
+                      color: '#FFFFFF',
+                      marginBottom: '1rem',
+                      lineHeight: 1.15,
+                      direction: isAr ? 'rtl' : 'ltr',
+                    }}>
+                      {isAr ? w.titleAr : w.titleEn}
+                    </h3>
+
+                    {/* Description */}
+                    <p style={{
+                      fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
+                      fontSize: '0.9rem',
+                      fontWeight: 300,
+                      color: 'rgba(255,255,255,0.6)',
+                      lineHeight: 1.6,
+                      marginBottom: '1rem',
+                      direction: isAr ? 'rtl' : 'ltr',
+                    }}>
+                      {isAr ? w.descAr : w.descEn}
+                    </p>
+
+                    {w.isSoon && (
+                      <div 
+                        className="coming-soon-badge" 
+                        data-text={soonText}
+                        style={{
+                          animationDelay: `${0.2 + (i * 0.1)}s`,
+                          fontFamily: isAr ? "'Cairo', sans-serif" : "'Cormorant Garamond', serif",
+                          fontSize: isAr ? 'clamp(1.4rem, 2vw, 1.8rem)' : 'clamp(1.8rem, 2.5vw, 2.2rem)',
+                          fontWeight: isAr ? 500 : 300,
+                        }}
+                      >
+                        <div className="coming-soon-letters" style={{ direction: isAr ? 'rtl' : 'ltr', fontFamily: isAr ? "'Cairo', sans-serif" : "'Cormorant Garamond', serif" }}>
+                          {isAr ? (
+                            <span style={{ animationDelay: `${0.2 + (i * 0.1)}s` }}>
+                              {soonText}
+                            </span>
+                          ) : (
+                            soonText.split('').map((char, charIdx) => (
+                              <span 
+                                key={charIdx} 
+                                style={{ 
+                                  animationDelay: `${0.2 + (i * 0.1) + (charIdx * 0.05)}s`,
+                                  whiteSpace: 'pre'
+                                }}
+                              >
+                                {char}
+                              </span>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Content Right (or Bottom) - Curriculum & CTA */}
+                  <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    
+                    {/* Curriculum List */}
+                    <ul style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: '0 0 3rem 0',
+                      direction: isAr ? 'rtl' : 'ltr',
+                    }}>
+                      {(isAr ? w.curriculumAr : w.curriculumEn).map((item, idx) => (
+                        <li key={idx} style={{
+                          fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
+                          fontSize: '0.8rem',
+                          color: 'rgba(255,255,255,0.7)',
+                          marginBottom: '0.75rem',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.75rem',
+                          lineHeight: 1.4,
+                        }}>
+                          <span style={{ 
+                            color: activeCard === w.id ? w.accent : 'rgba(255,255,255,0.2)',
+                            transition: 'color 0.4s ease',
+                            fontSize: '0.7rem',
+                            marginTop: '0.2rem'
+                          }}>
+                            ✦
+                          </span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* CTA */}
+                    <div style={{ marginTop: 'auto', direction: isAr ? 'rtl' : 'ltr' }}>
+                      <button
+                        onClick={w.isSoon ? undefined : () => onInquireCourse(isAr ? w.titleAr : w.titleEn)}
+                        disabled={w.isSoon}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          background: 'none',
+                          border: 'none',
+                          color: activeCard === w.id ? '#FFFFFF' : 'rgba(255,255,255,0.5)',
+                          padding: '0',
+                          fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
+                          fontSize: '0.75rem',
+                          fontWeight: 500,
+                          letterSpacing: '0.15em',
+                          textTransform: 'uppercase',
+                          cursor: w.isSoon ? 'default' : 'pointer',
+                          transition: 'color 0.4s ease',
+                          opacity: w.isSoon ? 0.3 : 1
+                        }}
+                      >
+                        {isAr ? 'عرض الدورة' : 'View Course'}
+                        <span style={{
+                          transform: activeCard === w.id && !w.isSoon
+                            ? (isAr ? 'translateX(-4px)' : 'translateX(4px)') 
+                            : 'translateX(0)',
+                          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                        }}>
+                          {isAr ? '←' : '→'}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Bottom CTA */}
-        <div
-          className="scroll-reveal"
-          style={{
-            textAlign: 'center',
-            marginTop: '5rem',
-            padding: '4rem 2rem',
-            borderTop: '1px solid rgba(255,255,255,0.06)',
-          }}
-        >
-          <p style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: 'clamp(1.8rem, 4vw, 3rem)',
-            fontWeight: 300,
-            color: '#FFFFFF',
-            marginBottom: '2.5rem',
-            letterSpacing: '-0.01em',
-            direction: isAr ? 'rtl' : 'ltr',
-          }}>
-            {isAr
-              ? 'هل أنت مستعد لتبدأ رحلتك الفنية؟'
-              : 'Ready to begin your artistic journey?'
-            }
-          </p>
-          <button
-            className="btn-brand"
-            onClick={onInquireCourse}
-          >
-            {t('course_btn')}
-          </button>
-        </div>
       </div>
     </section>
   );

@@ -85,8 +85,8 @@ export default function App() {
     setTimeout(() => handleNavigate('contact'), 100);
   };
 
-  const handleInquireCourse = () => {
-    setInquiryArtwork({ title: 'Art of Ink & Charcoal Drawing Masterclass' });
+  const handleInquireCourse = (courseTitle) => {
+    setInquiryArtwork({ title: courseTitle || 'Art of Ink & Charcoal Drawing Masterclass' });
     setTimeout(() => handleNavigate('contact'), 100);
   };
 

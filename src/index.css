@@ -698,3 +698,70 @@ input::placeholder, textarea::placeholder {
 .draw-element {
   cursor: url('pencil-icon.png') 0 32, auto;
 }
+/* ===================== COMING SOON ANIMATION ===================== */
+.coming-soon-badge {
+  position: relative;
+  display: inline-block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.coming-soon-badge::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 2;
+}
+
+.workshop-card:hover .coming-soon-badge {
+  transform: scale(1.02);
+  color: rgba(255,255,255,0.4);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.workshop-card:hover .coming-soon-badge::after {
+  opacity: 1;
+  animation: shineSweep 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes shineSweep {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+.coming-soon-letters {
+  display: inline-flex;
+}
+
+.coming-soon-letters span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(10px);
+  animation: letterReveal 1s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+@keyframes letterReveal {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}

@@ -38,7 +38,7 @@ const translations = {
     filter_pencil: "Pencil & Graphite",
     filter_ink: "Ink Drawings",
 
-    course_title: "Workshops & Courses",
+    course_title: "Courses",
     course_subtitle: "Learn the Craft",
     course_headline: "The Art of Charcoal & Ink",
     course_desc: "Join an immersive journey into hyper-realism. Learn advanced shading techniques, material mastery, and the secrets of capturing emotion on paper.",
@@ -95,7 +95,7 @@ const translations = {
     filter_pencil: "رصاص وجرافيت",
     filter_ink: "رسم بالحبر",
 
-    course_title: "ورش العمل والدورات",
+    course_title: "الدورات",
     course_subtitle: "تعلّم الفن",
     course_headline: "فن الفحم والحبر",
     course_desc: "انضم إلى رحلة غامرة في الواقعية المفرطة. تعلم تقنيات التظليل المتقدمة، وإتقان المواد، وأسرار التقاط المشاعر على الورق.",

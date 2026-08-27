@@ -64,6 +64,14 @@ export default function CustomCursor() {
         return;
       }
 
+      const noCustomCursor = target.closest('.no-custom-cursor');
+      if (noCustomCursor) {
+        setIsHovering(true);
+        setHoverType('hidden');
+        setCursorText('');
+        return;
+      }
+
       const interactive = target.tagName?.toLowerCase() === 'button' || 
                          target.tagName?.toLowerCase() === 'a' ||
                          target.closest('button') || 
@@ -97,6 +105,7 @@ export default function CustomCursor() {
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mousedown', onMouseDown);
       window.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mouseover', onMouseOver);
     };
   }, [isAr]);
 
@@ -106,6 +115,7 @@ export default function CustomCursor() {
   let pencilRotation = -145; // Default sleek angle
   let pencilScale = 1;
   let tipColor = '#111'; // Dark charcoal tip
+  let isHidden = hoverType === 'hidden';
   
   if (isDragging) {
     pencilRotation = -110; 
@@ -125,6 +135,8 @@ export default function CustomCursor() {
       tipColor = 'var(--color-brand)';
     }
   }
+
+  if (isHidden) return null;
 
   return (
     <>
