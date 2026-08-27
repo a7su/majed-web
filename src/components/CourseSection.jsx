@@ -85,38 +85,38 @@ export default function CourseSection({ onInquireCourse }) {
         padding: '0',
       }}
     >
-      {/* ── CINEMATIC HERO BACKGROUND ── */}
+      {/* ── CINEMATIC HERO BACKGROUND WITH CUSTOM VINTAGE STUDIO COLLECTION ── */}
       <div
         style={{
           position: 'relative',
-          height: '70vh',
-          minHeight: '500px',
+          height: '75vh',
+          minHeight: '540px',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'flex-end',
         }}
       >
-        {/* Parallax Background Image */}
+        {/* Parallax Background Image featuring user's requested studio clocks & antique collection */}
         <div
           ref={parallaxRef}
           style={{
             position: 'absolute',
             inset: '-10% 0',
-            backgroundImage: 'url(/images/workshop_hero.jpg)',
+            backgroundImage: 'url(/images/studio_collection.jpg)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundPosition: 'center 35%',
             willChange: 'transform',
-            filter: 'brightness(0.55)',
+            filter: 'brightness(0.62) contrast(1.08)',
             zIndex: 0,
           }}
         />
 
-        {/* Gradient overlay */}
+        {/* Cinematic Gradient overlay */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(13,6,3,0.3) 0%, rgba(13,6,3,0.0) 40%, rgba(13,6,3,0.9) 100%)',
+            background: 'linear-gradient(to bottom, rgba(13,6,3,0.4) 0%, rgba(13,6,3,0.1) 45%, rgba(13,6,3,0.95) 100%)',
             zIndex: 1,
           }}
         />
@@ -134,7 +134,7 @@ export default function CourseSection({ onInquireCourse }) {
             padding: '0.65rem 1.5rem',
             borderRadius: '9999px',
             border: '1px solid rgba(160,86,40,0.5)',
-            backgroundColor: 'rgba(13,6,3,0.7)',
+            backgroundColor: 'rgba(13,6,3,0.75)',
             backdropFilter: 'blur(12px)',
           }}
         >
@@ -153,7 +153,7 @@ export default function CourseSection({ onInquireCourse }) {
             fontSize: '0.72rem',
             fontWeight: 500,
             letterSpacing: '0.25em',
-            color: 'rgba(255,255,255,0.8)',
+            color: 'rgba(255,255,255,0.85)',
             textTransform: 'uppercase',
           }}>
             SOON · قريباً
@@ -166,16 +166,16 @@ export default function CourseSection({ onInquireCourse }) {
           style={{
             position: 'relative',
             zIndex: 2,
-            padding: 'clamp(2rem, 4vw, 4rem)',
+            padding: 'clamp(2rem, 4vw, 4.5rem)',
             width: '100%',
-            maxWidth: '900px',
+            maxWidth: '920px',
           }}
         >
           <span style={{
             display: 'block',
             fontFamily: 'var(--font-sans)',
             fontSize: '0.72rem',
-            fontWeight: 500,
+            fontWeight: 600,
             letterSpacing: '0.30em',
             textTransform: 'uppercase',
             color: 'var(--color-brand)',
@@ -193,6 +193,7 @@ export default function CourseSection({ onInquireCourse }) {
             letterSpacing: isAr ? '0' : '-0.025em',
             marginBottom: '1.5rem',
             direction: isAr ? 'rtl' : 'ltr',
+            textShadow: '0 4px 20px rgba(0,0,0,0.6)',
           }}>
             {t('course_title')}
           </h2>
@@ -201,10 +202,11 @@ export default function CourseSection({ onInquireCourse }) {
             fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
             fontSize: '1.1rem',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.65)',
-            maxWidth: '600px',
+            color: 'rgba(255,255,255,0.75)',
+            maxWidth: '620px',
             lineHeight: 1.85,
             direction: isAr ? 'rtl' : 'ltr',
+            textShadow: '0 2px 10px rgba(0,0,0,0.8)',
           }}>
             {t('course_desc')}
           </p>
@@ -349,127 +351,6 @@ export default function CourseSection({ onInquireCourse }) {
               </button>
             </div>
           ))}
-        </div>
-
-        {/* ── STUDIO ATMOSPHERE & STILL-LIFE SHOWCASE ── */}
-        <div
-          className="scroll-reveal"
-          style={{
-            maxWidth: '1300px',
-            margin: '4rem auto 0',
-            borderRadius: '24px',
-            overflow: 'hidden',
-            backgroundColor: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            alignItems: 'center',
-          }}
-        >
-          {/* Image */}
-          <div
-            style={{
-              position: 'relative',
-              height: '100%',
-              minHeight: '380px',
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src="/images/studio_collection.jpg"
-              alt="Studio Environment & Still-Life Objects"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center',
-                filter: 'brightness(0.9) contrast(1.05)',
-                transition: 'transform 0.8s var(--ease-smooth)',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to right, rgba(13,6,3,0) 60%, rgba(13,6,3,0.9) 100%)',
-                pointerEvents: 'none',
-              }}
-            />
-          </div>
-
-          {/* Text Content */}
-          <div
-            style={{
-              padding: 'clamp(2.5rem, 5vw, 4rem)',
-              direction: isAr ? 'rtl' : 'ltr',
-            }}
-          >
-            <span
-              style={{
-                display: 'inline-block',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.68rem',
-                fontWeight: 600,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'var(--color-brand)',
-                backgroundColor: 'rgba(160,86,40,0.15)',
-                border: '1px solid rgba(160,86,40,0.3)',
-                padding: '0.35rem 0.9rem',
-                borderRadius: '9999px',
-                marginBottom: '1.25rem',
-              }}
-            >
-              {isAr ? 'بيئة الاستوديو والإلهام' : 'STUDIO ATMOSPHERE & INSPIRATION'}
-            </span>
-
-            <h3
-              style={{
-                fontFamily: isAr ? "'PalestineFont', 'Amiri', serif" : "'Cormorant Garamond', Georgia, serif",
-                fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
-                fontWeight: 300,
-                color: '#FFFFFF',
-                lineHeight: 1.15,
-                marginBottom: '1rem',
-              }}
-            >
-              {isAr
-                ? 'عناصر الطبيعة الصامتة والتفاصيل الكلاسيكية'
-                : 'Classical Still-Life Subjects & Vintage Elements'}
-            </h3>
-
-            <p
-              style={{
-                fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
-                fontSize: '0.95rem',
-                fontWeight: 300,
-                color: 'rgba(255,255,255,0.65)',
-                lineHeight: 1.85,
-                marginBottom: '1.75rem',
-              }}
-            >
-              {isAr
-                ? 'انغمس في بيئة تحاكي مراسم الفنون الكلاسيكية، حيث تُحاط بساعات أثرية، وتفاصيل معدنية، وعناصر طبيعة صامتة فريدة تم تقييمها بعناية لتطبيق دراسات الظل والضوء، المنظور، والنسب في الورش التدريبية.'
-                : 'Immerse yourself in a sanctuary of classical inspiration. Our studio features curated antique clocks, ornate candelabras, and intricate vintage objects specifically arranged for observational drawing, shadow-and-light studies, and perspective mastery.'}
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1.5rem',
-                fontSize: '0.78rem',
-                color: 'rgba(255,255,255,0.45)',
-                fontFamily: 'var(--font-sans)',
-              }}
-            >
-              <span>🕯️ {isAr ? 'إضاءة طبيعية وتأثيرات الظل' : 'Chiaroscuro & Light Setup'}</span>
-              <span>•</span>
-              <span>⏳ {isAr ? 'عناصر تاريخية وأثرية' : 'Curated Vintage Props'}</span>
-            </div>
-          </div>
         </div>
 
         {/* Bottom CTA */}
