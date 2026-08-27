@@ -85,7 +85,7 @@ export default function CourseSection({ onInquireCourse }) {
         padding: '0',
       }}
     >
-      {/* ── CINEMATIC HERO BACKGROUND WITH CUSTOM VINTAGE STUDIO COLLECTION ── */}
+      {/* ── CINEMATIC HERO BACKGROUND WITH VINTAGE CLOCKS FOCUS ── */}
       <div
         style={{
           position: 'relative',
@@ -96,7 +96,7 @@ export default function CourseSection({ onInquireCourse }) {
           alignItems: 'flex-end',
         }}
       >
-        {/* Parallax Background Image featuring user's requested studio clocks & antique collection */}
+        {/* Parallax Background Image centered directly on the vintage clocks shelf (center 58%) */}
         <div
           ref={parallaxRef}
           style={{
@@ -104,9 +104,9 @@ export default function CourseSection({ onInquireCourse }) {
             inset: '-10% 0',
             backgroundImage: 'url(/images/studio_collection.jpg)',
             backgroundSize: 'cover',
-            backgroundPosition: 'center 35%',
+            backgroundPosition: 'center 58%',
             willChange: 'transform',
-            filter: 'brightness(0.62) contrast(1.08)',
+            filter: 'brightness(0.68) contrast(1.1)',
             zIndex: 0,
           }}
         />
@@ -116,7 +116,7 @@ export default function CourseSection({ onInquireCourse }) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, rgba(13,6,3,0.4) 0%, rgba(13,6,3,0.1) 45%, rgba(13,6,3,0.95) 100%)',
+            background: 'linear-gradient(to bottom, rgba(13,6,3,0.35) 0%, rgba(13,6,3,0.05) 50%, rgba(13,6,3,0.95) 100%)',
             zIndex: 1,
           }}
         />
@@ -193,7 +193,7 @@ export default function CourseSection({ onInquireCourse }) {
             letterSpacing: isAr ? '0' : '-0.025em',
             marginBottom: '1.5rem',
             direction: isAr ? 'rtl' : 'ltr',
-            textShadow: '0 4px 20px rgba(0,0,0,0.6)',
+            textShadow: '0 4px 20px rgba(0,0,0,0.7)',
           }}>
             {t('course_title')}
           </h2>
@@ -202,11 +202,11 @@ export default function CourseSection({ onInquireCourse }) {
             fontFamily: isAr ? "'Cairo', sans-serif" : 'var(--font-sans)',
             fontSize: '1.1rem',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.75)',
+            color: 'rgba(255,255,255,0.8)',
             maxWidth: '620px',
             lineHeight: 1.85,
             direction: isAr ? 'rtl' : 'ltr',
-            textShadow: '0 2px 10px rgba(0,0,0,0.8)',
+            textShadow: '0 2px 12px rgba(0,0,0,0.9)',
           }}>
             {t('course_desc')}
           </p>
