@@ -145,7 +145,7 @@ export default function AntigravitySection() {
         if (dataUrl && dataUrl !== 'data:,') {
           const img = new Image();
           img.onload = () => {
-            ctx.drawImage(img, 0, 0, img.width / dpr, img.height / dpr);
+            ctx.drawImage(img, 0, 0, rect.width, rect.height);
           };
           img.src = dataUrl;
         }
@@ -232,9 +232,8 @@ export default function AntigravitySection() {
     const ctx = canvas.getContext('2d');
     const img = new Image();
     img.onload = () => {
-      const dpr = window.devicePixelRatio || 1;
       ctx.clearRect(0, 0, canvasLogicalSize.current.width, canvasLogicalSize.current.height);
-      ctx.drawImage(img, 0, 0, img.width / dpr, img.height / dpr);
+      ctx.drawImage(img, 0, 0, canvasLogicalSize.current.width, canvasLogicalSize.current.height);
     };
     img.src = dataUrl;
   };
@@ -258,6 +257,9 @@ export default function AntigravitySection() {
     }
   };
 
+  const beforeStrokeCanvas = useRef(null);
+  const tempStrokeCanvas = useRef(null);
+
   const clearCanvas = () => {
     if (window.confirm("Are you sure you want to clear your sketch?")) {
       const canvas = canvasRef.current;
@@ -272,9 +274,6 @@ export default function AntigravitySection() {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
     const rect = canvas.getBoundingClientRect();
-    // The canvas logical size is its actual CSS pixel resolution.
-    // The rect represents its current painted bounds on screen (including zoom/pan transforms).
-    // So mapping the click is as simple as finding the relative percentage and multiplying by logical size.
     return {
       x: ((clientX - rect.left) / rect.width) * canvasLogicalSize.current.width,
       y: ((clientY - rect.top) / rect.height) * canvasLogicalSize.current.height
@@ -291,6 +290,24 @@ export default function AntigravitySection() {
       } else {
         isDrawing.current = true;
         const coords = getCanvasCoords(e.clientX, e.clientY);
+        
+        // Setup offscreen buffers for flawless alpha compositing
+        const dpr = window.devicePixelRatio || 1;
+        const canvas = canvasRef.current;
+        
+        if (!beforeStrokeCanvas.current) beforeStrokeCanvas.current = document.createElement('canvas');
+        beforeStrokeCanvas.current.width = canvas.width;
+        beforeStrokeCanvas.current.height = canvas.height;
+        beforeStrokeCanvas.current.getContext('2d').drawImage(canvas, 0, 0);
+        
+        if (!tempStrokeCanvas.current) tempStrokeCanvas.current = document.createElement('canvas');
+        tempStrokeCanvas.current.width = canvas.width;
+        tempStrokeCanvas.current.height = canvas.height;
+        const tempCtx = tempStrokeCanvas.current.getContext('2d');
+        tempCtx.scale(dpr, dpr);
+        tempCtx.lineCap = 'round';
+        tempCtx.lineJoin = 'round';
+        
         lastPos.current = coords;
         setHasDrawn(true);
       }
@@ -332,30 +349,48 @@ export default function AntigravitySection() {
         lastPos.current = { type: 'pan', x: e.clientX, y: e.clientY };
       } else if (isDrawing.current) {
         const coords = getCanvasCoords(e.clientX, e.clientY);
-        const ctx = canvasRef.current.getContext('2d');
         
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        // Handle pressure sensitivity for Apple Pencil / Stylus
+        const tempCtx = tempStrokeCanvas.current.getContext('2d');
         const pressure = e.pressure && e.pressure > 0 ? e.pressure : 0.5;
         
+        // Draw the segment onto the temporary transparent canvas with alpha 1.0
+        tempCtx.beginPath();
+        tempCtx.moveTo(lastPos.current.x, lastPos.current.y);
+        tempCtx.lineTo(coords.x, coords.y);
+        
         if (tool === 'eraser') {
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.lineWidth = size * 10;
-          ctx.strokeStyle = 'rgba(0,0,0,1)';
-          ctx.globalAlpha = 1;
+          tempCtx.lineWidth = size * 10;
+          tempCtx.strokeStyle = 'rgba(0,0,0,1)';
         } else {
-          ctx.globalCompositeOperation = tool === 'marker' ? 'multiply' : 'source-over';
-          ctx.strokeStyle = color;
-          if (tool === 'pencil') { ctx.lineWidth = size * (pressure * 1.5 + 0.5); ctx.globalAlpha = 0.7; } 
-          else if (tool === 'pen') { ctx.lineWidth = size * 0.8; ctx.globalAlpha = 1.0; } 
-          else if (tool === 'marker') { ctx.lineWidth = size * (pressure * 2.5 + 2.5); ctx.globalAlpha = 0.4; }
+          tempCtx.strokeStyle = color;
+          if (tool === 'pencil') tempCtx.lineWidth = size * (pressure * 1.5 + 0.5);
+          else if (tool === 'pen') tempCtx.lineWidth = size * 0.8;
+          else if (tool === 'marker') tempCtx.lineWidth = size * (pressure * 2.5 + 2.5);
         }
+        tempCtx.stroke();
+        
+        // Composite back to main canvas
+        const canvas = canvasRef.current;
+        const mainCtx = canvas.getContext('2d');
+        mainCtx.save();
+        mainCtx.setTransform(1, 0, 0, 1, 0, 0); // Reset scale to draw physical pixels directly
+        
+        mainCtx.clearRect(0, 0, canvas.width, canvas.height);
+        mainCtx.drawImage(beforeStrokeCanvas.current, 0, 0);
+        
+        if (tool === 'eraser') {
+          mainCtx.globalCompositeOperation = 'destination-out';
+          mainCtx.globalAlpha = 1.0;
+        } else {
+          mainCtx.globalCompositeOperation = tool === 'marker' ? 'multiply' : 'source-over';
+          if (tool === 'pencil') mainCtx.globalAlpha = 0.7;
+          else if (tool === 'pen') mainCtx.globalAlpha = 1.0;
+          else if (tool === 'marker') mainCtx.globalAlpha = 0.4;
+        }
+        
+        mainCtx.drawImage(tempStrokeCanvas.current, 0, 0);
+        mainCtx.restore();
 
-        ctx.beginPath();
-        ctx.moveTo(lastPos.current.x, lastPos.current.y);
-        ctx.lineTo(coords.x, coords.y);
-        ctx.stroke();
         lastPos.current = coords;
       }
     }
