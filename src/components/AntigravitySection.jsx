@@ -847,10 +847,10 @@ export default function AntigravitySection() {
         {/* ── Action bar ── */}
         <div className="drawing-actionbar">
           <button className="action-btn" onClick={handleDownload}>
-            <Download size={14} /><span className="hide-sm">DOWNLOAD</span>
+            <Download size={14} /><span className="hide-sm">{isAr ? "تنزيل" : "DOWNLOAD"}</span>
           </button>
           <button className="action-btn" onClick={() => handleShare()}>
-            <Share2 size={14} /><span className="hide-sm">SHARE</span>
+            <Share2 size={14} /><span className="hide-sm">{isAr ? "مشاركة" : "SHARE"}</span>
           </button>
           <button className="action-btn primary" onClick={() => setShowSaveModal(true)}>{isAr ? "انشر في المعرض ✦" : "PUBLISH TO GALLERY ✦"}</button>
         </div>
