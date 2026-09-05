@@ -626,16 +626,37 @@ export default function AntigravitySection() {
         @media (max-width: 768px) {
           .sketch-container { height: calc(100dvh - 60px); }
           .drawing-workspace { flex-direction: column-reverse; }
+          
+          /* Sleek single-row horizontal scrolling toolbar for mobile */
           .drawing-toolbar {
-            width: 100%; height: auto; border-right: none; border-top: 1px solid #EEE;
-            flex-direction: row; padding: 8px 12px; overflow-x: auto; overflow-y: hidden;
-            gap: 4px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            width: 100%; height: auto; border-right: none; border-top: 1px solid #EBEBEB;
+            flex-direction: row; padding: 10px 12px; overflow-x: auto; overflow-y: hidden;
+            gap: 16px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
+            scrollbar-width: none; /* Firefox */
           }
-          .toolbar-section { flex-direction: row; border-bottom: none; border-right: 1px solid #F0F0F0; padding: 0 8px; }
-          .toolbar-section:last-child { border-right: none; }
-          .drawing-actionbar { grid-template-columns: 1fr 1fr 1fr; gap: 6px; padding: 8px; }
+          .drawing-toolbar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+          
+          /* Keep sections in a single line, don't let them shrink */
+          .toolbar-section { 
+            flex-direction: row; border-bottom: none; border-right: 1px solid #E5E5E5; 
+            padding: 0 16px 0 0; flex-shrink: 0; flex-wrap: nowrap !important; gap: 8px !important;
+          }
+          .toolbar-section:last-child { border-right: none; padding-right: 0; }
+          
+          .toolbar-btn { width: 40px; height: 40px; }
+          .color-dot { width: 28px; height: 28px; }
+
+          /* Stack the action buttons nicely */
+          .drawing-actionbar { 
+            grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 16px 16px; 
+          }
+          .drawing-actionbar .action-btn:nth-child(1) { grid-column: 1; }
+          .drawing-actionbar .action-btn:nth-child(2) { grid-column: 2; }
+          .drawing-actionbar .action-btn:nth-child(3) { grid-column: 1 / -1; height: 50px; font-size: 0.85rem; }
+          
           .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 0 12px 12px; }
-          .modal-box { padding: 24px; }
+          .modal-box { padding: 24px; border-radius: 16px; }
         }
 
         .no-custom-cursor * { cursor: auto !important; }
