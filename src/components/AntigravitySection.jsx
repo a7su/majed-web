@@ -631,7 +631,7 @@ export default function AntigravitySection() {
           .drawing-toolbar {
             width: 100%; height: auto; border-right: none; border-top: 1px solid #EBEBEB;
             flex-direction: row; padding: 10px 12px; overflow-x: auto; overflow-y: hidden;
-            gap: 16px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            gap: 8px; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
             -webkit-overflow-scrolling: touch; /* Smooth iOS scrolling */
             scrollbar-width: none; /* Firefox */
           }
@@ -640,7 +640,7 @@ export default function AntigravitySection() {
           /* Keep sections in a single line, don't let them shrink */
           .toolbar-section { 
             flex-direction: row; border-bottom: none; border-right: 1px solid #E5E5E5; 
-            padding: 0 16px 0 0; flex-shrink: 0; flex-wrap: nowrap !important; gap: 8px !important;
+            padding: 0 8px 0 0; flex-shrink: 0; flex-wrap: nowrap !important; gap: 8px !important;
           }
           .toolbar-section:last-child { border-right: none; padding-right: 0; }
           
