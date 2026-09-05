@@ -114,10 +114,10 @@ export default function AntigravitySection() {
   const { isAr } = useLanguage();
   const containerRef = useRef(null);
   const canvasRef    = useRef(null);
-  const renderPending = useRef(false);
+  
   // Off-screen buffers – created once, re-sized on demand
-  const bgCanvas     = useRef(null);  // snapshot before stroke starts
-  const strokeCanvas = useRef(null);  // current stroke accumulated at alpha=1
+    // snapshot before stroke starts
+  const strokeCanvasRef = useRef(null);  // current stroke accumulated at alpha=1
 
   // Drawing state
   const [tool, setTool]           = useState('pencil');
@@ -181,6 +181,18 @@ export default function AntigravitySection() {
 
       const ctx = canvas.getContext('2d');
       ctx.scale(dpr, dpr);
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      const sCanvas = strokeCanvasRef.current;
+      if (sCanvas) {
+        sCanvas.width = canvas.width;
+        sCanvas.height = canvas.height;
+        const sCtx = sCanvas.getContext('2d');
+        sCtx.scale(dpr, dpr);
+        sCtx.lineCap = 'round';
+        sCtx.lineJoin = 'round';
+      }
 
       if (snapshot && snapshot !== 'data:,') {
         const img = new Image();
@@ -305,50 +317,6 @@ export default function AntigravitySection() {
     };
   };
 
-  // ─── OFFSCREEN BUFFER HELPERS ─────────────────────────────────────────────
-  const ensureOffscreenBuffers = () => {
-    const canvas = canvasRef.current;
-    const dpr    = window.devicePixelRatio || 1;
-    const W = canvas.width, H = canvas.height;
-
-    if (!bgCanvas.current) bgCanvas.current = document.createElement('canvas');
-    if (bgCanvas.current.width !== W || bgCanvas.current.height !== H) {
-      bgCanvas.current.width = W; bgCanvas.current.height = H;
-    } else {
-      // CLEAR the background buffer so transparent/erased holes don't accidentally reveal old pixels!
-      bgCanvas.current.getContext('2d').clearRect(0, 0, W, H);
-    }
-    bgCanvas.current.getContext('2d').drawImage(canvas, 0, 0);
-
-    if (!strokeCanvas.current) strokeCanvas.current = document.createElement('canvas');
-    if (strokeCanvas.current.width !== W || strokeCanvas.current.height !== H) {
-      strokeCanvas.current.width = W; strokeCanvas.current.height = H;
-    } else {
-      // Clear the stroke accumulation buffer for a fresh stroke
-      strokeCanvas.current.getContext('2d').clearRect(0, 0, W, H);
-    }
-    // Scale stroke canvas to match DPR (so logical coords match)
-    const sCtx = strokeCanvas.current.getContext('2d');
-    sCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    sCtx.lineCap  = 'round';
-    sCtx.lineJoin = 'round';
-  };
-
-  const compositeStrokeToMain = (toolId) => {
-    const canvas  = canvasRef.current;
-    const mainCtx = canvas.getContext('2d');
-    const cfg     = TOOL_CONFIG[toolId] || TOOL_CONFIG.pencil;
-
-    mainCtx.save();
-    mainCtx.setTransform(1, 0, 0, 1, 0, 0); // physical pixel coords
-    mainCtx.clearRect(0, 0, canvas.width, canvas.height);
-    mainCtx.drawImage(bgCanvas.current, 0, 0);           // original background
-    mainCtx.globalCompositeOperation = cfg.composite;
-    mainCtx.globalAlpha = cfg.alpha;
-    mainCtx.drawImage(strokeCanvas.current, 0, 0);        // full stroke at configured alpha
-    mainCtx.restore();
-  };
-
   // ─── POINTER HANDLERS ─────────────────────────────────────────────────────
   const handlePointerDown = (e) => {
     e.target.setPointerCapture(e.pointerId);
@@ -410,24 +378,26 @@ export default function AntigravitySection() {
       const pressure = (e.pressure > 0) ? e.pressure : 0.5;
       const cfg  = TOOL_CONFIG[tool] || TOOL_CONFIG.pencil;
 
-      // Draw into stroke accumulation canvas (always alpha=1 here)
-      const sCtx = strokeCanvas.current.getContext('2d');
-      sCtx.strokeStyle = tool === 'eraser' ? '#000000' : color;
-      sCtx.lineWidth   = size * cfg.widthMult * (tool === 'pen' ? 1 : (0.5 + pressure * 0.8));
-      sCtx.globalAlpha = 1.0; // always full alpha on stroke canvas
-      sCtx.globalCompositeOperation = 'source-over';
-      sCtx.beginPath();
-      sCtx.moveTo(from.x, from.y);
-      sCtx.lineTo(to.x, to.y);
-      sCtx.stroke();
-
-      // Composite the full stroke at the configured alpha back to main canvas
-      if (!renderPending.current) {
-        renderPending.current = true;
-        requestAnimationFrame(() => {
-          compositeStrokeToMain(tool);
-          renderPending.current = false;
-        });
+      if (tool === 'eraser') {
+        const mainCtx = canvasRef.current.getContext('2d');
+        mainCtx.strokeStyle = '#000000';
+        mainCtx.lineWidth   = size * cfg.widthMult * (0.5 + pressure * 0.8);
+        mainCtx.globalAlpha = 1.0;
+        mainCtx.globalCompositeOperation = 'destination-out';
+        mainCtx.beginPath();
+        mainCtx.moveTo(from.x, from.y);
+        mainCtx.lineTo(to.x, to.y);
+        mainCtx.stroke();
+      } else {
+        const sCtx = strokeCanvasRef.current.getContext('2d');
+        sCtx.strokeStyle = color;
+        sCtx.lineWidth   = size * cfg.widthMult * (tool === 'pen' ? 1 : (0.5 + pressure * 0.8));
+        sCtx.globalAlpha = 1.0;
+        sCtx.globalCompositeOperation = 'source-over';
+        sCtx.beginPath();
+        sCtx.moveTo(from.x, from.y);
+        sCtx.lineTo(to.x, to.y);
+        sCtx.stroke();
       }
 
       lastPos.current = to;
@@ -437,7 +407,21 @@ export default function AntigravitySection() {
   const handlePointerUp = (e) => {
     pointers.current.delete(e.pointerId);
     if (pointers.current.size === 0) {
-      if (isDrawing.current) saveState();
+      if (isDrawing.current) {
+        if (tool !== 'eraser') {
+          const canvas = canvasRef.current;
+          const mainCtx = canvas.getContext('2d');
+          const sCanvas = strokeCanvasRef.current;
+          mainCtx.save();
+          mainCtx.setTransform(1, 0, 0, 1, 0, 0);
+          mainCtx.globalAlpha = TOOL_CONFIG[tool].alpha;
+          mainCtx.globalCompositeOperation = TOOL_CONFIG[tool].composite;
+          mainCtx.drawImage(sCanvas, 0, 0);
+          mainCtx.restore();
+          sCanvas.getContext('2d').clearRect(0, 0, logicalSize.current.width, logicalSize.current.height);
+        }
+        saveState();
+      }
       isDrawing.current = false;
       lastPos.current   = null;
     }
@@ -839,6 +823,11 @@ export default function AntigravitySection() {
                 display: 'block', position: 'absolute', inset: 0,
                 width: '100%', height: '100%',
                 cursor: tool === 'pan' ? 'grab' : tool === 'eraser' ? 'cell' : 'crosshair',
+              }} />
+              <canvas ref={strokeCanvasRef} style={{
+                display: tool === 'eraser' ? 'none' : 'block', position: 'absolute', inset: 0,
+                width: '100%', height: '100%', pointerEvents: 'none',
+                opacity: TOOL_CONFIG[tool]?.alpha || 1.0,
               }} />
             </div>
           </div>
