@@ -121,9 +121,12 @@ const translations = {
 const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('majed_lang') || 'en';
+  });
 
   useEffect(() => {
+    localStorage.setItem('majed_lang', language);
     // Set document direction and language attribute
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
@@ -143,9 +146,10 @@ export const LanguageProvider = ({ children }) => {
   const t = (key) => translations[language][key] || key;
 
   const toggleLanguage = () => setLanguage(prev => prev === 'en' ? 'ar' : 'en');
+  const isAr = language === 'ar';
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ language, isAr, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
