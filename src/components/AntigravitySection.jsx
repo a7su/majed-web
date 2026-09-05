@@ -282,6 +282,9 @@ export default function AntigravitySection() {
     if (!bgCanvas.current) bgCanvas.current = document.createElement('canvas');
     if (bgCanvas.current.width !== W || bgCanvas.current.height !== H) {
       bgCanvas.current.width = W; bgCanvas.current.height = H;
+    } else {
+      // CLEAR the background buffer so transparent/erased holes don't accidentally reveal old pixels!
+      bgCanvas.current.getContext('2d').clearRect(0, 0, W, H);
     }
     bgCanvas.current.getContext('2d').drawImage(canvas, 0, 0);
 
