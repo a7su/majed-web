@@ -1,71 +1,67 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Pencil, PenTool, Eraser, Undo, Redo, Trash2, Heart, Download, Share2, MousePointer2, X, Highlighter } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { supabase } from '../lib/supabase';
 
 // --- MOCK API ---
 const delay = () => new Promise(r => setTimeout(r, 300));
+
 const api = {
-  getCurrentUser: () => { try { return JSON.parse(localStorage.getItem('majed_user')); } catch { return null; } },
-  login: async (username, email) => {
-    await delay();
-    const users = JSON.parse(localStorage.getItem('majed_users') || '[]');
-    let user = users.find(u => u.email === email);
-    if (!user) {
-      user = { id: Date.now(), username, email };
-      users.push(user);
-      localStorage.setItem('majed_users', JSON.stringify(users));
+  async getGallery() {
+    if (supabase) {
+      const { data, error } = await supabase.from('sketches').select('*').order('created_at', { ascending: false });
+      if (!error && data) return data;
     }
-    localStorage.setItem('majed_user', JSON.stringify(user));
-    return user;
-  },
-  logout: () => localStorage.removeItem('majed_user'),
-  saveArtwork: async (title, caption, imageUrl) => {
     await delay();
-    const user = api.getCurrentUser();
-    if (!user) throw new Error('Unauthorized');
-    const artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-    const artwork = {
+    return JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+  },
+  async getLikes() {
+    if (supabase) return {}; // Handled by db
+    await delay();
+    return JSON.parse(localStorage.getItem('majed_likes') || '{}');
+  },
+  async saveArtwork(title, caption, imageUrl) {
+    const user = JSON.parse(localStorage.getItem('majed_user'));
+    const art = {
       id: Date.now().toString(),
-      userId: user.id,
-      username: user.username,
-      title: title || 'Untitled',
-      caption: caption || '',
-      imageUrl,
-      createdAt: new Date().toISOString(),
+      title,
+      caption,
+      image_url: imageUrl,
+      author_name: user?.name || 'Anonymous',
+      author_email: user?.email || '',
+      created_at: new Date().toISOString(),
+      likes_count: 0
     };
-    artworks.unshift(artwork);
-    localStorage.setItem('majed_artworks', JSON.stringify(artworks));
-    return artwork;
+    if (supabase) {
+      await supabase.from('sketches').insert([art]);
+    } else {
+      const arts = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+      arts.unshift(art);
+      localStorage.setItem('majed_artworks', JSON.stringify(arts));
+    }
+    return art;
   },
-  getArtworks: async (filter) => {
-    await delay();
-    let artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-    const likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
-    const user = api.getCurrentUser();
-    let enriched = artworks.map(a => ({
-      ...a,
-      isLiked: user ? likes.some(l => l.artworkId === a.id && l.userId === user.id) : false,
-      likesCount: likes.filter(l => l.artworkId === a.id).length
-    }));
-    if (filter === 'POPULAR') enriched.sort((a, b) => b.likesCount - a.likesCount);
-    else if (filter === 'MY SKETCHES' && user) enriched = enriched.filter(a => a.userId === user.id);
-    return enriched;
+  async toggleLike(artId) {
+    if (supabase) {
+      // Very basic toggle without user-specific tracking for demo
+      const { data } = await supabase.from('sketches').select('likes_count').eq('id', artId).single();
+      if (data) {
+        await supabase.from('sketches').update({ likes_count: (data.likes_count || 0) + 1 }).eq('id', artId);
+      }
+    } else {
+      const likes = JSON.parse(localStorage.getItem('majed_likes') || '{}');
+      likes[artId] = !likes[artId];
+      localStorage.setItem('majed_likes', JSON.stringify(likes));
+    }
   },
-  toggleLike: async (artworkId) => {
-    await delay();
-    const user = api.getCurrentUser();
-    if (!user) throw new Error('Unauthorized');
-    let likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
-    const idx = likes.findIndex(l => l.artworkId === artworkId && l.userId === user.id);
-    if (idx >= 0) likes.splice(idx, 1);
-    else likes.push({ artworkId, userId: user.id });
-    localStorage.setItem('majed_likes', JSON.stringify(likes));
-  },
-  deleteArtwork: async (artworkId) => {
-    await delay();
-    const user = api.getCurrentUser();
-    let artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-    artworks = artworks.filter(a => !(a.id === artworkId && a.userId === user?.id));
-    localStorage.setItem('majed_artworks', JSON.stringify(artworks));
+  async deleteArtwork(artId) {
+    if (supabase) {
+      await supabase.from('sketches').delete().eq('id', artId);
+    } else {
+      let arts = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+      arts = arts.filter(a => a.id !== artId);
+      localStorage.setItem('majed_artworks', JSON.stringify(arts));
+    }
   }
 };
 
@@ -81,6 +77,7 @@ const TOOL_CONFIG = {
 };
 
 export default function AntigravitySection() {
+  const { isAr } = useLanguage();
   const containerRef = useRef(null);
   const canvasRef    = useRef(null);
   // Off-screen buffers – created once, re-sized on demand
@@ -667,12 +664,10 @@ export default function AntigravitySection() {
       {/* ═══════════════════════════════════════════════════════
           DRAWING SECTION
       ═══════════════════════════════════════════════════════ */}
-      <div className="sketch-container">
+      <div className="sketch-container" style={{ fontFamily: isAr ? "var(--font-arabic)" : "inherit", direction: isAr ? "rtl" : "ltr" }}>
         {/* Header */}
         <div style={{ padding: '10px 16px', textAlign: 'center', borderBottom: '1px solid #EBEBEB', background: '#F8F7F5', zIndex: 10 }}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', fontWeight: 300, margin: 0, color: '#1C1C1C', letterSpacing: '0.05em' }}>
-            DRAW SOMETHING
-          </h2>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', fontWeight: 300, margin: 0, color: '#1C1C1C', letterSpacing: '0.05em' }}>{isAr ? "ارسم شيئاً" : "DRAW SOMETHING"}</h2>
           <p style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: '2px 0 0' }}>
             {hasDrawn ? 'Your sketch, your mark.' : 'A blank page is an invitation. Leave your mark.'}
           </p>
@@ -746,8 +741,8 @@ export default function AntigravitySection() {
 
             {/* Actions */}
             <div className="toolbar-section">
-              <button className="toolbar-btn" onClick={undo} title="Undo"><Undo size={18} /></button>
-              <button className="toolbar-btn" onClick={redo} title="Redo"><Redo size={18} /></button>
+              <button className="toolbar-btn" onClick={undo} title={isAr ? "تراجع" : "Undo"}><Undo size={18} /></button>
+              <button className="toolbar-btn" onClick={redo} title={isAr ? "إعادة" : "Redo"}><Redo size={18} /></button>
               <button className="toolbar-btn" onClick={clearCanvas} title="Clear" style={{ color: '#C0392B' }}><Trash2 size={18} /></button>
             </div>
           </div>
@@ -816,9 +811,7 @@ export default function AntigravitySection() {
           <button className="action-btn" onClick={() => handleShare()}>
             <Share2 size={14} /><span className="hide-sm">SHARE</span>
           </button>
-          <button className="action-btn primary" onClick={() => setShowSaveModal(true)}>
-            PUBLISH TO GALLERY ✦
-          </button>
+          <button className="action-btn primary" onClick={() => setShowSaveModal(true)}>{isAr ? "انشر في المعرض ✦" : "PUBLISH TO GALLERY ✦"}</button>
         </div>
       </div>
 
@@ -827,11 +820,9 @@ export default function AntigravitySection() {
       ═══════════════════════════════════════════════════════ */}
       <div className="gallery-section" style={{ background: '#F2F0EC', paddingBottom: '4rem' }}>
         <div style={{ padding: '3.5rem 24px 2rem', textAlign: 'center' }}>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>
-            THE SKETCH GALLERY
-          </h3>
+          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>{isAr ? "معرض الرسومات" : "THE SKETCH GALLERY"}</h3>
           <p style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', margin: 0 }}>
-            Made by people who stopped by · Like your favourites
+            {isAr ? 'رُسمت بواسطة زوار الموقع · أعجب برسوماتك المفضلة' : 'Made by people who stopped by · Like your favourites'}
           </p>
         </div>
 
@@ -919,7 +910,7 @@ export default function AntigravitySection() {
                 <input
                   type="text"
                   className={`form-input ${authErrors.name ? 'error' : ''}`}
-                  placeholder="e.g. Ahmed"
+                  placeholder={isAr ? "مثال: أحمد" : "e.g. Ahmed"}
                   value={authUsername}
                   autoComplete="name"
                   onChange={e => { setAuthUsername(e.target.value); setAuthErrors(p => ({ ...p, name: null })); }}
@@ -949,7 +940,7 @@ export default function AntigravitySection() {
 
               {/* Artwork Title */}
               <div className="form-field">
-                <label className="form-label">Artwork Title</label>
+                <label className="form-label">{isAr ? "عنوان الرسمة" : "Artwork Title"}</label>
                 <input
                   type="text"
                   className={`form-input ${authErrors.title ? 'error' : ''}`}

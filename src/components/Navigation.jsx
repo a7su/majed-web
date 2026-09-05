@@ -128,7 +128,7 @@ export default function Navigation({ onOpenMenu }) {
             gap: '0.6rem',
           }}
         >
-          <Logo height={isMobile ? 26 : 34} />
+          <Logo height={isMobile ? 38 : 50} />
           <span style={{
             fontFamily: isAr ? "'PalestineFont', 'Amiri', serif" : "'Cormorant Garamond', Georgia, serif",
             fontSize: isMobile ? (isAr ? '1.15rem' : '1.3rem') : (isAr ? '1.6rem' : '1.9rem'),

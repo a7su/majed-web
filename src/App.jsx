@@ -134,7 +134,7 @@ export default function App() {
       <CourseSection onInquireCourse={handleInquireCourse} />
 
       {/* News */}
-      <NewsSection />
+      {/* <NewsSection /> */}
 
       {/* Newsletter */}
       <NewsletterSection />
