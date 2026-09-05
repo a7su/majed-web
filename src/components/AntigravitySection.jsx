@@ -7,60 +7,94 @@ import { supabase } from '../lib/supabase';
 const delay = () => new Promise(r => setTimeout(r, 300));
 
 const api = {
-  async getGallery() {
-    if (supabase) {
-      const { data, error } = await supabase.from('sketches').select('*').order('created_at', { ascending: false });
-      if (!error && data) return data;
+  getCurrentUser: () => { try { return JSON.parse(localStorage.getItem('majed_user')); } catch { return null; } },
+  login: async (username, email) => {
+    await delay();
+    const users = JSON.parse(localStorage.getItem('majed_users') || '[]');
+    let user = users.find(u => u.email === email);
+    if (!user) {
+      user = { id: Date.now(), username, email };
+      users.push(user);
+      localStorage.setItem('majed_users', JSON.stringify(users));
     }
-    await delay();
-    return JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+    localStorage.setItem('majed_user', JSON.stringify(user));
+    return user;
   },
-  async getLikes() {
-    if (supabase) return {}; // Handled by db
-    await delay();
-    return JSON.parse(localStorage.getItem('majed_likes') || '{}');
+  logout: () => localStorage.removeItem('majed_user'),
+  getArtworks: async (filter) => {
+    let artworks = [];
+    if (supabase) {
+      const { data } = await supabase.from('sketches').select('*').order('createdAt', { ascending: false });
+      if (data) artworks = data;
+    } else {
+      await delay();
+      artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+    }
+    
+    let likes = [];
+    if (!supabase) {
+      likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
+    } else {
+      // In a real app we'd fetch likes from db, for now just use local for auth demo if needed
+      likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
+    }
+
+    const user = api.getCurrentUser();
+    let enriched = artworks.map(a => ({
+      ...a,
+      isLiked: user ? likes.some(l => l.artworkId === a.id && l.userId === user.id) : false,
+      likesCount: likes.filter(l => l.artworkId === a.id).length
+    }));
+
+    if (filter === 'POPULAR') return enriched.sort((a, b) => b.likesCount - a.likesCount);
+    if (filter === 'MY SKETCHES' && user) return enriched.filter(a => a.userId === user.id);
+    return enriched;
   },
-  async saveArtwork(title, caption, imageUrl) {
-    const user = JSON.parse(localStorage.getItem('majed_user'));
-    const art = {
+  saveArtwork: async (title, caption, imageUrl) => {
+    const user = api.getCurrentUser();
+    if (!user) throw new Error('Unauthorized');
+    const artwork = {
       id: Date.now().toString(),
-      title,
-      caption,
-      image_url: imageUrl,
-      author_name: user?.name || 'Anonymous',
-      author_email: user?.email || '',
-      created_at: new Date().toISOString(),
-      likes_count: 0
+      userId: user.id,
+      username: user.username,
+      title: title || 'Untitled',
+      caption: caption || '',
+      imageUrl,
+      createdAt: new Date().toISOString(),
     };
     if (supabase) {
-      await supabase.from('sketches').insert([art]);
+      await supabase.from('sketches').insert([artwork]);
     } else {
-      const arts = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-      arts.unshift(art);
-      localStorage.setItem('majed_artworks', JSON.stringify(arts));
+      await delay();
+      const artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+      artworks.unshift(artwork);
+      localStorage.setItem('majed_artworks', JSON.stringify(artworks));
     }
-    return art;
+    return artwork;
   },
-  async toggleLike(artId) {
-    if (supabase) {
-      // Very basic toggle without user-specific tracking for demo
-      const { data } = await supabase.from('sketches').select('likes_count').eq('id', artId).single();
-      if (data) {
-        await supabase.from('sketches').update({ likes_count: (data.likes_count || 0) + 1 }).eq('id', artId);
-      }
+  toggleLike: async (artworkId) => {
+    const user = api.getCurrentUser();
+    if (!user) return;
+    
+    // Simplistic like toggle for local fallback
+    let likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
+    const existingIndex = likes.findIndex(l => l.artworkId === artworkId && l.userId === user.id);
+    if (existingIndex >= 0) {
+      likes.splice(existingIndex, 1);
     } else {
-      const likes = JSON.parse(localStorage.getItem('majed_likes') || '{}');
-      likes[artId] = !likes[artId];
-      localStorage.setItem('majed_likes', JSON.stringify(likes));
+      likes.push({ id: Date.now().toString(), artworkId, userId: user.id });
     }
+    localStorage.setItem('majed_likes', JSON.stringify(likes));
+    // If supabase was used, we'd update db here
   },
-  async deleteArtwork(artId) {
+  deleteArtwork: async (artworkId) => {
     if (supabase) {
-      await supabase.from('sketches').delete().eq('id', artId);
+      await supabase.from('sketches').delete().eq('id', artworkId);
     } else {
-      let arts = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-      arts = arts.filter(a => a.id !== artId);
-      localStorage.setItem('majed_artworks', JSON.stringify(arts));
+      await delay();
+      let artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
+      artworks = artworks.filter(a => a.id !== artworkId);
+      localStorage.setItem('majed_artworks', JSON.stringify(artworks));
     }
   }
 };
