@@ -80,6 +80,7 @@ export default function AntigravitySection() {
   const { isAr } = useLanguage();
   const containerRef = useRef(null);
   const canvasRef    = useRef(null);
+  const renderPending = useRef(false);
   // Off-screen buffers – created once, re-sized on demand
   const bgCanvas     = useRef(null);  // snapshot before stroke starts
   const strokeCanvas = useRef(null);  // current stroke accumulated at alpha=1
@@ -387,7 +388,13 @@ export default function AntigravitySection() {
       sCtx.stroke();
 
       // Composite the full stroke at the configured alpha back to main canvas
-      compositeStrokeToMain(tool);
+      if (!renderPending.current) {
+        renderPending.current = true;
+        requestAnimationFrame(() => {
+          compositeStrokeToMain(tool);
+          renderPending.current = false;
+        });
+      }
 
       lastPos.current = to;
     }
