@@ -861,9 +861,9 @@ export default function AntigravitySection() {
       ═══════════════════════════════════════════════════════ */}
       <div className="gallery-section" style={{ background: '#F2F0EC', paddingBottom: '4rem' }}>
         <div style={{ padding: '3.5rem 24px 2rem', textAlign: 'center' }}>
-          <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>{isAr ? "معرض الرسومات" : "THE SKETCH GALLERY"}</h3>
+          <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>{isAr ? "معرض السكيتشات" : "THE SKETCH GALLERY"}</h3>
           <p style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', margin: 0 }}>
-            {isAr ? 'رُسمت بواسطة زوار الموقع · أعجب برسوماتك المفضلة' : 'Made by people who stopped by · Like your favourites'}
+            {isAr ? 'رُسمت بواسطة زوار الموقع · أعجب بالسكيتشات المفضلة' : 'Made by people who stopped by · Like your favourites'}
           </p>
         </div>
 
@@ -877,7 +877,7 @@ export default function AntigravitySection() {
               padding: '0 0 12px', borderBottom: galleryFilter === f ? '2px solid #1C1C1C' : '2px solid transparent',
               marginBottom: '-1px', minHeight: 44,
             }}>
-              {f}
+              {isAr && f === 'LATEST' ? 'الأحدث' : isAr && f === 'POPULAR' ? 'الأكثر إعجاباً' : isAr && f === 'MY SKETCHES' ? 'سكيتشاتي' : f}
             </button>
           ))}
         </div>
@@ -981,7 +981,7 @@ export default function AntigravitySection() {
 
               {/* Artwork Title */}
               <div className="form-field">
-                <label className="form-label">{isAr ? "عنوان الرسمة" : "Artwork Title"}</label>
+                <label className="form-label">{isAr ? "عنوان السكيتش" : "Artwork Title"}</label>
                 <input
                   type="text"
                   className={`form-input ${authErrors.title ? 'error' : ''}`}
@@ -1010,7 +1010,7 @@ export default function AntigravitySection() {
 
               <button type="submit" className="action-btn primary" disabled={isSaving}
                 style={{ width: '100%', height: 52, fontSize: '0.88rem', marginTop: 4, borderRadius: 12, opacity: isSaving ? 0.7 : 1 }}>
-                {isSaving ? 'Publishing…' : 'PUBLISH TO GALLERY ✦'}
+                {isSaving ? (isAr ? 'جاري النشر...' : 'Publishing…') : (isAr ? 'انشر في المعرض ✦' : 'PUBLISH TO GALLERY ✦')}
               </button>
             </form>
           </div>
