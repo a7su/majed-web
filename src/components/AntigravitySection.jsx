@@ -706,11 +706,22 @@ export default function AntigravitySection() {
                   className={`color-dot ${color === c ? 'active' : ''}`}
                   style={{ backgroundColor: c }} />
               ))}
-              <input type="color" value={customColor}
-                onChange={e => { setCustomColor(e.target.value); setColor(e.target.value); }}
-                className="color-dot"
-                style={{ border: '2px dashed #BBB', overflow: 'hidden', background: customColor, cursor: 'pointer' }}
-                title="Custom colour" />
+              <label 
+                className={`color-dot ${color === customColor && !COLORS.includes(customColor) ? 'active' : ''}`}
+                style={{ 
+                  backgroundColor: customColor,
+                  border: '2px dashed #999',
+                  position: 'relative', 
+                  overflow: 'hidden', 
+                  cursor: 'pointer'
+                }}
+                title="Custom colour"
+              >
+                <input type="color" value={customColor}
+                  onChange={e => { setCustomColor(e.target.value); setColor(e.target.value); }}
+                  style={{ opacity: 0, position: 'absolute', width: '200%', height: '200%', top: '-50%', left: '-50%', cursor: 'pointer', margin: 0, padding: 0 }}
+                />
+              </label>
             </div>
 
             {/* Sizes */}
