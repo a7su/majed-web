@@ -557,7 +557,7 @@ export default function AntigravitySection() {
           color: #444; transition: all 0.15s; flex-shrink: 0;
         }
         .toolbar-btn:hover { background: #F5F5F5; }
-        .toolbar-btn.active { background: #1C1C1C !important; color: #FFF !important; }
+        .toolbar-btn.active { background: #F0F0F0; color: #000; box-shadow: inset 0 0 0 1px #E0E0E0; }
         .color-dot {
           width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
           border: 2px solid transparent; transition: transform 0.1s; flex-shrink: 0;
@@ -728,8 +728,18 @@ export default function AntigravitySection() {
             <div className="toolbar-section">
               {SIZES.map(s => (
                 <button key={s} onClick={() => setSize(s)} title={`Size ${s}`}
-                  className={`toolbar-btn ${size === s ? 'active' : ''}`}>
-                  <div style={{ width: Math.min(s * 1.5, 22), height: Math.min(s * 1.5, 22), borderRadius: '50%', background: 'currentColor' }} />
+                  style={{ 
+                    width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                    border: 'none', background: 'transparent', cursor: 'pointer', flexShrink: 0 
+                  }}>
+                  <div style={{ 
+                    width: Math.min(s * 1.5, 22), 
+                    height: Math.min(s * 1.5, 22), 
+                    borderRadius: '50%', 
+                    background: '#333',
+                    boxShadow: size === s ? '0 0 0 2px #FFF, 0 0 0 4px #333' : 'none',
+                    transition: 'all 0.15s'
+                  }} />
                 </button>
               ))}
             </div>
