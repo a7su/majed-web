@@ -640,7 +640,8 @@ export default function AntigravitySection() {
           /* Keep sections in a single line, don't let them shrink */
           .toolbar-section { 
             flex-direction: row; border-bottom: none; border-right: 1px solid #E5E5E5; 
-            padding: 0 8px 0 0; flex-shrink: 0; flex-wrap: nowrap !important; gap: 8px !important;
+            padding: 0 12px 0 0 !important; flex-shrink: 0; flex-wrap: nowrap !important; gap: 8px !important;
+            width: auto !important; align-items: center;
           }
           .toolbar-section:last-child { border-right: none; padding-right: 0; }
           
