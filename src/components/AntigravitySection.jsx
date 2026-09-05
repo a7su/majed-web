@@ -708,7 +708,7 @@ export default function AntigravitySection() {
       <div className="sketch-container" style={{ fontFamily: isAr ? "var(--font-arabic)" : "inherit", direction: isAr ? "rtl" : "ltr" }}>
         {/* Header */}
         <div style={{ padding: '10px 16px', textAlign: 'center', borderBottom: '1px solid #EBEBEB', background: '#F8F7F5', zIndex: 10 }}>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', fontWeight: 300, margin: 0, color: '#1C1C1C', letterSpacing: '0.05em' }}>{isAr ? "ارسم شيئاً" : "DRAW SOMETHING"}</h2>
+          <h2 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)', fontWeight: 300, margin: 0, color: '#1C1C1C', letterSpacing: '0.05em' }}>{isAr ? "ارسم شيئاً" : "DRAW SOMETHING"}</h2>
           <p style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#888', margin: '2px 0 0' }}>
             {hasDrawn ? 'Your sketch, your mark.' : 'A blank page is an invitation. Leave your mark.'}
           </p>
@@ -827,7 +827,7 @@ export default function AntigravitySection() {
                   position: 'absolute', inset: 0, display: 'flex',
                   alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', flexDirection: 'column', gap: 8
                 }}>
-                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.4rem, 4vw, 2.5rem)', color: 'rgba(0,0,0,0.07)', letterSpacing: '0.1em' }}>
+                  <span style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: 'clamp(1.4rem, 4vw, 2.5rem)', color: 'rgba(0,0,0,0.07)', letterSpacing: '0.1em' }}>
                     Start drawing here...
                   </span>
                   <span style={{ fontSize: '0.7rem', color: 'rgba(0,0,0,0.12)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -861,7 +861,7 @@ export default function AntigravitySection() {
       ═══════════════════════════════════════════════════════ */}
       <div className="gallery-section" style={{ background: '#F2F0EC', paddingBottom: '4rem' }}>
         <div style={{ padding: '3.5rem 24px 2rem', textAlign: 'center' }}>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>{isAr ? "معرض الرسومات" : "THE SKETCH GALLERY"}</h3>
+          <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', margin: '0 0 6px', color: '#1C1C1C', fontWeight: 400 }}>{isAr ? "معرض الرسومات" : "THE SKETCH GALLERY"}</h3>
           <p style={{ fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#888', margin: 0 }}>
             {isAr ? 'رُسمت بواسطة زوار الموقع · أعجب برسوماتك المفضلة' : 'Made by people who stopped by · Like your favourites'}
           </p>
@@ -937,7 +937,7 @@ export default function AntigravitySection() {
               <X size={22} />
             </button>
 
-            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.9rem', margin: '0 0 4px', color: '#1C1C1C', fontWeight: 400 }}>
+            <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: '1.9rem', margin: '0 0 4px', color: '#1C1C1C', fontWeight: 400 }}>
               Publish Your Sketch
             </h3>
             <p style={{ fontSize: '0.82rem', color: '#888', margin: '0 0 28px', lineHeight: 1.5 }}>
@@ -1035,7 +1035,7 @@ export default function AntigravitySection() {
           {/* Info bar */}
           <div style={{ padding: '20px 24px', display: 'flex', alignItems: 'flex-start', gap: 16, maxWidth: 860, margin: '0 auto', width: '100%', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <h3 style={{ margin: '0 0 2px', color: '#FFF', fontSize: '1.4rem', fontFamily: "'Cormorant Garamond', serif", fontWeight: 400 }}>
+              <h3 style={{ margin: '0 0 2px', color: '#FFF', fontSize: '1.4rem', fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontWeight: 400 }}>
                 {selectedArtwork.title}
               </h3>
               <span style={{ color: '#AAA', fontSize: '0.8rem' }}>by {selectedArtwork.username}</span>
@@ -1086,7 +1086,7 @@ export default function AntigravitySection() {
         <div className="modal-overlay no-custom-cursor">
           <div className="modal-box" style={{ textAlign: 'center', maxWidth: 380 }}>
             <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>✏️</div>
-            <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.8rem', margin: '0 0 8px', color: '#1C1C1C', fontWeight: 400 }}>
+            <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: '1.8rem', margin: '0 0 8px', color: '#1C1C1C', fontWeight: 400 }}>
               Continue Your Sketch?
             </h3>
             <p style={{ color: '#888', fontSize: '0.85rem', margin: '0 0 28px', lineHeight: 1.5 }}>
