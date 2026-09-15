@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=open&labels=sketch`, {
+      const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=open`, {
         headers: {
           'Authorization': `token ${GITHUB_TOKEN}`,
           'Accept': 'application/vnd.github.v3+json'
@@ -14,20 +14,23 @@ export default async function handler(req, res) {
       if (!response.ok) throw new Error('Failed to fetch from GitHub');
       const issues = await response.json();
       
-      const artworks = issues.map(issue => {
-        try {
-          const data = JSON.parse(issue.body);
-          return {
-            id: issue.id,
-            userId: data.userId,
-            username: data.username,
-            title: issue.title,
-            caption: data.caption,
-            imageUrl: data.imageUrl,
-            createdAt: issue.created_at
-          };
-        } catch(e) { return null; }
-      }).filter(Boolean);
+      const artworks = issues
+        .filter(issue => issue.title && issue.title.startsWith('Sketch: '))
+        .map(issue => {
+          try {
+            const data = JSON.parse(issue.body);
+            return {
+              id: issue.id,
+              userId: data.userId,
+              username: data.username,
+              title: issue.title.replace('Sketch: ', ''),
+              caption: data.caption,
+              imageUrl: data.imageUrl,
+              createdAt: issue.created_at
+            };
+          } catch(e) { return null; }
+        })
+        .filter(Boolean);
 
       return res.status(200).json(artworks);
     } catch (error) {
@@ -54,9 +57,8 @@ export default async function handler(req, res) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          title: title,
-          body: body,
-          labels: ['sketch']
+          title: 'Sketch: ' + (title || 'Untitled'),
+          body: body
         })
       });
 
