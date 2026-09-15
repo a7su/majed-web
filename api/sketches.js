@@ -4,7 +4,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=open`, {
+      const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=open&t=${Date.now()}`, {
         headers: {
           'Authorization': `token ${GITHUB_TOKEN}`,
           'Accept': 'application/vnd.github.v3+json'
