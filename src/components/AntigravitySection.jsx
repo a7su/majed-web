@@ -232,6 +232,25 @@ export default function AntigravitySection() {
 
   useEffect(() => { loadGallery(); }, [galleryFilter, loadGallery]);
 
+  // Realtime subscription for global sketching
+  useEffect(() => {
+    if (!supabase) return;
+    
+    const channel = supabase.channel('realtime:sketches')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'sketches' }, payload => {
+        setArtworks(prev => {
+          // Prevent duplicates if this user was the one who just published it
+          if (prev.some(art => art.id === payload.new.id)) return prev;
+          return [payload.new, ...prev];
+        });
+      })
+      .subscribe();
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   // ─── UNDO/REDO/SAVE-STATE ─────────────────────────────────────────────────
   const saveState = useCallback(() => {
     const canvas = canvasRef.current;
