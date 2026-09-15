@@ -9,93 +9,39 @@ const delay = () => new Promise(r => setTimeout(r, 300));
 const api = {
   getCurrentUser: () => { try { return JSON.parse(localStorage.getItem('majed_user')); } catch { return null; } },
   login: async (username, email) => {
-    await delay();
-    const users = JSON.parse(localStorage.getItem('majed_users') || '[]');
-    let user = users.find(u => u.email === email);
-    if (!user) {
-      user = { id: Date.now(), username, email };
-      users.push(user);
-      localStorage.setItem('majed_users', JSON.stringify(users));
-    }
+    const user = { id: Date.now(), username, email };
     localStorage.setItem('majed_user', JSON.stringify(user));
     return user;
   },
   logout: () => localStorage.removeItem('majed_user'),
   getArtworks: async (filter) => {
-    let artworks = [];
-    if (supabase) {
-      const { data } = await supabase.from('sketches').select('*').order('createdAt', { ascending: false });
-      if (data) artworks = data;
-    } else {
-      await delay();
-      artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-    }
-    
-    let likes = [];
-    if (!supabase) {
-      likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
-    } else {
-      // In a real app we'd fetch likes from db, for now just use local for auth demo if needed
-      likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
-    }
-
-    const user = api.getCurrentUser();
-    let enriched = artworks.map(a => ({
-      ...a,
-      isLiked: user ? likes.some(l => l.artworkId === a.id && l.userId === user.id) : false,
-      likesCount: likes.filter(l => l.artworkId === a.id).length
-    }));
-
-    if (filter === 'POPULAR') return enriched.sort((a, b) => b.likesCount - a.likesCount);
-    if (filter === 'MY SKETCHES' && user) return enriched.filter(a => a.userId === user.id);
-    return enriched;
+    try {
+      const res = await fetch('/api/sketches');
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch(e) { console.error(e); }
+    return [];
   },
   saveArtwork: async (title, caption, imageUrl) => {
     const user = api.getCurrentUser();
-    if (!user) throw new Error('Unauthorized');
-    const artwork = {
-      id: Date.now().toString(),
-      userId: user.id,
-      username: user.username,
-      title: title || 'Untitled',
-      caption: caption || '',
-      imageUrl,
-      createdAt: new Date().toISOString(),
-    };
-    if (supabase) {
-      await supabase.from('sketches').insert([artwork]);
-    } else {
-      await delay();
-      const artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-      artworks.unshift(artwork);
-      localStorage.setItem('majed_artworks', JSON.stringify(artworks));
-    }
-    return artwork;
-  },
-  toggleLike: async (artworkId) => {
-    const user = api.getCurrentUser();
-    if (!user) return;
-    
-    // Simplistic like toggle for local fallback
-    let likes = JSON.parse(localStorage.getItem('majed_likes') || '[]');
-    const existingIndex = likes.findIndex(l => l.artworkId === artworkId && l.userId === user.id);
-    if (existingIndex >= 0) {
-      likes.splice(existingIndex, 1);
-    } else {
-      likes.push({ id: Date.now().toString(), artworkId, userId: user.id });
-    }
-    localStorage.setItem('majed_likes', JSON.stringify(likes));
-    // If supabase was used, we'd update db here
-  },
-  deleteArtwork: async (artworkId) => {
-    if (supabase) {
-      await supabase.from('sketches').delete().eq('id', artworkId);
-    } else {
-      await delay();
-      let artworks = JSON.parse(localStorage.getItem('majed_artworks') || '[]');
-      artworks = artworks.filter(a => a.id !== artworkId);
-      localStorage.setItem('majed_artworks', JSON.stringify(artworks));
-    }
+    if (!user) return null;
+    try {
+      const res = await fetch('/api/sketches', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title, caption, imageUrl,
+          username: user.username,
+          userId: user.id
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return data.artwork;
+      }
+    } catch(e) { console.error(e); }
+    return null;
   }
 };
 
@@ -232,24 +178,15 @@ export default function AntigravitySection() {
 
   useEffect(() => { loadGallery(); }, [galleryFilter, loadGallery]);
 
-  // Realtime subscription for global sketching
+  // Poll for new sketches every 10 seconds to keep it "real-time"
   useEffect(() => {
-    if (!supabase) return;
-    
-    const channel = supabase.channel('realtime:sketches')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'sketches' }, payload => {
-        setArtworks(prev => {
-          // Prevent duplicates if this user was the one who just published it
-          if (prev.some(art => art.id === payload.new.id)) return prev;
-          return [payload.new, ...prev];
-        });
-      })
-      .subscribe();
-      
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, []);
+    const interval = setInterval(() => {
+      loadGallery();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [loadGallery]);
+
+  
 
   // ─── UNDO/REDO/SAVE-STATE ─────────────────────────────────────────────────
   const saveState = useCallback(() => {
