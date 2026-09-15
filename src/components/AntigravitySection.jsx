@@ -602,7 +602,7 @@ export default function AntigravitySection() {
 
         /* ── Mobile ── */
         @media (max-width: 768px) {
-          .sketch-container { height: calc(100dvh - 60px); }
+          .sketch-container { height: 100vh; height: calc(100dvh - 60px); }
           .drawing-workspace { flex-direction: column-reverse; }
           
           /* Sleek single-row horizontal scrolling toolbar for mobile */
