@@ -110,6 +110,12 @@ export default function AntigravitySection() {
 
       const rect = container.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) return;
+      
+      // Prevent canvas from being destroyed/squashed by virtual keyboards on mobile
+      if (document.activeElement && ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      
+      // Hard floor to prevent bizarre layout edge-cases squashing the canvas
+      if (rect.height < 150) return;
 
       const changed =
         logicalSize.current.width  !== Math.round(rect.width) ||
@@ -505,7 +511,7 @@ export default function AntigravitySection() {
         /* ── Layout ── */
         .sketch-container { height: 100vh; height: calc(100dvh - 80px); display: flex; flex-direction: column; position: relative; }
         .drawing-workspace { flex: 1; overflow: hidden; display: flex; flex-direction: row; background: #EDECEA; }
-        .drawing-canvas-area { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
+        .drawing-canvas-area { flex: 1; min-height: 60vh; min-width: 0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
           touch-action: none !important; user-select: none !important; -webkit-user-select: none !important;
           overscroll-behavior: none !important; background: #EDECEA;
         }
