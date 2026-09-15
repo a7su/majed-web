@@ -63,8 +63,7 @@ export default function AntigravitySection() {
   
   // Off-screen buffers – created once, re-sized on demand
     // snapshot before stroke starts
-  const strokeCanvasRef = useRef(null);  // current stroke accumulated at alpha=1
-
+  
   // Drawing state
   const [tool, setTool]           = useState('pencil');
   const [color, setColor]         = useState(COLORS[0]);
@@ -98,6 +97,8 @@ export default function AntigravitySection() {
   const pointers     = useRef(new Map());
   const isDrawing    = useRef(false);
   const lastPos      = useRef(null);
+  const currentPath = useRef([]);
+  const canvasSnapshot = useRef(null);
   const logicalSize  = useRef({ width: 0, height: 0 }); // CSS px size of canvas
 
   // ─── CANVAS INIT & RESIZE ─────────────────────────────────────────────────
@@ -130,15 +131,7 @@ export default function AntigravitySection() {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
-      const sCanvas = strokeCanvasRef.current;
-      if (sCanvas) {
-        sCanvas.width = canvas.width;
-        sCanvas.height = canvas.height;
-        const sCtx = sCanvas.getContext('2d');
-        sCtx.scale(dpr, dpr);
-        sCtx.lineCap = 'round';
-        sCtx.lineJoin = 'round';
-      }
+      
 
       if (snapshot && snapshot !== 'data:,') {
         const img = new Image();
@@ -283,8 +276,11 @@ export default function AntigravitySection() {
         lastPos.current = { type: 'pan', x: e.clientX, y: e.clientY };
       } else {
         isDrawing.current = true;
-        ensureOffscreenBuffers();
-        lastPos.current = getCanvasCoords(e.clientX, e.clientY);
+        const coords = getCanvasCoords(e.clientX, e.clientY);
+        lastPos.current = coords;
+        currentPath.current = [{ ...coords, pressure: e.pressure || 0.5 }];
+        const canvas = canvasRef.current;
+        canvasSnapshot.current = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
         setHasDrawn(true);
       }
     }
@@ -334,26 +330,40 @@ export default function AntigravitySection() {
       const pressure = (e.pressure > 0) ? e.pressure : 0.5;
       const cfg  = TOOL_CONFIG[tool] || TOOL_CONFIG.pencil;
 
+      const coords = getCanvasCoords(e.clientX, e.clientY);
+      currentPath.current.push({ ...coords, pressure: pressure });
+
+      const mainCtx = canvasRef.current.getContext('2d');
+      
       if (tool === 'eraser') {
-        const mainCtx = canvasRef.current.getContext('2d');
         mainCtx.strokeStyle = '#000000';
         mainCtx.lineWidth   = size * cfg.widthMult * (0.5 + pressure * 0.8);
         mainCtx.globalAlpha = 1.0;
         mainCtx.globalCompositeOperation = 'destination-out';
         mainCtx.beginPath();
         mainCtx.moveTo(from.x, from.y);
-        mainCtx.lineTo(to.x, to.y);
+        mainCtx.lineTo(coords.x, coords.y);
         mainCtx.stroke();
       } else {
-        const sCtx = strokeCanvasRef.current.getContext('2d');
-        sCtx.strokeStyle = color;
-        sCtx.lineWidth   = size * cfg.widthMult * (tool === 'pen' ? 1 : (0.5 + pressure * 0.8));
-        sCtx.globalAlpha = 1.0;
-        sCtx.globalCompositeOperation = 'source-over';
-        sCtx.beginPath();
-        sCtx.moveTo(from.x, from.y);
-        sCtx.lineTo(to.x, to.y);
-        sCtx.stroke();
+        // Restore snapshot to avoid dark overlapping joints
+        mainCtx.putImageData(canvasSnapshot.current, 0, 0);
+        
+        mainCtx.save();
+        mainCtx.globalAlpha = TOOL_CONFIG[tool].alpha;
+        mainCtx.globalCompositeOperation = TOOL_CONFIG[tool].composite;
+        mainCtx.strokeStyle = color;
+        // Average pressure for a more consistent stroke width, or just use the current point's pressure
+        mainCtx.lineWidth = size * cfg.widthMult * (tool === 'pen' ? 1 : (0.5 + pressure * 0.8));
+        mainCtx.lineCap = 'round';
+        mainCtx.lineJoin = 'round';
+        
+        mainCtx.beginPath();
+        mainCtx.moveTo(currentPath.current[0].x, currentPath.current[0].y);
+        for (let i = 1; i < currentPath.current.length; i++) {
+          mainCtx.lineTo(currentPath.current[i].x, currentPath.current[i].y);
+        }
+        mainCtx.stroke();
+        mainCtx.restore();
       }
 
       lastPos.current = to;
@@ -365,18 +375,11 @@ export default function AntigravitySection() {
     if (pointers.current.size === 0) {
       if (isDrawing.current) {
         if (tool !== 'eraser') {
-          const canvas = canvasRef.current;
-          const mainCtx = canvas.getContext('2d');
-          const sCanvas = strokeCanvasRef.current;
-          mainCtx.save();
-          mainCtx.setTransform(1, 0, 0, 1, 0, 0);
-          mainCtx.globalAlpha = TOOL_CONFIG[tool].alpha;
-          mainCtx.globalCompositeOperation = TOOL_CONFIG[tool].composite;
-          mainCtx.drawImage(sCanvas, 0, 0);
-          mainCtx.restore();
-          sCanvas.getContext('2d').clearRect(0, 0, logicalSize.current.width, logicalSize.current.height);
+          // The stroke is already baked into mainCtx via move
         }
         saveState();
+        canvasSnapshot.current = null;
+        currentPath.current = [];
       }
       isDrawing.current = false;
       lastPos.current   = null;
@@ -780,11 +783,7 @@ export default function AntigravitySection() {
                 width: '100%', height: '100%',
                 cursor: tool === 'pan' ? 'grab' : tool === 'eraser' ? 'cell' : 'crosshair',
               }} />
-              <canvas ref={strokeCanvasRef} style={{
-                display: tool === 'eraser' ? 'none' : 'block', position: 'absolute', inset: 0,
-                width: '100%', height: '100%', pointerEvents: 'none',
-                opacity: TOOL_CONFIG[tool]?.alpha || 1.0,
-              }} />
+              
             </div>
           </div>
         </div>
