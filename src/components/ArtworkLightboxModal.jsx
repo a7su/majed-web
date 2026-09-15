@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, ZoomIn, ZoomOut, CheckCircle, Tag, Send } from 'lucide-react';
 
 export default function ArtworkLightboxModal({ artwork, onClose, onInquire }) {
@@ -7,6 +7,14 @@ export default function ArtworkLightboxModal({ artwork, onClose, onInquire }) {
   if (!artwork) return null;
 
   const isAvailable = artwork.status === 'Available';
+
+useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   return (
     <div

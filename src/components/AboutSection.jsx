@@ -85,14 +85,14 @@ export default function AboutSection({ onReadMore }) {
 
           {/* Arabic Button Badge Container */}
           <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
-            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px' }}>
-              رسّام درجة اولى
+            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-sans)', fontSize: isAr ? '0.9rem' : '0.7rem', textTransform: 'uppercase', letterSpacing: isAr ? '0' : '0.05em' }}>
+              {isAr ? 'رسّام درجة اولى' : 'Master Artist'}
             </span>
-            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px' }}>
-              الرسم بالحبر
+            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-sans)', fontSize: isAr ? '0.9rem' : '0.7rem', textTransform: 'uppercase', letterSpacing: isAr ? '0' : '0.05em' }}>
+              {isAr ? 'الرسم بالحبر' : 'Ink Drawing'}
             </span>
-            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px' }}>
-              رسامين العرب
+            <span className="btn-arabic-badge" style={{ background: 'var(--color-brand-light)', border: '1px solid var(--color-brand-border)', color: 'var(--color-brand)', padding: '0.35rem 0.85rem', borderRadius: '9999px', fontFamily: isAr ? 'var(--font-arabic)' : 'var(--font-sans)', fontSize: isAr ? '0.9rem' : '0.7rem', textTransform: 'uppercase', letterSpacing: isAr ? '0' : '0.05em' }}>
+              {isAr ? 'رسامين العرب' : 'Arab Painters'}
             </span>
           </div>
 

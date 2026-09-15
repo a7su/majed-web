@@ -275,12 +275,13 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
         const diff = index - currentProgressRef.current;
         const offset = Math.abs(diff);
         const dir = Math.sign(diff);
+        const visualDir = isAr ? -dir : dir;
 
         item.style.zIndex = Math.round(artworks.length - offset);
 
-        const rotateY = dir * -45 * Math.min(offset, 1);
+        const rotateY = visualDir * -45 * Math.min(offset, 1);
         const translateZ = 50 - (200 * offset);
-        const translateX = dir * (itemWidth * 0.65 * Math.min(offset, 1) + itemWidth * 0.2 * offset);
+        const translateX = visualDir * (itemWidth * 0.65 * Math.min(offset, 1) + itemWidth * 0.2 * offset);
 
         item.style.transform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
         item.style.opacity = offset > 2.5 ? '0' : Math.max(0, 1 - (offset * 0.15));
@@ -413,7 +414,10 @@ const CoverflowCarousel = ({ artworks, onSelectArtwork, expandedArtwork, setExpa
           {artworks.map((artwork, index) => (
             <div 
               key={artwork.id}
+              tabIndex={0}
+              role="button"
               ref={el => itemsRef.current[index] = el}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (Math.round(targetProgressRef.current) !== index) targetProgressRef.current = index; else setExpandedArtwork(expandedArtwork?.id === artwork.id ? null : artwork); } }}
               onClick={() => {
                 if (dragDeltaRef.current > 5) return;
                 if (Math.round(targetProgressRef.current) !== index) {

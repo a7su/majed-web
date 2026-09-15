@@ -936,7 +936,7 @@ export default function AntigravitySection() {
             <form onSubmit={handleSaveSubmit} noValidate>
               {/* Name */}
               <div className="form-field">
-                <label className="form-label">Your Name</label>
+                <label className="form-label">{isAr ? "الاسم" : "Your Name"}</label>
                 <input
                   type="text"
                   className={`form-input ${authErrors.name ? 'error' : ''}`}
@@ -947,13 +947,13 @@ export default function AntigravitySection() {
                 />
                 {authErrors.name
                   ? <div className="form-error">{authErrors.name}</div>
-                  : <div className="form-hint">This name will appear with your sketch in the gallery.</div>
+                  : <div className="form-hint">{isAr ? "سيظهر هذا الاسم مع سكيتشك في المعرض." : "This name will appear with your sketch in the gallery."}</div>
                 }
               </div>
 
               {/* Email */}
               <div className="form-field">
-                <label className="form-label">Email Address</label>
+                <label className="form-label">{isAr ? "البريد الإلكتروني" : "Email Address"}</label>
                 <input
                   type="email"
                   className={`form-input ${authErrors.email ? 'error' : ''}`}
@@ -964,7 +964,7 @@ export default function AntigravitySection() {
                 />
                 {authErrors.email
                   ? <div className="form-error">{authErrors.email}</div>
-                  : <div className="form-hint">Used to identify your account. Not shown publicly.</div>
+                  : <div className="form-hint">{isAr ? "يستخدم لتحديد حسابك. لن يتم عرضه للعامة." : "Used to identify your account. Not shown publicly."}</div>
                 }
               </div>
 
@@ -986,7 +986,7 @@ export default function AntigravitySection() {
 
               {/* Caption / Story */}
               <div className="form-field">
-                <label className="form-label">Caption / Story <span style={{ fontWeight: 400, opacity: 0.6 }}>(optional)</span></label>
+                <label className="form-label">{isAr ? "القصة / الوصف" : "Caption / Story"} <span style={{ fontWeight: 400, opacity: 0.6 }}>({isAr ? "اختياري" : "optional"})</span></label>
                 <textarea
                   className="form-input textarea"
                   placeholder="Tell a story, share a thought, or leave it blank…"
@@ -994,7 +994,7 @@ export default function AntigravitySection() {
                   onChange={e => setArtworkCaption(e.target.value)}
                   rows={3}
                 />
-                <div className="form-hint">Appears on your gallery card for others to read.</div>
+                <div className="form-hint">{isAr ? "يظهر على بطاقة المعرض ليقرأه الآخرون." : "Appears on your gallery card for others to read."}</div>
               </div>
 
               <button type="submit" className="action-btn primary" disabled={isSaving}
@@ -1076,14 +1076,14 @@ export default function AntigravitySection() {
           <div className="modal-box" style={{ textAlign: 'center', maxWidth: 380 }}>
             <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>✏️</div>
             <h3 style={{ fontFamily: isAr ? "var(--font-arabic-display), var(--font-arabic)" : "'Cormorant Garamond', serif", fontSize: '1.8rem', margin: '0 0 8px', color: '#1C1C1C', fontWeight: 400 }}>
-              Continue Your Sketch?
+              {isAr ? "إكمال السكيتش؟" : "Continue Your Sketch?"}
             </h3>
             <p style={{ color: '#888', fontSize: '0.85rem', margin: '0 0 28px', lineHeight: 1.5 }}>
               You have an unfinished sketch from your last visit.
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={startNewSketch} className="action-btn" style={{ flex: 1 }}>Start New</button>
-              <button onClick={resumeSketch} className="action-btn primary" style={{ flex: 1 }}>Continue</button>
+              <button onClick={startNewSketch} className="action-btn" style={{ flex: 1 }}>{isAr ? "بدء من جديد" : "Start New"}</button>
+              <button onClick={resumeSketch} className="action-btn primary" style={{ flex: 1 }}>{isAr ? "إكمال" : "Continue"}</button>
             </div>
           </div>
         </div>
