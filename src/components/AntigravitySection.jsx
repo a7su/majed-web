@@ -141,8 +141,11 @@ export default function AntigravitySection() {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-
+    let ro = null;
+    if (containerRef.current) {
+      ro = new ResizeObserver(() => handleResize());
+      ro.observe(containerRef.current);
+    }
     // Prevent touchmove scrolling on canvas
     const noScroll = (e) => {
       if (e.target === canvasRef.current || containerRef.current?.contains(e.target)) {
@@ -151,14 +154,8 @@ export default function AntigravitySection() {
     };
     document.addEventListener('touchmove', noScroll, { passive: false });
 
-    const saved = localStorage.getItem('majed_autosave');
-    if (saved) setShowResumeModal(true);
-    else saveState();
-
-    loadGallery();
-
     return () => {
-      window.removeEventListener('resize', handleResize);
+      if (ro) ro.disconnect();
       document.removeEventListener('touchmove', noScroll);
     };
   }, []);
@@ -506,7 +503,7 @@ export default function AntigravitySection() {
     <section style={{ backgroundColor: '#F8F7F5', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <style>{`
         /* ── Layout ── */
-        .sketch-container { height: calc(100dvh - 80px); display: flex; flex-direction: column; position: relative; }
+        .sketch-container { height: 100vh; height: calc(100dvh - 80px); display: flex; flex-direction: column; position: relative; }
         .drawing-workspace { flex: 1; overflow: hidden; display: flex; flex-direction: row; background: #EDECEA; }
         .drawing-canvas-area { flex: 1; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;
           touch-action: none !important; user-select: none !important; -webkit-user-select: none !important;
