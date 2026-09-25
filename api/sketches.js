@@ -20,13 +20,14 @@ export default async function handler(req, res) {
           try {
             const data = JSON.parse(issue.body);
             return {
-              id: issue.id,
+              id: issue.number, // use issue.number for reactions API
               userId: data.userId,
               username: data.username,
               title: issue.title.replace('Sketch: ', ''),
               caption: data.caption,
               imageUrl: data.imageUrl,
-              createdAt: issue.created_at
+              createdAt: issue.created_at,
+              likesCount: issue.reactions ? issue.reactions['+1'] : 0
             };
           } catch(e) { return null; }
         })

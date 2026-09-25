@@ -14,11 +14,32 @@ const api = {
     return user;
   },
   logout: () => localStorage.removeItem('majed_user'),
+  getLikedArtworks: () => { try { return JSON.parse(localStorage.getItem('majed_likes')) || []; } catch { return []; } },
   getArtworks: async (filter) => {
     try {
       const res = await fetch('/api/sketches');
       if (res.ok) {
-        return await res.json();
+        let data = await res.json();
+        
+        // Add isLiked field based on localStorage
+        const liked = api.getLikedArtworks();
+        data = data.map(art => ({ ...art, isLiked: liked.includes(art.id) }));
+        
+        // Filter and Sort
+        if (filter === 'POPULAR') {
+          data.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0));
+        } else if (filter === 'MY SKETCHES') {
+          const user = api.getCurrentUser();
+          if (user) {
+            data = data.filter(a => String(a.userId) === String(user.id));
+          } else {
+            data = [];
+          }
+        } else {
+          // LATEST
+          data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+        return data;
       }
     } catch(e) { console.error(e); }
     return [];
@@ -42,6 +63,37 @@ const api = {
       }
     } catch(e) { console.error(e); }
     return null;
+  },
+  toggleLike: async (id) => {
+    let liked = api.getLikedArtworks();
+    if (liked.includes(id)) {
+      // For simplicity, we won't un-like on GitHub API, just remove locally
+      liked = liked.filter(x => x !== id);
+      localStorage.setItem('majed_likes', JSON.stringify(liked));
+      return;
+    }
+    
+    // Add like
+    liked.push(id);
+    localStorage.setItem('majed_likes', JSON.stringify(liked));
+    try {
+      await fetch('/api/like', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ issueNumber: id })
+      });
+    } catch(e) { console.error(e); }
+  },
+  deleteArtwork: async (id) => {
+    // Optional: we can implement this if they want to delete their own.
+    // GitHub API requires DELETE /repos/:owner/:repo/issues/:issue_number but actually you can only close them
+    try {
+      await fetch('/api/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ issueNumber: id })
+      });
+    } catch(e) { console.error(e); }
   }
 };
 
@@ -100,6 +152,7 @@ export default function AntigravitySection() {
   const currentPath = useRef([]);
   const canvasSnapshot = useRef(null);
   const logicalSize  = useRef({ width: 0, height: 0 }); // CSS px size of canvas
+  const deletedIds   = useRef(new Set());
 
   // ─── CANVAS INIT & RESIZE ─────────────────────────────────────────────────
   useEffect(() => {
@@ -169,7 +222,7 @@ export default function AntigravitySection() {
   // ─── GALLERY ──────────────────────────────────────────────────────────────
   const loadGallery = useCallback(async () => {
     const data = await api.getArtworks(galleryFilter);
-    setArtworks(data);
+    setArtworks(data.filter(a => !deletedIds.current.has(a.id)));
   }, [galleryFilter]);
 
   useEffect(() => { loadGallery(); }, [galleryFilter, loadGallery]);
@@ -488,20 +541,42 @@ export default function AntigravitySection() {
   };
 
   const handleLike = async (id) => {
+    // If not logged in, prompt them
+    const user = api.getCurrentUser();
     if (!user) { setShowSaveModal(true); return; }
-    await api.toggleLike(id);
-    loadGallery();
+    
+    // Optimistic update
+    const isCurrentlyLiked = selectedArtwork?.id === id ? selectedArtwork.isLiked : false;
+    const newLikeStatus = !isCurrentlyLiked;
+    
     if (selectedArtwork?.id === id) {
-      const updated = (await api.getArtworks(galleryFilter)).find(a => a.id === id);
-      if (updated) setSelectedArtwork(updated);
+      setSelectedArtwork(prev => ({
+        ...prev,
+        isLiked: newLikeStatus,
+        likesCount: (prev.likesCount || 0) + (newLikeStatus ? 1 : -1)
+      }));
     }
+    
+    setArtworks(prev => prev.map(a => {
+      if (a.id === id) {
+        return { ...a, isLiked: newLikeStatus, likesCount: (a.likesCount || 0) + (newLikeStatus ? 1 : -1) };
+      }
+      return a;
+    }));
+    
+    await api.toggleLike(id);
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this sketch permanently?')) return;
-    await api.deleteArtwork(id);
-    await loadGallery();
+    
+    deletedIds.current.add(id);
+    setArtworks(prev => prev.filter(a => a.id !== id));
     setSelectedArtwork(null);
+    
+    try {
+      await api.deleteArtwork(id);
+    } catch(err) { console.error(err); }
   };
 
   // ─── RENDER ───────────────────────────────────────────────────────────────
@@ -1016,7 +1091,7 @@ export default function AntigravitySection() {
               </button>
 
               {/* Delete (own art) */}
-              {user && user.id === selectedArtwork.userId && (
+              {user && String(user.id) === String(selectedArtwork.userId) && (
                 <button onClick={() => handleDelete(selectedArtwork.id)} style={{ background: 'rgba(229,62,62,0.1)', border: '1px solid rgba(229,62,62,0.3)', color: '#E53E3E', cursor: 'pointer', borderRadius: 10, width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Trash2 size={16} />
                 </button>
