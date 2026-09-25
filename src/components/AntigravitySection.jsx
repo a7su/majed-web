@@ -227,13 +227,6 @@ export default function AntigravitySection() {
 
   useEffect(() => { loadGallery(); }, [galleryFilter, loadGallery]);
 
-  // Poll for new sketches every 10 seconds to keep it "real-time"
-  useEffect(() => {
-    const interval = setInterval(() => {
-      loadGallery();
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [loadGallery]);
 
   
 
